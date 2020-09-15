@@ -59,8 +59,9 @@ a:hover {
   outline-width: 0;
 }
 .leaflet-container {
-  height: 400px;
+  height: 1500px;
   width: 100%;
+  background: #bbe2f2;
 }
 abbr[title] {
   border-bottom: 1px dotted hsla(0, 0%, 0%, 0.5);
