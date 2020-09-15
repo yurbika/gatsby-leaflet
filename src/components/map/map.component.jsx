@@ -16,18 +16,18 @@ export default class MyMap extends Component {
       zoom: 5,
     }
     this.boundaryMap = L.TileLayer.boundaryCanvas(
-      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
       {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 20,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
         boundary: border,
       }
     )
     this.withoutBoundary = L.TileLayer.boundaryCanvas(
-      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
       {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 20,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     )
   }
@@ -86,8 +86,8 @@ export default class MyMap extends Component {
       return {
         fillColor: "#fff",
         weight: 1,
-        opacity: 0.5,
-        color: "black",
+        opacity: 0.4,
+        color: "#000",
         fillOpacity: 0.3,
       }
     return {
@@ -111,7 +111,6 @@ export default class MyMap extends Component {
           center={position}
           maxBounds={bounds}
           minZoom={5}
-          maxZoom={17}
           zoom={5}
           ref={Map => (this.map = Map)}
           onzoomend={() => {
