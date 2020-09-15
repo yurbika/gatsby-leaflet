@@ -30,16 +30,25 @@ export default class MyMap extends Component {
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     )
+
+    this.info = L.control()
   }
 
   componentDidMount() {
     this.boundaryMap.addTo(this.map.leafletElement)
+    this.info.onAdd = function (map) {
+      this._div = L.DomUtil.create("div", "info") // create a div with a class "info"
+      this.update()
+      return this._div
+    }
+    this.infoUpdate()
+    this.info.addTo(this.map.leafletElement)
   }
   componentDidUpdate() {
-    if (this.state.zoom >= 10) {
+    if (this.state.zoom >= 8) {
       this.map.leafletElement.removeLayer(this.boundaryMap)
       this.withoutBoundary.addTo(this.map.leafletElement)
-    } else if (this.state.zoom < 10) {
+    } else if (this.state.zoom < 8) {
       this.map.leafletElement.removeLayer(this.withoutBoundary)
       this.boundaryMap.addTo(this.map.leafletElement)
     }
@@ -53,6 +62,8 @@ export default class MyMap extends Component {
       color: "#fff",
       fillOpacity: 1,
     })
+    this.infoUpdate(layer.feature.properties)
+    this.info.update()
 
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
       layer.bringToFront()
@@ -61,24 +72,40 @@ export default class MyMap extends Component {
 
   clearHighlight = e => {
     e.target.setStyle(this.geoJsonStyles(e.target.feature))
+    this.infoUpdate()
+    this.info.update()
+  }
+
+  zoomToFeature = e => {
+    this.map.leafletElement.fitBounds(e.target.getBounds())
+  }
+
+  infoUpdate = props => {
+    this.info.update = function () {
+      this._div.innerHTML =
+        "<h4>Region</h4>" +
+        (props
+          ? "<b>" + props.NAME + "</b><br />" + props.NAME_JP
+          : "Hover over a region")
+    }
   }
 
   chooseColor = d => {
     return d >= 2 && d <= 7
-      ? "#F20505"
+      ? "#0D65D9"
       : d > 7 && d <= 14
-      ? "#F24B6A"
+      ? "#97DAE8"
       : d > 14 && d <= 23
-      ? "#73020C"
+      ? "#259E63"
       : d > 23 && d <= 30
-      ? "#BF0413"
+      ? "#7AC200"
       : d > 30 && d <= 35
-      ? "#A6A6A6"
+      ? "#FAE200"
       : d > 35 && d <= 39
-      ? "#BFBFBF"
+      ? "#F2B407"
       : d > 39 && d <= 47
-      ? "#D9D9D9"
-      : "#8C8C8C"
+      ? "#FF8000"
+      : "#1E0091"
   }
 
   geoJsonStyles = (feature, boundary = false) => {
@@ -118,19 +145,20 @@ export default class MyMap extends Component {
             console.log(this.state.zoom)
           }}
         >
-          {this.state.zoom < 10 ? (
+          {this.state.zoom < 8 ? (
             <GeoJSON
               data={border}
               onEachFeature={(f, l) => {
                 l.on({
                   mouseover: this.highlight,
                   mouseout: this.clearHighlight,
+                  click: this.zoomToFeature,
                 })
               }}
               style={feature => this.geoJsonStyles(feature)}
             />
           ) : null}
-          {this.state.zoom >= 10 ? (
+          {this.state.zoom >= 8 ? (
             <GeoJSON
               data={border}
               style={feature => this.geoJsonStyles(feature, true)}
