@@ -10,17 +10,41 @@ import { border } from "./utils/border"
 import "./map.styles.scss"
 
 export default class MyMap extends Component {
-  componentDidMount() {
-    L.TileLayer.boundaryCanvas(
+  constructor() {
+    super()
+    this.state = {
+      zoom: 5,
+    }
+    this.boundaryMap = L.TileLayer.boundaryCanvas(
       "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
       {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         boundary: border,
       }
-    ).addTo(this.map.leafletElement)
+    )
+    this.withoutBoundary = L.TileLayer.boundaryCanvas(
+      "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }
+    )
   }
-  test = e => {
+
+  componentDidMount() {
+    this.boundaryMap.addTo(this.map.leafletElement)
+  }
+  componentDidUpdate() {
+    if (this.state.zoom >= 10) {
+      this.map.leafletElement.removeLayer(this.boundaryMap)
+      this.withoutBoundary.addTo(this.map.leafletElement)
+    } else if (this.state.zoom < 10) {
+      this.map.leafletElement.removeLayer(this.withoutBoundary)
+      this.boundaryMap.addTo(this.map.leafletElement)
+    }
+  }
+  highlight = e => {
     var layer = e.target
 
     layer.setStyle({
@@ -34,9 +58,11 @@ export default class MyMap extends Component {
       layer.bringToFront()
     }
   }
-  test2 = e => {
+
+  clearHighlight = e => {
     e.target.setStyle(this.geoJsonStyles(e.target.feature))
   }
+
   chooseColor = d => {
     return d >= 2 && d <= 7
       ? "#F20505"
@@ -54,7 +80,16 @@ export default class MyMap extends Component {
       ? "#D9D9D9"
       : "#8C8C8C"
   }
-  geoJsonStyles = feature => {
+
+  geoJsonStyles = (feature, boundary = false) => {
+    if (boundary)
+      return {
+        fillColor: "#fff",
+        weight: 1,
+        opacity: 0.5,
+        color: "black",
+        fillOpacity: 0.3,
+      }
     return {
       fillColor: this.chooseColor(feature.properties.CODE),
       weight: 1,
@@ -63,22 +98,45 @@ export default class MyMap extends Component {
       fillOpacity: 1,
     }
   }
+
   render() {
-    const position = [36.2048, 138.2529]
+    const position = [35.652832, 139.839478]
+    const northEast = L.latLng(45.7112046, 154.205541),
+      southWest = L.latLng(20.2145811, 122.7141754),
+      bounds = L.latLngBounds(southWest, northEast)
 
     if (typeof window !== "undefined") {
       return (
-        <Map center={position} zoom={5} ref={Map => (this.map = Map)}>
-          <GeoJSON
-            data={border}
-            onEachFeature={(f, l) => {
-              l.on({
-                mouseover: this.test,
-                mouseout: this.test2,
-              })
-            }}
-            style={feature => this.geoJsonStyles(feature)}
-          />
+        <Map
+          center={position}
+          maxBounds={bounds}
+          minZoom={5}
+          maxZoom={17}
+          zoom={5}
+          ref={Map => (this.map = Map)}
+          onzoomend={() => {
+            this.setState({ zoom: this.map.leafletElement.getZoom() })
+            console.log(this.state.zoom)
+          }}
+        >
+          {this.state.zoom < 10 ? (
+            <GeoJSON
+              data={border}
+              onEachFeature={(f, l) => {
+                l.on({
+                  mouseover: this.highlight,
+                  mouseout: this.clearHighlight,
+                })
+              }}
+              style={feature => this.geoJsonStyles(feature)}
+            />
+          ) : null}
+          {this.state.zoom >= 10 ? (
+            <GeoJSON
+              data={border}
+              style={feature => this.geoJsonStyles(feature, true)}
+            />
+          ) : null}
         </Map>
       )
     }
