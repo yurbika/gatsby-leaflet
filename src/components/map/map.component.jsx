@@ -83,7 +83,7 @@ export default class MyMap extends Component {
   infoUpdate = props => {
     this.info.update = function () {
       this._div.innerHTML =
-        "<h4>Region</h4>" +
+        '<h4 class="info__heading">Region</h4>' +
         (props
           ? "<b>" + props.NAME + "</b><br />" + props.NAME_JP
           : "Hover over a region")
