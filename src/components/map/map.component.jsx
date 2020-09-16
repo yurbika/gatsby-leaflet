@@ -9,6 +9,24 @@ import { border } from "./utils/border"
 //styles
 import "./map.styles.scss"
 
+const chooseColor = d => {
+  return d >= 2 && d <= 7
+    ? "#0D65D9"
+    : d > 7 && d <= 14
+    ? "#97DAE8"
+    : d > 14 && d <= 23
+    ? "#259E63"
+    : d > 23 && d <= 30
+    ? "#7AC200"
+    : d > 30 && d <= 35
+    ? "#FAE200"
+    : d > 35 && d <= 39
+    ? "#F2B407"
+    : d > 39 && d <= 47
+    ? "#FF8000"
+    : "#1E0091"
+}
+
 export default class MyMap extends Component {
   constructor() {
     super()
@@ -30,8 +48,10 @@ export default class MyMap extends Component {
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     )
-    //infobox element
+    //map elements
     this.info = L.control()
+    this.legend = L.control({ position: "bottomright" })
+
     this.zoomBreak = 8
   }
 
@@ -47,6 +67,35 @@ export default class MyMap extends Component {
     }
     this.handleInfoUpdate()
     this.info.addTo(this.map.leafletElement)
+
+    //set legend infos
+    this.legend.onAdd = function (map) {
+      var div = L.DomUtil.create("div", "info legend"),
+        code = [1, 7, 14, 23, 30, 35, 39, 47],
+        labels = [
+          "Hokkaido",
+          "Tohoku",
+          "Kanto",
+          "Chubu",
+          "Kansai",
+          "Chugoku",
+          "Shikoku",
+          "Kyushu and Okinawa",
+        ]
+
+      for (var i = 0; i < code.length; i++) {
+        div.innerHTML +=
+          '<i style="background: ' +
+          chooseColor(code[i]) +
+          '" class="legend__color"></i> ' +
+          "" +
+          labels[i] +
+          "<br>"
+      }
+
+      return div
+    }
+    this.legend.addTo(this.map.leafletElement)
   }
 
   componentDidUpdate() {
@@ -106,24 +155,6 @@ export default class MyMap extends Component {
     }
   }
 
-  chooseColor = d => {
-    return d >= 2 && d <= 7
-      ? "#0D65D9"
-      : d > 7 && d <= 14
-      ? "#97DAE8"
-      : d > 14 && d <= 23
-      ? "#259E63"
-      : d > 23 && d <= 30
-      ? "#7AC200"
-      : d > 30 && d <= 35
-      ? "#FAE200"
-      : d > 35 && d <= 39
-      ? "#F2B407"
-      : d > 39 && d <= 47
-      ? "#FF8000"
-      : "#1E0091"
-  }
-
   handleGeoJsonStyles = feature => {
     if (this.state.zoom >= this.zoomBreak)
       return {
@@ -134,7 +165,7 @@ export default class MyMap extends Component {
         fillOpacity: 0.3,
       }
     return {
-      fillColor: this.chooseColor(feature.properties.CODE),
+      fillColor: chooseColor(feature.properties.CODE),
       weight: 1,
       opacity: 1,
       color: "white",
@@ -158,7 +189,6 @@ export default class MyMap extends Component {
           ref={Map => (this.map = Map)}
           onzoomend={() => {
             this.setState({ zoom: this.map.leafletElement.getZoom() })
-            console.log(this.state.zoom)
           }}
         >
           {this.state.zoom < this.zoomBreak ? (

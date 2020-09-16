@@ -38,5 +38,16 @@ module.exports = {
         linkStyles: true, // (default: true) Enable/disable loading stylesheets via CDN
       },
     },
+    {
+      resolve: `gatsby-plugin-prefetch-google-fonts`,
+      options: {
+        fonts: [
+          {
+            family: `Montserrat`,
+            variants: [`400`, `700`],
+          },
+        ],
+      },
+    },
   ],
 }
