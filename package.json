@@ -26,6 +26,7 @@
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
     "react-leaflet": "^2.7.0",
+    "react-leaflet-kml": "^1.0.4",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {

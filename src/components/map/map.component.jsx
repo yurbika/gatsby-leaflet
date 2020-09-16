@@ -1,13 +1,19 @@
 import React, { Component } from "react"
 import { Map, GeoJSON } from "react-leaflet"
 import "leaflet-boundary-canvas"
+import ReactLeafletKml from "react-leaflet-kml"
 import L from "leaflet"
+import KML from "../../assets/routes.js"
 
 //utils
 import { border } from "./utils/border"
 
 //styles
 import "./map.styles.scss"
+
+//params
+const parser = new DOMParser()
+const kml = parser.parseFromString(KML, "text/xml")
 
 const chooseColor = d => {
   return d >= 2 && d <= 7
@@ -51,13 +57,15 @@ export default class MyMap extends Component {
     //map elements
     this.info = L.control()
     this.legend = L.control({ position: "bottomright" })
-
+    this.parser = new DOMParser()
     this.zoomBreak = 8
   }
 
   componentDidMount() {
     //adding map
     this.boundaryMap.addTo(this.map.leafletElement)
+    this.map.leafletElement.createPane("test")
+    this.map.leafletElement.getPane("test").style.zIndex = 650
 
     //setting infobox
     this.info.onAdd = function (map) {
@@ -99,13 +107,15 @@ export default class MyMap extends Component {
   }
 
   componentDidUpdate() {
-    //show map with or without cut
+    //add or remove elements from map
     if (this.state.zoom >= this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.boundaryMap)
       this.withoutBoundary.addTo(this.map.leafletElement)
+      this.map.leafletElement.removeControl(this.legend)
     } else if (this.state.zoom < this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.withoutBoundary)
       this.boundaryMap.addTo(this.map.leafletElement)
+      this.legend.addTo(this.map.leafletElement)
     }
   }
 
@@ -162,7 +172,7 @@ export default class MyMap extends Component {
         weight: 1,
         opacity: 0.4,
         color: "#000",
-        fillOpacity: 0.3,
+        fillOpacity: 0,
       }
     return {
       fillColor: chooseColor(feature.properties.CODE),
@@ -191,6 +201,8 @@ export default class MyMap extends Component {
             this.setState({ zoom: this.map.leafletElement.getZoom() })
           }}
         >
+          <ReactLeafletKml kml={kml} />
+
           {this.state.zoom < this.zoomBreak ? (
             <GeoJSON
               data={border}
