@@ -30,39 +30,51 @@ export default class MyMap extends Component {
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     )
-
+    //infobox element
     this.info = L.control()
+    this.zoomBreak = 8
   }
 
   componentDidMount() {
+    //adding map
     this.boundaryMap.addTo(this.map.leafletElement)
+
+    //setting infobox
     this.info.onAdd = function (map) {
-      this._div = L.DomUtil.create("div", "info") // create a div with a class "info"
+      this._div = L.DomUtil.create("div", "info")
       this.update()
       return this._div
     }
-    this.infoUpdate()
+    this.handleInfoUpdate()
     this.info.addTo(this.map.leafletElement)
   }
+
   componentDidUpdate() {
-    if (this.state.zoom >= 8) {
+    //show map with or without cut
+    if (this.state.zoom >= this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.boundaryMap)
       this.withoutBoundary.addTo(this.map.leafletElement)
-    } else if (this.state.zoom < 8) {
+    } else if (this.state.zoom < this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.withoutBoundary)
       this.boundaryMap.addTo(this.map.leafletElement)
     }
   }
-  highlight = e => {
+
+  handleHighlight = e => {
     var layer = e.target
 
-    layer.setStyle({
-      fillColor: "red",
-      weight: 1,
-      color: "#fff",
-      fillOpacity: 1,
-    })
-    this.infoUpdate(layer.feature.properties)
+    //hover effect
+    if (this.state.zoom < this.zoomBreak) {
+      layer.setStyle({
+        fillColor: "#BF0436",
+        weight: 1,
+        color: "#fff",
+        fillOpacity: 1,
+      })
+    }
+
+    //show information in the infobox
+    this.handleInfoUpdate(layer.feature.properties)
     this.info.update()
 
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -70,17 +82,21 @@ export default class MyMap extends Component {
     }
   }
 
-  clearHighlight = e => {
-    e.target.setStyle(this.geoJsonStyles(e.target.feature))
-    this.infoUpdate()
+  handleClearHighlight = e => {
+    //remove hover color
+    if (this.state.zoom < this.zoomBreak)
+      e.target.setStyle(this.handleGeoJsonStyles(e.target.feature))
+
+    //remove infobox information
+    this.handleInfoUpdate()
     this.info.update()
   }
 
-  zoomToFeature = e => {
+  handleZoomToFeature = e => {
     this.map.leafletElement.fitBounds(e.target.getBounds())
   }
 
-  infoUpdate = props => {
+  handleInfoUpdate = props => {
     this.info.update = function () {
       this._div.innerHTML =
         '<h4 class="info__heading">Region</h4>' +
@@ -108,8 +124,8 @@ export default class MyMap extends Component {
       : "#1E0091"
   }
 
-  geoJsonStyles = (feature, boundary = false) => {
-    if (boundary)
+  handleGeoJsonStyles = feature => {
+    if (this.state.zoom >= this.zoomBreak)
       return {
         fillColor: "#fff",
         weight: 1,
@@ -145,23 +161,29 @@ export default class MyMap extends Component {
             console.log(this.state.zoom)
           }}
         >
-          {this.state.zoom < 8 ? (
+          {this.state.zoom < this.zoomBreak ? (
             <GeoJSON
               data={border}
               onEachFeature={(f, l) => {
                 l.on({
-                  mouseover: this.highlight,
-                  mouseout: this.clearHighlight,
-                  click: this.zoomToFeature,
+                  mouseover: this.handleHighlight,
+                  mouseout: this.handleClearHighlight,
+                  click: this.handleZoomToFeature,
                 })
               }}
-              style={feature => this.geoJsonStyles(feature)}
+              style={feature => this.handleGeoJsonStyles(feature)}
             />
           ) : null}
-          {this.state.zoom >= 8 ? (
+          {this.state.zoom >= this.zoomBreak ? (
             <GeoJSON
               data={border}
-              style={feature => this.geoJsonStyles(feature, true)}
+              style={feature => this.handleGeoJsonStyles(feature)}
+              onEachFeature={(f, l) => {
+                l.on({
+                  mouseover: this.handleHighlight,
+                  mouseout: this.handleClearHighlight,
+                })
+              }}
             />
           ) : null}
         </Map>
