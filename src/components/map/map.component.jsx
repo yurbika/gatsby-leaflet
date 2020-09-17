@@ -169,7 +169,7 @@ export default class MyMap extends Component {
       return {
         fillColor: "#fff",
         weight: 1,
-        opacity: 0.4,
+        opacity: 0,
         color: "#000",
         fillOpacity: 0,
       }
