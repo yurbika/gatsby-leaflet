@@ -64,8 +64,7 @@ export default class MyMap extends Component {
   componentDidMount() {
     //adding map
     this.boundaryMap.addTo(this.map.leafletElement)
-    this.map.leafletElement.createPane("test")
-    this.map.leafletElement.getPane("test").style.zIndex = 650
+    this.map.leafletElement.createPane("routes")
 
     //setting infobox
     this.info.onAdd = function (map) {
