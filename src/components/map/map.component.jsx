@@ -202,8 +202,8 @@ export default class MyMap extends Component {
           <ReactLeafletKml
             kml={kml}
             bounds={{
-              northEast: { lat: 40.6199087, lng: 140.4641997 },
-              southWest: { lat: 40.6072843, lng: 140.4444854 },
+              northEast: { lat: 45.7112046, lng: 154.205541 },
+              southWest: { lat: 20.2145811, lng: 122.7141754 },
             }}
           />
 

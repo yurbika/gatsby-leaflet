@@ -2,16 +2,17 @@
 	Copyright (c) 2011-2015, Pavel Shramov, Bruno Bergot - MIT licence
 */
 L.KML = L.FeatureGroup.extend({
-  initialize: function (kml) {
+  initialize: function (kml, bounds) {
     this._kml = kml
+    this._bounds = bounds
     this._layers = {}
     if (kml) {
-      this.addKML(kml)
+      this.addKML(kml, bounds)
     }
   },
 
-  addKML: function (xml) {
-    var layers = L.KML.parseKML(xml)
+  addKML: function (xml, bounds) {
+    var layers = L.KML.parseKML(xml, bounds)
     if (!layers || !layers.length) return
     for (var i = 0; i < layers.length; i++) {
       this.fire("addlayer", {
@@ -27,7 +28,7 @@ L.KML = L.FeatureGroup.extend({
 })
 
 L.Util.extend(L.KML, {
-  parseKML: function (xml) {
+  parseKML: function (xml, bounds) {
     var style = this.parseStyles(xml)
     this.parseStyleMap(xml, style)
     var el = xml.getElementsByTagName("Folder")
@@ -38,7 +39,7 @@ L.Util.extend(L.KML, {
       if (!this._check_folder(el[i])) {
         continue
       }
-      l = this.parseFolder(el[i], style)
+      l = this.parseFolder(el[i], style, bounds)
 
       if (l) {
         layers.push(l)
@@ -201,7 +202,7 @@ L.Util.extend(L.KML, {
     return
   },
 
-  parseFolder: function (xml, style) {
+  parseFolder: function (xml, style, bounds) {
     var el,
       layers = [],
       l
@@ -210,7 +211,7 @@ L.Util.extend(L.KML, {
       if (!this._check_folder(el[i], xml)) {
         continue
       }
-      l = this.parseFolder(el[i], style)
+      l = this.parseFolder(el[i], style, bounds)
 
       if (l) {
         layers.push(l)
@@ -222,14 +223,40 @@ L.Util.extend(L.KML, {
       if (!this._check_folder(el[j], xml)) {
         continue
       }
-      l = this.parsePlacemark(el[j], xml, style)
-      //console.log(el[j],l)
 
-      if (l) {
-        layers.push(l)
+      l = this.parsePlacemark(el[j], xml, style)
+      console.log(
+        l["_bounds"],
+        l,
+        el[j],
+        el[j]
+          .getElementsByTagName("ExtendedData")[0]
+          .getElementsByTagName("Data")
+      )
+
+      if (
+        l["_bounds"] &&
+        L.latLngBounds(bounds.northEast, bounds.southWest).contains(
+          l["_bounds"]["_southWest"],
+          l["_bounds"]["_northEast"]
+        )
+      ) {
+        if (l) {
+          layers.push(l)
+        }
+      } else if (
+        l["_latlng"] &&
+        L.latLngBounds(bounds.northEast, bounds.southWest).contains(
+          l["_latlng"]
+        )
+      ) {
+        if (l) {
+          layers.push(l)
+        }
       }
     }
     el = xml.getElementsByTagName("GroundOverlay")
+
     for (var k = 0; k < el.length; k++) {
       if (!this._check_folder(el[k], xml)) {
         continue
@@ -329,14 +356,12 @@ L.Util.extend(L.KML, {
             /<br><br>Notes: /g,
             ""
           )
-          console.log(el[i].childNodes[j].nodeValue)
         }
         if (!/Description: .*?(?=\s)/gm.exec(el[i].childNodes[j].nodeValue)) {
           el[i].childNodes[j].nodeValue = el[i].childNodes[j].nodeValue.replace(
             /<br><br>Description: /g,
             ""
           )
-          console.log(el[i].childNodes[j].nodeValue)
         }
         descr = descr + el[i].childNodes[j].nodeValue
       }
