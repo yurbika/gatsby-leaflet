@@ -57,7 +57,6 @@ export default class MyMap extends Component {
     //map elements
     this.info = L.control()
     this.legend = L.control({ position: "bottomright" })
-    this.parser = new DOMParser()
     this.zoomBreak = 8
   }
 
@@ -200,7 +199,13 @@ export default class MyMap extends Component {
             this.setState({ zoom: this.map.leafletElement.getZoom() })
           }}
         >
-          <ReactLeafletKml kml={kml} />
+          <ReactLeafletKml
+            kml={kml}
+            bounds={{
+              northEast: { lat: 40.6199087, lng: 140.4641997 },
+              southWest: { lat: 40.6072843, lng: 140.4444854 },
+            }}
+          />
 
           {this.state.zoom < this.zoomBreak ? (
             <GeoJSON
