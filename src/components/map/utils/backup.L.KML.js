@@ -226,12 +226,13 @@ L.Util.extend(L.KML, {
 
       l = this.parsePlacemark(el[j], xml, style)
       //console.log(l["_bounds"],l,el[j],(el[j].getElementsByTagName("ExtendedData")[0]).getElementsByTagName("Data"))
-
+      let bound = l["_bounds"]
+        ? L.latLngBounds(l["_bounds"]["_southWest"], l["_bounds"]["_northEast"])
+        : null
       if (
         l["_bounds"] &&
-        L.latLngBounds(bounds["_northEast"], bounds["_southWest"]).contains(
-          l["_bounds"]["_southWest"],
-          l["_bounds"]["_northEast"]
+        L.latLngBounds(bounds["_northEast"], bounds["_southWest"]).intersects(
+          bound
         )
       ) {
         if (l) {

@@ -1,9 +1,10 @@
 import React, { Component } from "react"
 import { Map, GeoJSON } from "react-leaflet"
 import "leaflet-boundary-canvas"
-import ReactLeafletKml from "react-leaflet-kml"
+import KMLParser from "leaflet-kml"
 import L from "leaflet"
-import LKML from "leaflet-kml"
+
+//assets
 import KML from "../../assets/routes.js"
 
 //utils
@@ -60,6 +61,7 @@ export default class MyMap extends Component {
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     )
+
     //map elements
     this.info = L.control()
     this.legend = L.control({ position: "bottomright" })
@@ -71,7 +73,9 @@ export default class MyMap extends Component {
     //adding map
     this.boundaryMap.addTo(this.map.leafletElement)
     this.map.leafletElement.createPane("routes")
-    this.map.leafletElement.on("moveend", () => this.forceUpdate())
+    this.map.leafletElement.on("moveend", () =>
+      this.setState({ bounds: () => this.map.leafletElement.getBounds() })
+    )
 
     //setting infobox
     this.info.onAdd = function (map) {
@@ -127,11 +131,8 @@ export default class MyMap extends Component {
       this.map.leafletElement.removeLayer(this.withoutBoundary)
       this.boundaryMap.addTo(this.map.leafletElement)
       this.legend.addTo(this.map.leafletElement)
+      //remove routes
       this.map.leafletElement.removeLayer(this.track)
-    }
-    if (this.reactKML) {
-      this.reactKML.updateLeafletElement()
-      console.log(this.reactKML["__proto__"].updateLeafletElement())
     }
   }
 
@@ -217,14 +218,6 @@ export default class MyMap extends Component {
             this.setState({ zoom: this.map.leafletElement.getZoom() })
           }}
         >
-          {/* {this.state.zoom >= this.zoomBreak ? (
-            <ReactLeafletKml
-              kml={this.state.kml}
-              bounds={this.map.leafletElement.getBounds()}
-              ref={ref => (this.reactKML = ref)}
-            />
-          ) : null} */}
-
           {this.state.zoom < this.zoomBreak ? (
             <GeoJSON
               data={border}
