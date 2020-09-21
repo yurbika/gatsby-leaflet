@@ -225,18 +225,11 @@ L.Util.extend(L.KML, {
       }
 
       l = this.parsePlacemark(el[j], xml, style)
-      console.log(
-        l["_bounds"],
-        l,
-        el[j],
-        el[j]
-          .getElementsByTagName("ExtendedData")[0]
-          .getElementsByTagName("Data")
-      )
+      //console.log(l["_bounds"],l,el[j],(el[j].getElementsByTagName("ExtendedData")[0]).getElementsByTagName("Data"))
 
       if (
         l["_bounds"] &&
-        L.latLngBounds(bounds.northEast, bounds.southWest).contains(
+        L.latLngBounds(bounds["_northEast"], bounds["_southWest"]).contains(
           l["_bounds"]["_southWest"],
           l["_bounds"]["_northEast"]
         )
@@ -246,7 +239,7 @@ L.Util.extend(L.KML, {
         }
       } else if (
         l["_latlng"] &&
-        L.latLngBounds(bounds.northEast, bounds.southWest).contains(
+        L.latLngBounds(bounds["_northEast"], bounds["_southWest"]).contains(
           l["_latlng"]
         )
       ) {

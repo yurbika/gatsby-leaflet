@@ -7,9 +7,7 @@ const KML = `<?xml version="1.0" encoding="UTF-8"?>
       <IconStyle>
         <color>ff0051e6</color>
         <scale>1</scale>
-        <Icon>
-          <href>http://maps.google.com/mapfiles/kml/pushpin/ltblu-pushpin.png</href>
-        </Icon>
+
       </IconStyle>
       <LabelStyle>
         <scale>0</scale>
@@ -19,9 +17,6 @@ const KML = `<?xml version="1.0" encoding="UTF-8"?>
       <IconStyle>
         <color>ff0051e6</color>
         <scale>1</scale>
-        <Icon>
-          <href>http://maps.google.com/mapfiles/kml/pushpin/ltblu-pushpin.png</href>
-        </Icon>
       </IconStyle>
       <LabelStyle>
         <scale>1</scale>
@@ -38,27 +33,13 @@ const KML = `<?xml version="1.0" encoding="UTF-8"?>
       </Pair>
     </StyleMap>
     <Style id="icon-1899-0288D1-normal">
-      <IconStyle>
-        <color>ffd18802</color>
-        <scale>1</scale>
-        <Icon>
-          <href>http://maps.google.com/mapfiles/kml/pushpin/ltblu-pushpin.png</href>
-        </Icon>
-        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
-      </IconStyle>
+
       <LabelStyle>
         <scale>0</scale>
       </LabelStyle>
     </Style>
     <Style id="icon-1899-0288D1-highlight">
-      <IconStyle>
-        <color>ffd18802</color>
-        <scale>1</scale>
-        <Icon>
-          <href>http://maps.google.com/mapfiles/kml/pushpin/ltblu-pushpin.png</href>
-        </Icon>
-        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
-      </IconStyle>
+
       <LabelStyle>
         <scale>1</scale>
       </LabelStyle>

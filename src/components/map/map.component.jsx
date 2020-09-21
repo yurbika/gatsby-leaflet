@@ -3,6 +3,7 @@ import { Map, GeoJSON } from "react-leaflet"
 import "leaflet-boundary-canvas"
 import ReactLeafletKml from "react-leaflet-kml"
 import L from "leaflet"
+import LKML from "leaflet-kml"
 import KML from "../../assets/routes.js"
 
 //utils
@@ -38,6 +39,11 @@ export default class MyMap extends Component {
     super()
     this.state = {
       zoom: 5,
+      bounds: {
+        _northEast: { lat: 45.7112046, lng: 154.205541 },
+        _southWest: { lat: 20.2145811, lng: 122.7141754 },
+      },
+      kml: kml,
     }
     this.boundaryMap = L.TileLayer.boundaryCanvas(
       "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
@@ -58,12 +64,14 @@ export default class MyMap extends Component {
     this.info = L.control()
     this.legend = L.control({ position: "bottomright" })
     this.zoomBreak = 8
+    this.track = new L.KML(kml, this.state.bounds)
   }
 
   componentDidMount() {
     //adding map
     this.boundaryMap.addTo(this.map.leafletElement)
     this.map.leafletElement.createPane("routes")
+    this.map.leafletElement.on("moveend", () => this.forceUpdate())
 
     //setting infobox
     this.info.onAdd = function (map) {
@@ -106,14 +114,24 @@ export default class MyMap extends Component {
 
   componentDidUpdate() {
     //add or remove elements from map
+
     if (this.state.zoom >= this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.boundaryMap)
       this.withoutBoundary.addTo(this.map.leafletElement)
       this.map.leafletElement.removeControl(this.legend)
+      //show only in bounds routes
+      this.map.leafletElement.removeLayer(this.track)
+      this.track = new L.KML(kml, this.map.leafletElement.getBounds())
+      this.map.leafletElement.addLayer(this.track)
     } else if (this.state.zoom < this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.withoutBoundary)
       this.boundaryMap.addTo(this.map.leafletElement)
       this.legend.addTo(this.map.leafletElement)
+      this.map.leafletElement.removeLayer(this.track)
+    }
+    if (this.reactKML) {
+      this.reactKML.updateLeafletElement()
+      console.log(this.reactKML["__proto__"].updateLeafletElement())
     }
   }
 
@@ -199,13 +217,13 @@ export default class MyMap extends Component {
             this.setState({ zoom: this.map.leafletElement.getZoom() })
           }}
         >
-          <ReactLeafletKml
-            kml={kml}
-            bounds={{
-              northEast: { lat: 45.7112046, lng: 154.205541 },
-              southWest: { lat: 20.2145811, lng: 122.7141754 },
-            }}
-          />
+          {/* {this.state.zoom >= this.zoomBreak ? (
+            <ReactLeafletKml
+              kml={this.state.kml}
+              bounds={this.map.leafletElement.getBounds()}
+              ref={ref => (this.reactKML = ref)}
+            />
+          ) : null} */}
 
           {this.state.zoom < this.zoomBreak ? (
             <GeoJSON
