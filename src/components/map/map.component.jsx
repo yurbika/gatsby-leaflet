@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Map, GeoJSON } from "react-leaflet"
 import "leaflet-boundary-canvas"
-import KMLParser from "leaflet-kml"
+import "leaflet-kml"
 import L from "leaflet"
 
 //assets
@@ -66,7 +66,7 @@ export default class MyMap extends Component {
     this.info = L.control()
     this.legend = L.control({ position: "bottomright" })
     this.zoomBreak = 8
-    this.track = new L.KML(kml, this.state.bounds)
+    this.track = new L.KML(kml, this.state.bounds, [])
   }
 
   componentDidMount() {
@@ -125,7 +125,8 @@ export default class MyMap extends Component {
       this.map.leafletElement.removeControl(this.legend)
       //show only in bounds routes
       this.map.leafletElement.removeLayer(this.track)
-      this.track = new L.KML(kml, this.map.leafletElement.getBounds())
+      this.track = new L.KML(kml, this.map.leafletElement.getBounds(), [])
+      console.log(this.track.cur)
       this.map.leafletElement.addLayer(this.track)
     } else if (this.state.zoom < this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.withoutBoundary)

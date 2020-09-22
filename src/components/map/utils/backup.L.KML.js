@@ -2,17 +2,17 @@
 	Copyright (c) 2011-2015, Pavel Shramov, Bruno Bergot - MIT licence
 */
 L.KML = L.FeatureGroup.extend({
-  initialize: function (kml, bounds) {
+  initialize: function (kml, bounds, cur) {
     this._kml = kml
-    this._bounds = bounds
     this._layers = {}
+    this.cur = cur
     if (kml) {
-      this.addKML(kml, bounds)
+      this.addKML(kml, bounds, cur)
     }
   },
 
-  addKML: function (xml, bounds) {
-    var layers = L.KML.parseKML(xml, bounds)
+  addKML: function (xml, bounds, cur) {
+    var layers = L.KML.parseKML(xml, bounds, cur)
     if (!layers || !layers.length) return
     for (var i = 0; i < layers.length; i++) {
       this.fire("addlayer", {
@@ -28,7 +28,7 @@ L.KML = L.FeatureGroup.extend({
 })
 
 L.Util.extend(L.KML, {
-  parseKML: function (xml, bounds) {
+  parseKML: function (xml, bounds, cur) {
     var style = this.parseStyles(xml)
     this.parseStyleMap(xml, style)
     var el = xml.getElementsByTagName("Folder")
@@ -39,7 +39,7 @@ L.Util.extend(L.KML, {
       if (!this._check_folder(el[i])) {
         continue
       }
-      l = this.parseFolder(el[i], style, bounds)
+      l = this.parseFolder(el[i], style, bounds, cur)
 
       if (l) {
         layers.push(l)
@@ -202,7 +202,7 @@ L.Util.extend(L.KML, {
     return
   },
 
-  parseFolder: function (xml, style, bounds) {
+  parseFolder: function (xml, style, bounds, cur) {
     var el,
       layers = [],
       l
@@ -211,7 +211,7 @@ L.Util.extend(L.KML, {
       if (!this._check_folder(el[i], xml)) {
         continue
       }
-      l = this.parseFolder(el[i], style, bounds)
+      l = this.parseFolder(el[i], style, bounds, cur)
 
       if (l) {
         layers.push(l)
@@ -235,6 +235,7 @@ L.Util.extend(L.KML, {
           bound
         )
       ) {
+        if (cur) cur.push(l)
         if (l) {
           layers.push(l)
         }
@@ -244,6 +245,8 @@ L.Util.extend(L.KML, {
           l["_latlng"]
         )
       ) {
+        if (cur) cur.push(l)
+
         if (l) {
           layers.push(l)
         }
