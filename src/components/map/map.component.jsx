@@ -4,6 +4,7 @@ import "leaflet-boundary-canvas"
 import "leaflet-kml"
 import L from "leaflet"
 import { connect } from "react-redux"
+import { createStructuredSelector } from "reselect"
 
 //redux
 import { setRoutes } from "../../redux/map/map.actions"
@@ -18,7 +19,6 @@ import { border } from "./utils/border"
 
 //styles
 import "./map.styles.scss"
-import { createStructuredSelector } from "reselect"
 
 //params
 const parser = new DOMParser()
