@@ -1,3 +1,7 @@
 import { combineReducers } from "redux"
 
-export default combineReducers({})
+import mapReducer from "./map/map.reducer"
+
+export default combineReducers({
+  map: mapReducer,
+})

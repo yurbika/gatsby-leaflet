@@ -3,6 +3,12 @@ import { Map, GeoJSON } from "react-leaflet"
 import "leaflet-boundary-canvas"
 import "leaflet-kml"
 import L from "leaflet"
+import { connect } from "react-redux"
+
+//redux
+import { setRoutes } from "../../redux/map/map.actions"
+
+import { selectRoutes } from "../../redux/map/map.selectors"
 
 //assets
 import KML from "../../assets/routes.js"
@@ -12,6 +18,7 @@ import { border } from "./utils/border"
 
 //styles
 import "./map.styles.scss"
+import { createStructuredSelector } from "reselect"
 
 //params
 const parser = new DOMParser()
@@ -35,9 +42,9 @@ const chooseColor = d => {
     : "#1E0091"
 }
 
-export default class MyMap extends Component {
-  constructor() {
-    super()
+class MyMap extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
       zoom: 5,
       bounds: {
@@ -66,16 +73,25 @@ export default class MyMap extends Component {
     this.info = L.control()
     this.legend = L.control({ position: "bottomright" })
     this.zoomBreak = 8
-    this.track = new L.KML(kml, this.state.bounds, [])
   }
 
   componentDidMount() {
     //adding map
     this.boundaryMap.addTo(this.map.leafletElement)
+    //adding extra pane for routes
     this.map.leafletElement.createPane("routes")
-    this.map.leafletElement.on("moveend", () =>
-      this.setState({ bounds: () => this.map.leafletElement.getBounds() })
-    )
+    //setting redux routes depending on boundaries
+    this.map.leafletElement.on("moveend", () => {
+      if (this.zoomBreak <= this.state.zoom) {
+        this.map.leafletElement.removeLayer(this.props.routes)
+        this.props.setRoutes(
+          new L.KML(kml, this.map.leafletElement.getBounds(), [])
+        )
+      }
+    })
+
+    //initialize routes
+    this.props.setRoutes(new L.KML(kml, this.state.bounds, []))
 
     //setting infobox
     this.info.onAdd = function (map) {
@@ -124,16 +140,13 @@ export default class MyMap extends Component {
       this.withoutBoundary.addTo(this.map.leafletElement)
       this.map.leafletElement.removeControl(this.legend)
       //show only in bounds routes
-      this.map.leafletElement.removeLayer(this.track)
-      this.track = new L.KML(kml, this.map.leafletElement.getBounds(), [])
-      console.log(this.track.cur)
-      this.map.leafletElement.addLayer(this.track)
+      this.map.leafletElement.addLayer(this.props.routes)
     } else if (this.state.zoom < this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.withoutBoundary)
       this.boundaryMap.addTo(this.map.leafletElement)
       this.legend.addTo(this.map.leafletElement)
       //remove routes
-      this.map.leafletElement.removeLayer(this.track)
+      this.map.leafletElement.removeLayer(this.props.routes)
     }
   }
 
@@ -250,3 +263,13 @@ export default class MyMap extends Component {
     return null
   }
 }
+
+const mapStateToProps = createStructuredSelector({
+  routes: selectRoutes,
+})
+
+const mapDispatchToProps = dispatch => ({
+  setRoutes: arr => dispatch(setRoutes(arr)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyMap)
