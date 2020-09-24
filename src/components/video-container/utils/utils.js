@@ -6,6 +6,8 @@ const getYoutubeData = async id => {
   const data = json.items[0]
   //console.log(data)
   let time = ""
+  let description = ""
+  let date = ""
   if (data) {
     time = data.contentDetails.duration
       .replace("PT", "")
@@ -17,11 +19,11 @@ const getYoutubeData = async id => {
       if (time[i].length == 1) time[i] = "0" + time[i]
     }
     time = time.join(":")
+    description = data.snippet.description
+    date = data.snippet.publishedAt.split("T")[0].split("-").reverse().join("-")
   }
-  let description = ""
-  if (data) description = data.snippet.description
 
-  return [time, description]
+  return [time, description, date]
 }
 
 export const getData = routes => {
@@ -29,8 +31,6 @@ export const getData = routes => {
 
   for (let i of routes) {
     if (i["_popup"] && i["_popup"]["_content"]) {
-      //let description = i["_popup"]["_content"].match(/(?<=v=)[-\w]{11}/gm)
-      //console.log(i["_popup"]["_content"])
       let h1 = i["_popup"]["_content"].match(/(?<=<h2>)(.*)(?=<\/h2>)/gm)[0]
       let id = i["_popup"]["_content"].match(/(?<=v=)[-\w]{11}/gm)
       let km = i["_popup"]["_content"].match(
@@ -47,9 +47,10 @@ export const getData = routes => {
           km: km,
           videoLength: data[0],
           description: data[1],
+          date: data[2],
         })
       })
     }
   }
-  console.log(videos)
+  return videos
 }

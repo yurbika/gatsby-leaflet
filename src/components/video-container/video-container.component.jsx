@@ -9,21 +9,35 @@ import { selectRoutes } from "../../redux/map/map.selectors"
 import { getData } from "./utils/utils"
 
 class VideoContainer extends React.Component {
-  componentDidMount() {
-    let videos = null
-    if (this.props.routes !== null && this.props.routes.cur) {
-      videos = getData(this.props.routes.cur)
+  constructor() {
+    super()
+    this.state = {
+      videos: null,
     }
-    console.log(videos)
   }
-  componentDidUpdate() {
-    let videos = null
+  componentDidMount() {
+    let arr = this.getVideos()
+    this.setState({ videos: arr })
+  }
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.routes &&
+      this.props.routes &&
+      this.props.routes.cur !== prevProps.routes.cur
+    ) {
+      let arr = this.getVideos()
+      this.setState({ videos: arr })
+    }
+  }
+
+  getVideos = () => {
     if (this.props.routes !== null && this.props.routes.cur) {
-      videos = getData(this.props.routes.cur)
+      return getData(this.props.routes.cur)
     }
   }
 
   render() {
+    console.log(this.state.videos)
     return <div></div>
   }
 }
