@@ -1,49 +1,42 @@
 import React from "react"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
+import isEqual from "lodash.isequal"
+
+//component
+import Video from "../video/video.component"
 
 //redux
-import { selectRoutes } from "../../redux/map/map.selectors"
-
-//utils
-import { getData } from "./utils/utils"
+import { selectVideos } from "../../redux/map/map.selectors"
 
 class VideoContainer extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      videos: null,
-    }
-  }
-  componentDidMount() {
-    let arr = this.getVideos()
-    this.setState({ videos: arr })
-  }
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.routes &&
-      this.props.routes &&
-      this.props.routes.cur !== prevProps.routes.cur
-    ) {
-      let arr = this.getVideos()
-      this.setState({ videos: arr })
-    }
+  state = {
+    videos: this.props.videos,
   }
 
-  getVideos = () => {
-    if (this.props.routes !== null && this.props.routes.cur) {
-      return getData(this.props.routes.cur)
+  static getDerivedStateFromProps(props, state) {
+    if (!isEqual(props.videos, state.videos)) {
+      return {
+        videos: props.videos,
+      }
     }
+    return null
   }
 
   render() {
-    console.log(this.state.videos)
-    return <div></div>
+    console.log(this.state)
+    return (
+      <>
+        {this.state.videos.map(data => (
+          <Video videoId={data.id[0]} />
+        ))}
+      </>
+    )
   }
 }
 
 const mapStateToProps = createStructuredSelector({
-  routes: selectRoutes,
+  videos: selectVideos,
 })
 
 export default connect(mapStateToProps)(VideoContainer)
