@@ -7,8 +7,7 @@ import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 
 //redux
-import { setRoutes } from "../../redux/map/map.actions"
-
+import { setRoutes, fetchVideosStartAsync } from "../../redux/map/map.actions"
 import { selectRoutes } from "../../redux/map/map.selectors"
 
 //assets
@@ -81,14 +80,11 @@ class MyMap extends Component {
     //adding extra pane for routes
     this.map.leafletElement.createPane("routes")
     //setting redux routes depending on boundaries
-    this.map.leafletElement.on("moveend", () => {
-      if (this.zoomBreak <= this.state.zoom) {
-        this.map.leafletElement.removeLayer(this.props.routes)
-        this.props.setRoutes(
-          new L.KML(kml, this.map.leafletElement.getBounds(), [])
-        )
-      }
-    })
+    this.map.leafletElement.on("moveend", () => this.handleMapActions())
+
+    this.map.leafletElement.on("zoomend", () => this.handleMapActions())
+
+    this.map.leafletElement.on("update", () => this.handleMapActions())
 
     //initialize routes
     this.props.setRoutes(new L.KML(kml, this.state.bounds, []))
@@ -147,6 +143,16 @@ class MyMap extends Component {
       this.legend.addTo(this.map.leafletElement)
       //remove routes
       this.map.leafletElement.removeLayer(this.props.routes)
+    }
+  }
+
+  handleMapActions = () => {
+    if (this.zoomBreak <= this.state.zoom) {
+      this.map.leafletElement.removeLayer(this.props.routes)
+      this.props.setRoutes(
+        new L.KML(kml, this.map.leafletElement.getBounds(), [])
+      )
+      this.props.fetchVideosStartAsync()
     }
   }
 
@@ -270,6 +276,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   setRoutes: arr => dispatch(setRoutes(arr)),
+  fetchVideosStartAsync: () => dispatch(fetchVideosStartAsync()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyMap)
