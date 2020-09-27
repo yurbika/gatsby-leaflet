@@ -34,7 +34,7 @@ const getYoutubeData = async id => {
   }
 }
 
-export const getData = routes => {
+export const getData = async routes => {
   const videos = []
 
   for (let i of routes) {
@@ -48,17 +48,17 @@ export const getData = routes => {
         km = "-"
       }
 
-      getYoutubeData(id).then(data => {
-        videos.push({
-          h1: h1,
-          id: id,
-          km: km,
-          videoLength: data[0],
-          description: data[1],
-          date: data[2],
-        })
+      let arr = await getYoutubeData(id)
+      const [videoLength, description, date] = arr
+      videos.push({
+        h1: h1,
+        id: id,
+        km: km,
+        videoLength: videoLength,
+        description: description,
+        date: date,
       })
     }
   }
-  return videos
+  return await videos
 }
