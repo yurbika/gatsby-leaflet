@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+  padding: 0 15px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .video {
+    display: flex;
+    border-radius: 15px;
+    align-self: center;
+  }
+  .info-box {
+    padding: 50px;
+    line-height: 31px;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      display: flex;
+      width: 70%;
+      justify-content: space-between;
+    }
+  }
+}

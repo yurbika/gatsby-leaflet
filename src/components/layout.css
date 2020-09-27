@@ -1,7 +1,7 @@
 html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  font: 112.5%/1.45em georgia, serif, sans-serif;
+  font: 112.5%/1.45em "Montserrat", sans-serif;
   box-sizing: border-box;
   overflow-y: scroll;
 }
@@ -465,7 +465,7 @@ iframe {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: 0;
 }
 address {
   margin-left: 0;

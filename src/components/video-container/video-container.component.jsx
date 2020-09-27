@@ -24,11 +24,10 @@ class VideoContainer extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <>
         {this.state.videos.map(data => (
-          <Video videoId={data.id[0]} />
+          <Video {...data} />
         ))}
       </>
     )
