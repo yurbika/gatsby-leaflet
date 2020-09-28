@@ -124,13 +124,7 @@ img {
 svg:not(:root) {
   overflow: hidden;
 }
-code,
-kbd,
-pre,
-samp {
-  font-family: monospace;
-  font-size: 1em;
-}
+
 figure {
   margin-left: 0;
   margin-right: 0;
@@ -390,7 +384,8 @@ dd {
   padding-top: 0;
   margin-bottom: 1.45rem;
 }
-p {
+p,
+pre {
   margin-left: 0;
   margin-right: 0;
   margin-top: 0;
@@ -400,19 +395,7 @@ p {
   padding-top: 0;
   margin-bottom: 1.45rem;
 }
-pre {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  margin-bottom: 1.45rem;
-  font-size: 0.85rem;
-  line-height: 1.42;
-  background: hsla(0, 0%, 0%, 0.04);
-  border-radius: 3px;
-  overflow: auto;
-  word-wrap: normal;
-  padding: 1.45rem;
-}
+
 table {
   margin-left: 0;
   margin-right: 0;
@@ -574,25 +557,11 @@ code {
   padding-top: 0.2em;
   padding-bottom: 0.2em;
 }
-pre code {
-  background: none;
-  line-height: 1.42;
-}
+
 code:before,
 code:after,
 tt:before,
 tt:after {
   letter-spacing: -0.2em;
   content: " ";
-}
-pre code:before,
-pre code:after,
-pre tt:before,
-pre tt:after {
-  content: "";
-}
-@media only screen and (max-width: 480px) {
-  html {
-    font-size: 100%;
-  }
 }
