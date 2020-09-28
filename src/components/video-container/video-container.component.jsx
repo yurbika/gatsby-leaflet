@@ -9,6 +9,9 @@ import Video from "../video/video.component"
 //redux
 import { selectVideos } from "../../redux/map/map.selectors"
 
+//styles
+import "./video-container.styles.scss"
+
 class VideoContainer extends React.Component {
   state = {
     videos: this.props.videos,
@@ -25,11 +28,11 @@ class VideoContainer extends React.Component {
 
   render() {
     return (
-      <>
+      <section className="video-container">
         {this.state.videos.map(data => (
           <Video {...data} />
         ))}
-      </>
+      </section>
     )
   }
 }

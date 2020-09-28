@@ -1,13 +1,11 @@
 import React from "react"
 
 import Layout from "../components/layout"
-import Map from "../components/map/map.component"
-import VideoContainer from "../components/video-container/video-container.component"
+import MapPageContainer from "../components/map-page-container/map-page-container.component"
 
 const IndexPage = () => (
   <Layout>
-    <Map />
-    <VideoContainer />
+    <MapPageContainer />
   </Layout>
 )
 

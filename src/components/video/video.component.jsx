@@ -16,7 +16,7 @@ const Video = ({ h1: title, id, km, videoLength, description, date }) => {
       <YouTube videoId={id[0]} onReady={_onReady} className="video" />
       <section className="info-box">
         <h2>{title}</h2>
-        <p>{description}</p>
+        <p className="info-box__description">{description}</p>
         <ul>
           <li>KM: {!!km ? km : "-"}</li>
           <li>Duration: {videoLength}</li>
