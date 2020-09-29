@@ -38,10 +38,10 @@ export const getData = async routes => {
   const videos = []
 
   for (let i of routes) {
-    if (i["_popup"] && i["_popup"]["_content"]) {
-      let h1 = i["_popup"]["_content"].match(/(?<=<h2>)(.*)(?=<\/h2>)/gm)[0]
-      let id = i["_popup"]["_content"].match(/(?<=v=)[-\w]{11}/gm)
-      let km = i["_popup"]["_content"].match(
+    if (i["_additionalInformation"]) {
+      let h1 = i["_additionalInformation"].match(/(?<=<h2>)(.*)(?=<\/h2>)/gm)[0]
+      let id = i["_additionalInformation"].match(/(?<=v=)[-\w]{11}/gm)
+      let km = i["_additionalInformation"].match(
         /(?<=Distance in km: )([0-9]*[,])?[0-9]+/gm
       )
       if (km === "") {
