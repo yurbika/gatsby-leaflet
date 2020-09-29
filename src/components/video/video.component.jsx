@@ -1,20 +1,37 @@
 import React from "react"
 import YouTube from "react-youtube"
+import { connect } from "react-redux"
+import { createStructuredSelector } from "reselect"
+
+//components
+import WithSpinner from "../../components/with-spinner/with-spinner.component"
+
+//redux
+import { selectIsFetching } from "../../redux/map/map.selectors"
 
 //styles
 import "./video.styles.scss"
 
-const Video = ({ h1: title, id, km, videoLength, description, date }) => {
+const YoutubeWithSpinner = WithSpinner(YouTube)
+
+const Video = ({
+  h1: title,
+  id,
+  km,
+  videoLength,
+  description,
+  date,
+  isLoading,
+}) => {
   const _onReady = event => {
     // access to player in all event handlers via event.target
     event.target.pauseVideo()
   }
-
-  console.log(title, id)
   return (
     <article className="container">
       <div className="embed-container">
-        <YouTube
+        <YoutubeWithSpinner
+          isLoading={isLoading}
           videoId={id[0]}
           onReady={_onReady}
           className="embed-container__iframe"
@@ -39,4 +56,8 @@ const Video = ({ h1: title, id, km, videoLength, description, date }) => {
   )
 }
 
-export default Video
+const mapStateToProps = createStructuredSelector({
+  isLoading: selectIsFetching,
+})
+
+export default connect(mapStateToProps)(Video)
