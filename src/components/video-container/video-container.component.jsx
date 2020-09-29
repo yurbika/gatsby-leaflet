@@ -9,6 +9,9 @@ import Video from "../video/video.component"
 //redux
 import { selectVideos } from "../../redux/map/map.selectors"
 
+//assets
+import Kitty from "../../assets/kitty.svg"
+
 //styles
 import "./video-container.styles.scss"
 
@@ -32,6 +35,11 @@ class VideoContainer extends React.Component {
         {this.state.videos.map(data => (
           <Video {...data} />
         ))}
+        {this.state.videos.length === 0 ? (
+          <div className="placeholder-container">
+            <Kitty className="placeholder-container__svg" />
+          </div>
+        ) : null}
       </section>
     )
   }
