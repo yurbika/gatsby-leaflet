@@ -130,6 +130,7 @@ class MyMap extends Component {
 
   componentDidUpdate() {
     //add or remove elements from map
+    this.props.routes.on("click", e => console.log(e))
 
     if (this.state.zoom >= this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.boundaryMap)

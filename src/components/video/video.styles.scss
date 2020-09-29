@@ -50,15 +50,15 @@
       text-overflow: ellipsis;
       overflow: hidden;
       width: 100%;
-      height: 100px;
+      height: 75px;
       font-family: "Montserrat", sans-serif;
 
-      @supports (-webkit-line-clamp: 2) {
+      @supports (-webkit-line-clamp: 3) {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: initial;
         display: -webkit-box;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
       }
     }
@@ -68,7 +68,7 @@
     height: unset;
     align-items: unset;
     .info-box {
-      padding-left: 0;
+      padding: 0 35px;
       margin-top: 35px;
       width: 100%;
       max-width: unset;

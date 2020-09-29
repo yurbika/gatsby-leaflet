@@ -1,10 +1,14 @@
 import styled from "styled-components"
 
 export const Container = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
-
   border-radius: 15px;
   display: flex;
   justify-content: center;
@@ -12,7 +16,7 @@ export const Container = styled.div`
 `
 
 export const SpinnerOverlay = styled.div`
-  height: 60vh;
+  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
