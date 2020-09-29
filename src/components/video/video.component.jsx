@@ -13,7 +13,13 @@ const Video = ({ h1: title, id, km, videoLength, description, date }) => {
   console.log(title, id)
   return (
     <article className="container">
-      <YouTube videoId={id[0]} onReady={_onReady} className="video" />
+      <div className="embed-container">
+        <YouTube
+          videoId={id[0]}
+          onReady={_onReady}
+          className="embed-container__iframe"
+        />
+      </div>
       <section className="info-box">
         <h2>{title}</h2>
         <pre className="info-box__description">{description}</pre>
