@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import YouTube from "react-youtube"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
@@ -11,6 +11,7 @@ import { selectIsFetching } from "../../redux/map/map.selectors"
 
 //styles
 import "./video.styles.scss"
+import * as Styled from "./video.styles"
 
 const YoutubeWithSpinner = WithSpinner(YouTube)
 
@@ -23,23 +24,26 @@ const Video = ({
   date,
   isLoading,
 }) => {
+  const [expand, setExpand] = useState(false)
   const _onReady = event => {
     // access to player in all event handlers via event.target
     event.target.pauseVideo()
   }
   return (
-    <article className="container">
-      <div className="embed-container">
+    <Styled.Container>
+      <Styled.EmbedContainer>
         <YoutubeWithSpinner
           isLoading={isLoading}
           videoId={id[0]}
           onReady={_onReady}
           className="embed-container__iframe"
         />
-      </div>
-      <section className="info-box">
+      </Styled.EmbedContainer>
+      <Styled.InfoBox>
         <h2>{title}</h2>
-        <pre className="info-box__description">{description}</pre>
+        <Styled.InfoBox__Description expand={expand}>
+          {description}
+        </Styled.InfoBox__Description>
         <ul>
           <li>
             <b>KM:</b> {!!km ? km : "-"}
@@ -51,8 +55,11 @@ const Video = ({
             <b>Date:</b> {date}
           </li>
         </ul>
-      </section>
-    </article>
+        <Styled.Button onClick={() => setExpand(!expand)}>
+          <span>{expand ? "VIEW LESS" : "VIEW MORE"}</span>
+        </Styled.Button>
+      </Styled.InfoBox>
+    </Styled.Container>
   )
 }
 

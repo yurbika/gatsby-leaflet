@@ -62,5 +62,20 @@
         -webkit-box-orient: vertical;
       }
     }
+
+    button {
+      background: none;
+      padding: 5px 0;
+      font-size: 12px;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 15px;
+      span {
+        display: inline-block;
+        color: #bf0436;
+        font-weight: bold;
+        border-bottom: 2px solid;
+      }
+    }
   }
 }
