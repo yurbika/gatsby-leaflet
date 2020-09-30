@@ -1,5 +1,6 @@
 .video-container {
-  width: calc(100vw - 35%);
+  width: 100vw;
+  max-width: 600px;
   overflow-y: scroll;
   margin-top: 75px;
   padding: 0 15px;
