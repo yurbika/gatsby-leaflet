@@ -9,6 +9,8 @@ import WithSpinner from "../../components/with-spinner/with-spinner.component"
 //redux
 import { selectIsFetching } from "../../redux/map/map.selectors"
 
+import { setVideoIsPlaying } from "../../redux/video/video.actions"
+
 //styles
 import "./video.styles.scss"
 import * as Styled from "./video.styles"
@@ -23,11 +25,28 @@ const Video = ({
   description,
   date,
   isLoading,
+  setIsPlaying,
 }) => {
   const [expand, setExpand] = useState(false)
-  const _onReady = event => {
-    // access to player in all event handlers via event.target
-    event.target.pauseVideo()
+  let interval = null
+  const getCurTimeInterval = e => {
+    interval = setInterval(
+      () => console.log(e.target.getMediaReferenceTime()),
+      1000
+    )
+  }
+  var PAUSE_EVT_STACK = 0
+
+  function onPlayerStateChange(event) {
+    if (event.data == 3) PAUSE_EVT_STACK++
+    if (event.data == 1) PAUSE_EVT_STACK = 0
+
+    if (event.data == 2 && PAUSE_EVT_STACK <= 1) console.log("Pause pressed")
+    else if (event.data == 2 && PAUSE_EVT_STACK > 1) {
+      console.log("Tracking occuring")
+      console.log("Hey! Dont fast forward during my ad you douche")
+    }
+    console.log(event.data)
   }
   return (
     <Styled.Container>
@@ -35,8 +54,22 @@ const Video = ({
         <YoutubeWithSpinner
           isLoading={isLoading}
           videoId={id[0]}
-          onReady={_onReady}
           className="embed-container__iframe"
+          onPlay={e => {
+            getCurTimeInterval(e)
+            setIsPlaying()
+          }}
+          onPause={() => {
+            if (PAUSE_EVT_STACK <= 1) {
+              clearInterval(interval)
+              setIsPlaying()
+            }
+          }}
+          onEnd={() => {
+            clearInterval(interval)
+            setIsPlaying()
+          }}
+          onStateChange={e => onPlayerStateChange.bind(e)}
         />
       </Styled.EmbedContainer>
       <Styled.InfoBox>
@@ -67,4 +100,8 @@ const mapStateToProps = createStructuredSelector({
   isLoading: selectIsFetching,
 })
 
-export default connect(mapStateToProps)(Video)
+const mapDispatchToProps = dispatch => ({
+  setIsPlaying: () => dispatch(setVideoIsPlaying()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Video)
