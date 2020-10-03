@@ -13,6 +13,9 @@ import { clearVideos } from "../../redux/map/map.actions"
 //assets
 import Kitty from "../../assets/kitty.svg"
 
+//utils
+import ID_GENERATOR from "../../uniqueKey"
+
 //styles
 import "./video-container.styles.scss"
 
@@ -34,7 +37,7 @@ class VideoContainer extends React.Component {
     return (
       <section className="video-container">
         {this.state.videos.map(data => (
-          <Video {...data} />
+          <Video {...data} key={ID_GENERATOR("video-")} />
         ))}
         {this.state.videos.length === 0 ? (
           <div className="placeholder-container">

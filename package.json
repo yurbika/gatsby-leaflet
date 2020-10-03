@@ -28,6 +28,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
+    "react-id-generator": "^3.0.1",
     "react-leaflet": "^2.7.0",
     "react-redux": "^7.2.1",
     "react-youtube": "^7.12.0",
