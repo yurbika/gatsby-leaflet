@@ -29,3 +29,12 @@ export const fetchVideosStartAsync = () => {
       .catch(err => dispatch(fetchVideosFailure(err)))
   }
 }
+
+export const clearVideos = () => ({
+  type: MapActionTypes.CLEAR_VIDEOS,
+})
+
+export const setZoom = zoom => ({
+  type: MapActionTypes.SET_ZOOM,
+  payload: zoom,
+})

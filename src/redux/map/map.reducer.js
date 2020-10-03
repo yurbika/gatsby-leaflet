@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   videos: [],
   errMsg: "",
   isFetching: false,
+  zoom: 5,
 }
 
 const mapReducer = (state = INITIAL_STATE, action) => {
@@ -17,6 +18,10 @@ const mapReducer = (state = INITIAL_STATE, action) => {
       return { ...state, videos: action.payload, isFetching: false }
     case MapActionTypes.FETCH_VIDEOS_FAILURE:
       return { ...state, errMsg: action.payload, isFetching: false }
+    case MapActionTypes.CLEAR_VIDEOS:
+      return { ...state, videos: [] }
+    case MapActionTypes.SET_ZOOM:
+      return { ...state, zoom: action.payload }
     default:
       return state
   }
