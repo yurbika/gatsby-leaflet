@@ -10,6 +10,8 @@ import { createStructuredSelector } from "reselect"
 import { setRoutes, fetchVideosStartAsync } from "../../redux/map/map.actions"
 import { selectRoutes } from "../../redux/map/map.selectors"
 
+import { selectIsPlaying } from "../../redux/video/video.selectors"
+
 //assets
 import KML from "../../assets/routes.js"
 
@@ -130,7 +132,15 @@ class MyMap extends Component {
 
   componentDidUpdate() {
     //add or remove elements from map
-    this.props.routes.on("click", e => console.log(e))
+    this.props.routes.on("mouseover", e => {
+      this.handleInfoUpdate(
+        e.sourceTarget["_additionalInformation"].match(
+          /(?<=<h2>)(.*)(?=<\/h2>)/gm
+        )[0],
+        true
+      )
+      this.info.update()
+    })
 
     if (this.state.zoom >= this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.boundaryMap)
@@ -148,7 +158,7 @@ class MyMap extends Component {
   }
 
   handleMapActions = () => {
-    if (this.zoomBreak <= this.state.zoom) {
+    if (this.zoomBreak <= this.state.zoom && !this.props.isPlaying) {
       this.map.leafletElement.removeLayer(this.props.routes)
       this.props.setRoutes(
         new L.KML(kml, this.map.leafletElement.getBounds(), [])
@@ -193,13 +203,21 @@ class MyMap extends Component {
     this.map.leafletElement.fitBounds(e.target.getBounds())
   }
 
-  handleInfoUpdate = props => {
-    this.info.update = function () {
-      this._div.innerHTML =
-        '<h4 class="info__heading">Region</h4>' +
-        (props
-          ? "<b>" + props.NAME + "</b><br />" + props.NAME_JP
-          : "Hover over a region")
+  handleInfoUpdate = (props, route = false) => {
+    console.log(props)
+    if (route) {
+      this.info.update = function () {
+        this._div.innerHTML =
+          '<h4 class="info__heading">Video</h4>' + "<b>" + props + "</b>"
+      }
+    } else {
+      this.info.update = function () {
+        this._div.innerHTML =
+          '<h4 class="info__heading">Region</h4>' +
+          (props
+            ? "<b>" + props.NAME + "</b><br />" + props.NAME_JP
+            : "Hover over a region")
+      }
     }
   }
 
@@ -273,6 +291,7 @@ class MyMap extends Component {
 
 const mapStateToProps = createStructuredSelector({
   routes: selectRoutes,
+  isPlaying: selectIsPlaying,
 })
 
 const mapDispatchToProps = dispatch => ({
