@@ -7,7 +7,7 @@ const INTIAL_STATE = {
 const videoReducer = (state = INTIAL_STATE, action) => {
   switch (action.type) {
     case VideoActionTypes.SET_VIDEO_IS_PLAYING:
-      return { ...state, isPlaying: !state.isPlaying }
+      return { ...state, isPlaying: action.payload }
     default:
       return state
   }

@@ -35,19 +35,7 @@ const Video = ({
       1000
     )
   }
-  var PAUSE_EVT_STACK = 0
 
-  function onPlayerStateChange(event) {
-    if (event.data == 3) PAUSE_EVT_STACK++
-    if (event.data == 1) PAUSE_EVT_STACK = 0
-
-    if (event.data == 2 && PAUSE_EVT_STACK <= 1) console.log("Pause pressed")
-    else if (event.data == 2 && PAUSE_EVT_STACK > 1) {
-      console.log("Tracking occuring")
-      console.log("Hey! Dont fast forward during my ad you douche")
-    }
-    console.log(event.data)
-  }
   return (
     <Styled.Container>
       <Styled.EmbedContainer>
@@ -56,20 +44,19 @@ const Video = ({
           videoId={id[0]}
           className="embed-container__iframe"
           onPlay={e => {
-            getCurTimeInterval(e)
-            setIsPlaying()
-          }}
-          onPause={() => {
-            if (PAUSE_EVT_STACK <= 1) {
-              clearInterval(interval)
-              setIsPlaying()
-            }
-          }}
-          onEnd={() => {
             clearInterval(interval)
-            setIsPlaying()
+            getCurTimeInterval(e)
+            setIsPlaying(e.data === 1)
           }}
-          onStateChange={e => onPlayerStateChange.bind(e)}
+          onPause={e => {
+            clearInterval(interval)
+            setIsPlaying(!(e.data === 2))
+          }}
+          onEnd={e => {
+            clearInterval(interval)
+            setIsPlaying(!(e.data === 0))
+          }}
+          onPlaybackRateChange={e => console.log(e)}
         />
       </Styled.EmbedContainer>
       <Styled.InfoBox>
@@ -101,7 +88,7 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setIsPlaying: () => dispatch(setVideoIsPlaying()),
+  setIsPlaying: isPlaying => dispatch(setVideoIsPlaying(isPlaying)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Video)
