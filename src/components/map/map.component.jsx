@@ -89,7 +89,8 @@ class MyMap extends Component {
 
     this.map.leafletElement.on("zoomend", () => {
       this.handleMapActions()
-      this.props.setZoom(this.map.leafletElement.getZoom())
+      if (!this.props.isPlaying)
+        this.props.setZoom(this.map.leafletElement.getZoom())
     })
 
     this.map.leafletElement.on("update", () => this.handleMapActions())
@@ -222,8 +223,15 @@ class MyMap extends Component {
   }
 
   handleInfoUpdate = (props, route = false) => {
+    if (this.props.isPlaying) {
+      this.info.update = function () {
+        this._div.innerHTML =
+          '<h4 class="info__heading warning">Pause the video to continue exploring</h4>'
+      }
+      this.info.update()
+    }
     //show information about region or route
-    if (route) {
+    else if (route) {
       this.info.update = function () {
         this._div.innerHTML =
           '<h4 class="info__heading">Route</h4>' + "<b>" + props + "</b>"
