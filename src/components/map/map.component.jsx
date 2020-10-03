@@ -141,6 +141,18 @@ class MyMap extends Component {
       )
       this.info.update()
     })
+    //polyline info
+    this.props.routes.on("mouseout", () => {
+      this.handleInfoUpdate()
+      this.info.update()
+    })
+    //polyline fit bounds
+    this.props.routes.on("click", e => {
+      if (e.sourceTarget.options.pane === "markerPane") {
+        console.log(e)
+        this.map.leafletElement.setView(e.latlng, 17)
+      } else this.map.leafletElement.fitBounds(e.sourceTarget["_bounds"])
+    })
 
     if (this.state.zoom >= this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.boundaryMap)
@@ -204,11 +216,10 @@ class MyMap extends Component {
   }
 
   handleInfoUpdate = (props, route = false) => {
-    console.log(props)
     if (route) {
       this.info.update = function () {
         this._div.innerHTML =
-          '<h4 class="info__heading">Video</h4>' + "<b>" + props + "</b>"
+          '<h4 class="info__heading">Route</h4>' + "<b>" + props + "</b>"
       }
     } else {
       this.info.update = function () {
