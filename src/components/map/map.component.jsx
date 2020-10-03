@@ -7,8 +7,12 @@ import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 
 //redux
-import { setRoutes, fetchVideosStartAsync } from "../../redux/map/map.actions"
-import { selectRoutes } from "../../redux/map/map.selectors"
+import {
+  setRoutes,
+  fetchVideosStartAsync,
+  setZoom,
+} from "../../redux/map/map.actions"
+import { selectRoutes, selectZoom } from "../../redux/map/map.selectors"
 
 import { selectIsPlaying } from "../../redux/video/video.selectors"
 
@@ -47,7 +51,6 @@ class MyMap extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      zoom: 5,
       bounds: {
         _northEast: { lat: 45.7112046, lng: 154.205541 },
         _southWest: { lat: 20.2145811, lng: 122.7141754 },
@@ -84,7 +87,10 @@ class MyMap extends Component {
     //setting redux routes depending on boundaries
     this.map.leafletElement.on("moveend", () => this.handleMapActions())
 
-    this.map.leafletElement.on("zoomend", () => this.handleMapActions())
+    this.map.leafletElement.on("zoomend", () => {
+      this.handleMapActions()
+      this.props.setZoom(this.map.leafletElement.getZoom())
+    })
 
     this.map.leafletElement.on("update", () => this.handleMapActions())
 
@@ -146,21 +152,20 @@ class MyMap extends Component {
       this.handleInfoUpdate()
       this.info.update()
     })
-    //polyline fit bounds
+    //polyline/marker fit bounds
     this.props.routes.on("click", e => {
       if (e.sourceTarget.options.pane === "markerPane") {
-        console.log(e)
         this.map.leafletElement.setView(e.latlng, 17)
       } else this.map.leafletElement.fitBounds(e.sourceTarget["_bounds"])
     })
-
-    if (this.state.zoom >= this.zoomBreak) {
+    //updated map depending on view
+    if (this.props.zoom >= this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.boundaryMap)
       this.withoutBoundary.addTo(this.map.leafletElement)
       this.map.leafletElement.removeControl(this.legend)
       //show only in bounds routes
       this.map.leafletElement.addLayer(this.props.routes)
-    } else if (this.state.zoom < this.zoomBreak) {
+    } else if (this.props.zoom < this.zoomBreak) {
       this.map.leafletElement.removeLayer(this.withoutBoundary)
       this.boundaryMap.addTo(this.map.leafletElement)
       this.legend.addTo(this.map.leafletElement)
@@ -169,8 +174,9 @@ class MyMap extends Component {
     }
   }
 
+  //adding routes and async fetch of videos
   handleMapActions = () => {
-    if (this.zoomBreak <= this.state.zoom && !this.props.isPlaying) {
+    if (this.zoomBreak <= this.props.zoom && !this.props.isPlaying) {
       this.map.leafletElement.removeLayer(this.props.routes)
       this.props.setRoutes(
         new L.KML(kml, this.map.leafletElement.getBounds(), [])
@@ -183,7 +189,7 @@ class MyMap extends Component {
     var layer = e.target
 
     //hover effect
-    if (this.state.zoom < this.zoomBreak) {
+    if (this.props.zoom < this.zoomBreak) {
       layer.setStyle({
         fillColor: "#BF0436",
         weight: 1,
@@ -203,7 +209,7 @@ class MyMap extends Component {
 
   handleClearHighlight = e => {
     //remove hover color
-    if (this.state.zoom < this.zoomBreak)
+    if (this.props.zoom < this.zoomBreak)
       e.target.setStyle(this.handleGeoJsonStyles(e.target.feature))
 
     //remove infobox information
@@ -216,6 +222,7 @@ class MyMap extends Component {
   }
 
   handleInfoUpdate = (props, route = false) => {
+    //show information about region or route
     if (route) {
       this.info.update = function () {
         this._div.innerHTML =
@@ -233,7 +240,7 @@ class MyMap extends Component {
   }
 
   handleGeoJsonStyles = feature => {
-    if (this.state.zoom >= this.zoomBreak)
+    if (this.props.zoom >= this.zoomBreak)
       return {
         fillColor: "#fff",
         weight: 1,
@@ -264,11 +271,8 @@ class MyMap extends Component {
           minZoom={5}
           zoom={5}
           ref={Map => (this.map = Map)}
-          onzoomend={() => {
-            this.setState({ zoom: this.map.leafletElement.getZoom() })
-          }}
         >
-          {this.state.zoom < this.zoomBreak ? (
+          {this.props.zoom < this.zoomBreak ? (
             <GeoJSON
               data={border}
               onEachFeature={(f, l) => {
@@ -281,7 +285,7 @@ class MyMap extends Component {
               style={feature => this.handleGeoJsonStyles(feature)}
             />
           ) : null}
-          {this.state.zoom >= this.zoomBreak ? (
+          {this.props.zoom >= this.zoomBreak ? (
             <GeoJSON
               data={border}
               style={feature => this.handleGeoJsonStyles(feature)}
@@ -303,11 +307,13 @@ class MyMap extends Component {
 const mapStateToProps = createStructuredSelector({
   routes: selectRoutes,
   isPlaying: selectIsPlaying,
+  zoom: selectZoom,
 })
 
 const mapDispatchToProps = dispatch => ({
   setRoutes: arr => dispatch(setRoutes(arr)),
   fetchVideosStartAsync: () => dispatch(fetchVideosStartAsync()),
+  setZoom: zoom => dispatch(setZoom(zoom)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyMap)

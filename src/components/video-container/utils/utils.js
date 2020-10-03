@@ -36,8 +36,9 @@ const getYoutubeData = async id => {
 
 export const getData = async routes => {
   const videos = []
-
+  let j = 0
   for (let i of routes) {
+    if (j === 15) break
     if (i["_additionalInformation"]) {
       let h1 = i["_additionalInformation"].match(/(?<=<h2>)(.*)(?=<\/h2>)/gm)[0]
       let id = i["_additionalInformation"].match(/(?<=v=)[-\w]{11}/gm)
@@ -59,6 +60,7 @@ export const getData = async routes => {
         date: date,
       })
     }
+    j++
   }
   return await videos
 }

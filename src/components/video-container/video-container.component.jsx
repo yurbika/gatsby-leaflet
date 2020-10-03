@@ -7,7 +7,8 @@ import isEqual from "lodash.isequal"
 import Video from "../video/video.component"
 
 //redux
-import { selectVideos } from "../../redux/map/map.selectors"
+import { selectVideos, selectZoom } from "../../redux/map/map.selectors"
+import { clearVideos } from "../../redux/map/map.actions"
 
 //assets
 import Kitty from "../../assets/kitty.svg"
@@ -21,11 +22,11 @@ class VideoContainer extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (!isEqual(props.videos, state.videos)) {
+    if (!isEqual(props.videos, state.videos) && props.zoom >= 8) {
       return {
         videos: props.videos,
       }
-    }
+    } else if (props.zoom < 8) return { videos: [] }
     return null
   }
 
@@ -47,6 +48,11 @@ class VideoContainer extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
   videos: selectVideos,
+  zoom: selectZoom,
 })
 
-export default connect(mapStateToProps)(VideoContainer)
+const mapDispatchToProps = dispatch => ({
+  clearVideos: () => dispatch(clearVideos()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(VideoContainer)
