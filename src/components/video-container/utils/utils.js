@@ -40,11 +40,13 @@ export const getData = async routes => {
   for (let i of routes) {
     if (j === 15) break
     if (i["_additionalInformation"]) {
+      console.log(i)
       let h1 = i["_additionalInformation"].match(/(?<=<h2>)(.*)(?=<\/h2>)/gm)[0]
       let id = i["_additionalInformation"].match(/(?<=v=)[-\w]{11}/gm)
       let km = i["_additionalInformation"].match(
         /(?<=Distance in km: )([0-9]*[,])?[0-9]+/gm
       )
+      let polyline = i["_path"]["attributes"]["d"]["nodeValue"]
       if (km === "") {
         km = "-"
       }
@@ -58,6 +60,7 @@ export const getData = async routes => {
         videoLength: videoLength,
         description: description,
         date: date,
+        polyline: polyline,
       })
     }
     j++
