@@ -46,7 +46,7 @@ export const getData = async routes => {
       let km = i["_additionalInformation"].match(
         /(?<=Distance in km: )([0-9]*[,])?[0-9]+/gm
       )
-      let polyline = i["_path"]["attributes"]["d"]["nodeValue"]
+      let latlngs = i["_latlngs"]
       if (km === "") {
         km = "-"
       }
@@ -60,7 +60,7 @@ export const getData = async routes => {
         videoLength: videoLength,
         description: description,
         date: date,
-        polyline: polyline,
+        latlngs: latlngs,
       })
     }
     j++

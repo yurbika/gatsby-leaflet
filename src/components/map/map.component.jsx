@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Map, GeoJSON } from "react-leaflet"
 import "leaflet-boundary-canvas"
 import "leaflet-kml"
-import L from "leaflet"
+import L, { layerGroup } from "leaflet"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 
@@ -24,11 +24,12 @@ import { border } from "./utils/border"
 
 //styles
 import "./map.styles.scss"
+import * as Styled from "./map.styles"
 
 //params
 const parser = new DOMParser()
 const kml = parser.parseFromString(KML, "text/xml")
-
+let test
 const chooseColor = d => {
   return d >= 2 && d <= 7
     ? "#0D65D9"
@@ -95,6 +96,60 @@ class MyMap extends Component {
 
     this.map.leafletElement.on("update", () => this.handleMapActions())
 
+    test = L.polyline(
+      [
+        { lat: 34.0695428, lng: 134.5514836 },
+        { lat: 34.0710714, lng: 134.5523849 },
+        { lat: 34.071538, lng: 134.5526531 },
+        { lat: 34.0718002, lng: 134.5520254 },
+        { lat: 34.0719912, lng: 134.5522615 },
+        { lat: 34.0719646, lng: 134.5525994 },
+        { lat: 34.0719468, lng: 134.5527496 },
+        { lat: 34.0721556, lng: 134.5528569 },
+        { lat: 34.0720445, lng: 134.5533129 },
+        { lat: 34.0719512, lng: 134.5538493 },
+        { lat: 34.0721068, lng: 134.5550241 },
+        { lat: 34.0722801, lng: 134.5555499 },
+        { lat: 34.0725244, lng: 134.5557913 },
+        { lat: 34.0731599, lng: 134.5559415 },
+        { lat: 34.0731999, lng: 134.5552226 },
+        { lat: 34.0739197, lng: 134.5553567 },
+        { lat: 34.0742263, lng: 134.5564725 },
+        { lat: 34.0745151, lng: 134.5566657 },
+        { lat: 34.0749506, lng: 134.5566013 },
+        { lat: 34.075977, lng: 134.5566603 },
+        { lat: 34.0764213, lng: 134.5562258 },
+        { lat: 34.076408, lng: 134.5559361 },
+        { lat: 34.0761858, lng: 134.555346 },
+        { lat: 34.0765902, lng: 134.5535489 },
+        { lat: 34.0767679, lng: 134.5526531 },
+        { lat: 34.0756393, lng: 134.5520093 },
+        { lat: 34.0755193, lng: 134.551607 },
+        { lat: 34.0755637, lng: 134.5497402 },
+        { lat: 34.0757148, lng: 134.5492359 },
+        { lat: 34.075897, lng: 134.5488551 },
+        { lat: 34.0752349, lng: 134.5484206 },
+        { lat: 34.0744885, lng: 134.5500406 },
+        { lat: 34.0740841, lng: 134.5501425 },
+        { lat: 34.0739908, lng: 134.5503571 },
+        { lat: 34.0737819, lng: 134.5505073 },
+        { lat: 34.0736709, lng: 134.5507004 },
+        { lat: 34.0736131, lng: 134.5508453 },
+        { lat: 34.0734487, lng: 134.550738 },
+        { lat: 34.0734531, lng: 134.5505502 },
+        { lat: 34.0724045, lng: 134.5497348 },
+        { lat: 34.072129, lng: 134.5494934 },
+        { lat: 34.0715338, lng: 134.5509379 },
+        { lat: 34.0710605, lng: 134.5505973 },
+        { lat: 34.070985, lng: 134.5507958 },
+      ],
+      { className: "test", weight: "10", color: "red" }
+    )
+    test.addTo(this.map.leafletElement)
+    L.marker({ lat: 34.070985, lng: 134.5507958 }).addTo(
+      this.map.leafletElement
+    )
+
     //initialize routes
     this.props.setRoutes(new L.KML(kml, this.state.bounds, []))
 
@@ -148,6 +203,7 @@ class MyMap extends Component {
       )
       this.info.update()
     })
+    console.log(document.getElementsByClassName("test")[0].getTotalLength())
     //polyline info
     this.props.routes.on("mouseout", () => {
       this.handleInfoUpdate()
@@ -273,12 +329,15 @@ class MyMap extends Component {
 
     if (typeof window !== "undefined") {
       return (
-        <Map
+        <Styled.SCMap
           center={position}
           maxBounds={bounds}
           minZoom={5}
           zoom={5}
           ref={Map => (this.map = Map)}
+          test={
+            test && document.getElementsByClassName("test")[0].getTotalLength()
+          }
         >
           {this.props.zoom < this.zoomBreak ? (
             <GeoJSON
@@ -305,7 +364,7 @@ class MyMap extends Component {
               }}
             />
           ) : null}
-        </Map>
+        </Styled.SCMap>
       )
     }
     return null

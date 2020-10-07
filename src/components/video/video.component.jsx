@@ -16,6 +16,8 @@ import { selectIsPlaying } from "../../redux/video/video.selectors"
 import "./video.styles.scss"
 import * as Styled from "./video.styles"
 
+const YoutubeWithSpinner = WithSpinner(YouTube)
+
 const Video = ({
   h1: title,
   id,
@@ -23,7 +25,7 @@ const Video = ({
   videoLength,
   description,
   date,
-  polyline,
+  latlngs,
   isLoading,
   setIsPlaying,
   isPlaying,
@@ -36,20 +38,18 @@ const Video = ({
       1000
     )
   }
-  const ref = React.createRef()
   return (
     <Styled.Container>
       <Styled.EmbedContainer>
-        <WithSpinner
+        <YoutubeWithSpinner
           isLoading={isLoading}
           videoId={id[0]}
           className="embed-container__iframe"
-          forwardRef={e => (this.test = e)}
           onPlay={e => {
             clearInterval(interval)
-            getCurTimeInterval(e)
+            //getCurTimeInterval(e)
             setIsPlaying(e.data === 1)
-            console.log(JSON.stringify(polyline))
+            console.log(JSON.stringify(latlngs))
           }}
           onPause={e => {
             clearInterval(interval)
@@ -60,10 +60,6 @@ const Video = ({
             setIsPlaying(!(e.data === 0))
           }}
           onPlaybackRateChange={e => console.log(e)}
-          onStateChange={e => {
-            console.log(ref)
-            if (e.data === 1 && isPlaying) console.log(ref)
-          }}
         />
       </Styled.EmbedContainer>
       <Styled.InfoBox>
