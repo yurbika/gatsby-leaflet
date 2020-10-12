@@ -27,14 +27,6 @@ const animatePolyline = (map, points) => {
     .attr("r", 8)
     .attr("id", "marker")
     .attr("class", "travelMarker")
-    .attr(
-      "transform",
-      "translate(" +
-        map.latLngToLayerPoint(points[0]).x +
-        "," +
-        map.latLngToLayerPoint(points[0]).y +
-        ")"
-    )
 
   var linePath = g
     .selectAll(".lineConnect")
@@ -105,7 +97,6 @@ const animatePolyline = (map, points) => {
       .attr("height", Math.abs(bottomRight.y - topLeft.y) + 20)
       .style("left", bottomRight.x - 10 + "px")
       .style("top", topLeft.y - 10 + "px")
-      .style("border", "1px solid black")
 
     linePath.attr("d", toLine)
 
@@ -133,10 +124,18 @@ const animatePolyline = (map, points) => {
     return function (t) {
       var l = linePath.node().getTotalLength()
 
+      // start at specific point
+      // let interpolate = d3.interpolateString(
+      //   "1000," + (l + 1000),
+      //   l + 1000 + "," + (l + 1000)
+      // )
+      // var p = linePath.node().getPointAtLength((0.68 + t) * l)
+
       let interpolate = d3.interpolateString("0," + l, l + "," + l)
       //t is fraction of time 0-1 since transition began
       var marker = d3.select("#marker")
       var p = linePath.node().getPointAtLength(t * l)
+
       //Move the marker to that point
       marker.attr("transform", "translate(" + p.x + "," + p.y + ")") //move marker
       return interpolate(t)
