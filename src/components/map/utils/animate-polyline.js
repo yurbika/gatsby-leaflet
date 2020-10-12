@@ -4,10 +4,9 @@ import L from "leaflet"
 const animatePolyline = (map, points) => {
   var svg = d3.select(map.getPanes()["animatedRoute"]).append("svg")
 
-  // if you don't include the leaflet-zoom-hide when a
-  // user zooms in or out you will still see the phantom
-  // original SVG
   var g = svg.append("g").attr("class", "leaflet-zoom-hide")
+
+  let ended = false
 
   let toLine = d3
     .line()
@@ -28,6 +27,14 @@ const animatePolyline = (map, points) => {
     .attr("r", 8)
     .attr("id", "marker")
     .attr("class", "travelMarker")
+    .attr(
+      "transform",
+      "translate(" +
+        map.latLngToLayerPoint(points[0]).x +
+        "," +
+        map.latLngToLayerPoint(points[0]).y +
+        ")"
+    )
 
   var linePath = g
     .selectAll(".lineConnect")
@@ -39,6 +46,7 @@ const animatePolyline = (map, points) => {
     .style("stroke", "black")
 
   var originANDdestination = [points[0], points[points.length - 1]]
+
   function applyLatLngToLayer(d) {
     return map.latLngToLayerPoint(d)
   }
@@ -82,15 +90,15 @@ const animatePolyline = (map, points) => {
         ")"
       )
     })
-
-    marker.attr(
-      "transform",
-      "translate(" +
-        map.latLngToLayerPoint(points[0]).x +
-        "," +
-        map.latLngToLayerPoint(points[0]).y +
-        ")"
-    )
+    if (ended)
+      marker.attr(
+        "transform",
+        "translate(" +
+          map.latLngToLayerPoint(points[points.length - 1]).x +
+          "," +
+          map.latLngToLayerPoint(points[points.length - 1]).y +
+          ")"
+      )
 
     svg
       .attr("width", Math.abs(bottomRight.x - topLeft.x) + 20)
@@ -114,8 +122,10 @@ const animatePolyline = (map, points) => {
       .transition()
       .duration(7500)
       .attrTween("stroke-dasharray", tweenDash)
+      .ease(d3.easeLinear)
       .on("end", function () {
-        d3.select(this).call(transition) // infinite loop
+        ended = true
+        d3.select(this).attr("stroke-dasharray", null)
       })
   }
 
@@ -126,9 +136,7 @@ const animatePolyline = (map, points) => {
       let interpolate = d3.interpolateString("0," + l, l + "," + l)
       //t is fraction of time 0-1 since transition began
       var marker = d3.select("#marker")
-
       var p = linePath.node().getPointAtLength(t * l)
-
       //Move the marker to that point
       marker.attr("transform", "translate(" + p.x + "," + p.y + ")") //move marker
       return interpolate(t)
