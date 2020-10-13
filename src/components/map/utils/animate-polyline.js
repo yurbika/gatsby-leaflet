@@ -2,6 +2,7 @@ import * as d3 from "d3"
 import L from "leaflet"
 
 const animatePolyline = (map, points) => {
+  d3.select(map.getPanes()["animatedRoute"]).select("svg").remove()
   var svg = d3.select(map.getPanes()["animatedRoute"]).append("svg")
 
   var g = svg.append("g").attr("class", "leaflet-zoom-hide")
@@ -23,10 +24,16 @@ const animatePolyline = (map, points) => {
     .style("visibility", "hidden")
 
   var marker = g
-    .append("circle")
-    .attr("r", 8)
+    .append("text")
+    .attr("font-family", "FontAwesome")
     .attr("id", "marker")
+    .attr("x", -10)
+    .attr("y", 6)
     .attr("class", "travelMarker")
+    .style("font-size", "20px")
+    .text(function (d) {
+      return "\uf083"
+    })
 
   var linePath = g
     .selectAll(".lineConnect")
@@ -35,7 +42,8 @@ const animatePolyline = (map, points) => {
     .append("path")
     .attr("class", "lineConnect")
     .style("fill", "none")
-    .style("stroke", "black")
+    .style("stroke", "rgba(0,0,0,0.3)")
+    .style("stroke-width", "5px")
 
   var originANDdestination = [points[0], points[points.length - 1]]
 
@@ -97,6 +105,7 @@ const animatePolyline = (map, points) => {
       .attr("height", Math.abs(bottomRight.y - topLeft.y) + 20)
       .style("left", bottomRight.x - 10 + "px")
       .style("top", topLeft.y - 10 + "px")
+      .style("pointer-events", "none")
 
     linePath.attr("d", toLine)
 
@@ -111,12 +120,13 @@ const animatePolyline = (map, points) => {
   function transition() {
     linePath
       .transition()
-      .duration(7500)
+      .duration(750)
       .attrTween("stroke-dasharray", tweenDash)
       .ease(d3.easeLinear)
       .on("end", function () {
         ended = true
         d3.select(this).attr("stroke-dasharray", null)
+        d3.select("#marker").remove()
       })
   }
 
