@@ -9,7 +9,12 @@ import WithSpinner from "../../components/with-spinner/with-spinner.component"
 //redux
 import { selectIsFetching } from "../../redux/map/map.selectors"
 
-import { setVideoIsPlaying } from "../../redux/video/video.actions"
+import {
+  setVideoIsPlaying,
+  setVideoLatLngs,
+  setVideoCurTime,
+  setVideoTotalLength,
+} from "../../redux/video/video.actions"
 import { selectIsPlaying } from "../../redux/video/video.selectors"
 
 //styles
@@ -29,15 +34,11 @@ const Video = ({
   isLoading,
   setIsPlaying,
   isPlaying,
+  setVideoLatLngs,
+  setVideoCurTime,
+  setVideoTotalLength,
 }) => {
   const [expand, setExpand] = useState(false)
-  let interval = null
-  const getCurTimeInterval = e => {
-    interval = setInterval(
-      () => console.log(e.target.getMediaReferenceTime()),
-      1000
-    )
-  }
   return (
     <Styled.Container>
       <Styled.EmbedContainer>
@@ -46,17 +47,15 @@ const Video = ({
           videoId={id[0]}
           className="embed-container__iframe"
           onPlay={e => {
-            clearInterval(interval)
-            //getCurTimeInterval(e)
+            setVideoCurTime(e.target.getCurrentTime() * 1000)
+            setVideoTotalLength(videoLength)
             setIsPlaying(e.data === 1)
-            console.log(JSON.stringify(latlngs))
+            setVideoLatLngs(latlngs)
           }}
           onPause={e => {
-            clearInterval(interval)
             setIsPlaying(!(e.data === 2))
           }}
           onEnd={e => {
-            clearInterval(interval)
             setIsPlaying(!(e.data === 0))
           }}
           onPlaybackRateChange={e => console.log(e)}
@@ -93,6 +92,9 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   setIsPlaying: isPlaying => dispatch(setVideoIsPlaying(isPlaying)),
+  setVideoLatLngs: array => dispatch(setVideoLatLngs(array)),
+  setVideoCurTime: time => dispatch(setVideoCurTime(time)),
+  setVideoTotalLength: time => dispatch(setVideoTotalLength(time)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Video)
