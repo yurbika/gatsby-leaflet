@@ -9,6 +9,7 @@ const getYoutubeData = async id => {
     let time = ""
     let description = ""
     let date = ""
+    let videoLengthMS = ""
     if (data) {
       time = data.contentDetails.duration
         .replace("PT", "")
@@ -19,22 +20,22 @@ const getYoutubeData = async id => {
       for (let i = 0; i < time.length; i++) {
         if (time[i].length === 1) time[i] = "0" + time[i]
       }
-
       if (time.length === 3) {
         let temp = 0
         temp += time[0] * 60 * 60 * 1000
         temp += time[1] * 60 * 1000
         temp += time[2] * 1000
-        time = temp
+        videoLengthMS = temp
       } else if (time.length === 2) {
         let temp = 0
         temp += time[0] * 60 * 1000
         temp += time[1] * 1000
-        time = temp
+        videoLengthMS = temp
       } else if (time.length === 1) {
-        time = time[0] * 1000
+        videoLengthMS = time[0] * 1000
       }
 
+      time = time.join(":")
       description = data.snippet.description
       date = data.snippet.publishedAt
         .split("T")[0]
@@ -43,7 +44,7 @@ const getYoutubeData = async id => {
         .join("-")
     }
 
-    return [time, description, date]
+    return [time, description, date, videoLengthMS]
   } catch (err) {
     console.log(err)
   }
@@ -66,12 +67,13 @@ export const getData = async routes => {
       }
 
       let arr = await getYoutubeData(id)
-      const [videoLength, description, date] = arr
+      const [videoLength, description, date, videoLengthMS] = arr
       videos.push({
         h1: h1,
         id: id,
         km: km,
         videoLength: videoLength,
+        videoLengthMS: videoLengthMS,
         description: description,
         date: date,
         latlngs: latlngs,
