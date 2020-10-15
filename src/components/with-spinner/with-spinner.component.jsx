@@ -8,6 +8,7 @@ import {
 
 export const WithSpinner = WrappedComponent => ({
   isLoading,
+  innerRef,
   ...otherProps
 }) => {
   return isLoading ? (
@@ -17,7 +18,7 @@ export const WithSpinner = WrappedComponent => ({
       </SpinnerContainer>
     </Container>
   ) : (
-    <WrappedComponent {...otherProps} />
+    <WrappedComponent ref={innerRef} {...otherProps} />
   )
 }
 
