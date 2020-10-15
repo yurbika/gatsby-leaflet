@@ -1,11 +1,17 @@
 import * as d3 from "d3"
 import L from "leaflet"
 
-const animatePolyline = (map, points) => {
+export const deleteAnimatedPolyline = map => {
   d3.select(map.getPanes()["animatedRoute"]).select("svg").remove()
-  var svg = d3.select(map.getPanes()["animatedRoute"]).append("svg")
+}
 
-  var g = svg.append("g").attr("class", "leaflet-zoom-hide")
+export const animatePolyline = (map, points, curTime, totalLength) => {
+  if (!!!points || (points && points.length === 0)) return
+  d3.select(map.getPanes()["animatedRoute"]).select("svg").remove()
+  let svg = d3.select(map.getPanes()["animatedRoute"]).append("svg")
+  let progress = curTime / totalLength
+  let startPathAt = 0
+  let g = svg.append("g").attr("class", "leaflet-zoom-hide")
 
   let ended = false
 
@@ -23,7 +29,7 @@ const animatePolyline = (map, points) => {
     .attr("class", "waypoints")
     .style("visibility", "hidden")
 
-  var marker = g
+  let marker = g
     .append("text")
     .attr("font-family", "FontAwesome")
     .attr("id", "marker")
@@ -35,7 +41,7 @@ const animatePolyline = (map, points) => {
       return "\uf083"
     })
 
-  var linePath = g
+  let linePath = g
     .selectAll(".lineConnect")
     .data([points])
     .enter()
@@ -45,13 +51,13 @@ const animatePolyline = (map, points) => {
     .style("stroke", "rgba(0,0,0,0.3)")
     .style("stroke-width", "5px")
 
-  var originANDdestination = [points[0], points[points.length - 1]]
+  let originANDdestination = [points[0], points[points.length - 1]]
 
   function applyLatLngToLayer(d) {
     return map.latLngToLayerPoint(d)
   }
 
-  var begend = g
+  let begend = g
     .selectAll(".drinks")
     .data(originANDdestination)
     .enter()
@@ -108,7 +114,7 @@ const animatePolyline = (map, points) => {
       .style("pointer-events", "none")
 
     linePath.attr("d", toLine)
-
+    startPathAt = linePath.node().getTotalLength() * progress
     g.attr(
       "transform",
       "translate(" + (-bottomRight.x + 10) + "," + (-topLeft.y + 10) + ")"
@@ -116,11 +122,10 @@ const animatePolyline = (map, points) => {
 
     //end reset
   }
-
   function transition() {
     linePath
       .transition()
-      .duration(750)
+      .duration(totalLength)
       .attrTween("stroke-dasharray", tweenDash)
       .ease(d3.easeLinear)
       .on("end", function () {
@@ -132,19 +137,16 @@ const animatePolyline = (map, points) => {
 
   function tweenDash() {
     return function (t) {
-      var l = linePath.node().getTotalLength()
+      let l = linePath.node().getTotalLength()
 
       // start at specific point
-      // let interpolate = d3.interpolateString(
-      //   "1000," + (l + 1000),
-      //   l + 1000 + "," + (l + 1000)
-      // )
-      // var p = linePath.node().getPointAtLength((0.68 + t) * l)
+      let interpolate = d3.interpolateString(
+        startPathAt + "," + (l + startPathAt),
+        l + startPathAt + "," + (l + startPathAt)
+      )
 
-      let interpolate = d3.interpolateString("0," + l, l + "," + l)
-      //t is fraction of time 0-1 since transition began
-      var marker = d3.select("#marker")
-      var p = linePath.node().getPointAtLength(t * l)
+      let marker = d3.select("#marker")
+      let p = linePath.node().getPointAtLength((progress + t) * l)
 
       //Move the marker to that point
       marker.attr("transform", "translate(" + p.x + "," + p.y + ")") //move marker
@@ -152,5 +154,3 @@ const animatePolyline = (map, points) => {
     }
   } //end tweenDash
 }
-
-export default animatePolyline
