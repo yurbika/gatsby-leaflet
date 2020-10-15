@@ -19,7 +19,22 @@ const getYoutubeData = async id => {
       for (let i = 0; i < time.length; i++) {
         if (time[i].length === 1) time[i] = "0" + time[i]
       }
-      time = time.join(":")
+
+      if (time.length === 3) {
+        let temp = 0
+        temp += time[0] * 60 * 60 * 1000
+        temp += time[1] * 60 * 1000
+        temp += time[2] * 1000
+        time = temp
+      } else if (time.length === 2) {
+        let temp = 0
+        temp += time[0] * 60 * 1000
+        temp += time[1] * 1000
+        time = temp
+      } else if (time.length === 1) {
+        time = time[0] * 1000
+      }
+
       description = data.snippet.description
       date = data.snippet.publishedAt
         .split("T")[0]
@@ -40,7 +55,6 @@ export const getData = async routes => {
   for (let i of routes) {
     if (j === 15) break
     if (i["_additionalInformation"]) {
-      console.log(i)
       let h1 = i["_additionalInformation"].match(/(?<=<h2>)(.*)(?=<\/h2>)/gm)[0]
       let id = i["_additionalInformation"].match(/(?<=v=)[-\w]{11}/gm)
       let km = i["_additionalInformation"].match(
