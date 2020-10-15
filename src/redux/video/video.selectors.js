@@ -21,3 +21,8 @@ export const selectVideoTotalLength = createSelector(
   [selectVideoState],
   video => video.totalLength
 )
+
+export const selectVideoID = createSelector(
+  [selectVideoState],
+  video => video.videoID
+)

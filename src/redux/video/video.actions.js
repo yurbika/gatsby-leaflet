@@ -19,3 +19,8 @@ export const setVideoCurTime = time => ({
   type: VideoActionTypes.SET_VIDEO_CUR_TIME,
   payload: time,
 })
+
+export const setVideoID = id => ({
+  type: VideoActionTypes.SET_VIDEO_ID,
+  payload: id,
+})
