@@ -12,21 +12,27 @@ export const animatePolyline = (
   totalLength,
   playebackRate
 ) => {
-  if (
-    !!!points ||
-    (points && points.length === 0) ||
-    map === undefined ||
-    map === null
-  )
-    return
-  d3.select(map.getPanes()["animatedRoute"]).select("svg").remove()
-  let svg = d3.select(map.getPanes()["animatedRoute"]).append("svg")
+  //edge cases
+  if (!!!points || (points && points.length === 0) || !!!map) return
+  if (playebackRate > 2 || playebackRate < 0.25 || !!!playebackRate)
+    playebackRate = 1
+
+  //fallback value to 30 min
+  if (totalLength === 0 || totalLength < 0 || !!!totalLength)
+    totalLength = 1800000
+
+  if (curTime <= 0 || !!!curTime) curTime = 0
+
+  //variables
   let progress = curTime / totalLength
   let startPathAt = 0
-  let g = svg.append("g").attr("class", "leaflet-zoom-hide")
-
   let ended = false
 
+  d3.select(map.getPanes()["animatedRoute"]).select("svg").remove()
+  let svg = d3.select(map.getPanes()["animatedRoute"]).append("svg")
+  let g = svg.append("g").attr("class", "leaflet-zoom-hide")
+
+  //functions to create
   let toLine = d3
     .line()
     .x(d => map.latLngToLayerPoint(d).x)
@@ -75,7 +81,7 @@ export const animatePolyline = (
     .enter()
     .append("circle", ".drinks")
     .attr("r", 5)
-    .style("fill", "red")
+    .style("fill", "#bf0436")
 
   map.on("zoom", reset)
 
@@ -131,9 +137,9 @@ export const animatePolyline = (
       "transform",
       "translate(" + (-bottomRight.x + 10) + "," + (-topLeft.y + 10) + ")"
     )
-
-    //end reset
   }
+  //end reset
+
   function transition() {
     linePath
       .transition()
@@ -146,6 +152,7 @@ export const animatePolyline = (
         d3.select("#marker").remove()
       })
   }
+  //end transition
 
   function tweenDash() {
     return function (t) {
