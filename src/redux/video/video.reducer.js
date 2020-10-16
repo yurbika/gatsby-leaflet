@@ -6,6 +6,7 @@ const INTIAL_STATE = {
   curTime: 0,
   totalLength: 0,
   videoID: "",
+  playebackRate: 1,
 }
 
 const videoReducer = (state = INTIAL_STATE, action) => {
@@ -20,6 +21,8 @@ const videoReducer = (state = INTIAL_STATE, action) => {
       return { ...state, curTime: action.payload }
     case VideoActionTypes.SET_VIDEO_ID:
       return { ...state, videoID: action.payload }
+    case VideoActionTypes.SET_VIDEO_PLAYBACKRATE:
+      return { ...state, playebackRate: action.payload }
     default:
       return state
   }

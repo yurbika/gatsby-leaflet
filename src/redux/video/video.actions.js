@@ -24,3 +24,8 @@ export const setVideoID = id => ({
   type: VideoActionTypes.SET_VIDEO_ID,
   payload: id,
 })
+
+export const setVideoPlaybackRate = num => ({
+  type: VideoActionTypes.SET_VIDEO_PLAYBACKRATE,
+  payload: num,
+})

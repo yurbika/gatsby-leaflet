@@ -15,6 +15,7 @@ import {
   setVideoCurTime,
   setVideoTotalLength,
   setVideoID,
+  setVideoPlaybackRate,
 } from "../../redux/video/video.actions"
 import { selectVideoID } from "../../redux/video/video.selectors"
 
@@ -48,6 +49,7 @@ class Video extends React.Component {
       setVideoCurTime,
       setVideoTotalLength,
       setVideoID,
+      setVideoPlaybackRate,
     } = this.props
     return (
       <Styled.Container>
@@ -62,7 +64,6 @@ class Video extends React.Component {
               setIsPlaying(e.data === 1)
               setVideoLatLngs(latlngs)
               setVideoID(id[0])
-              console.log(this.video)
             }}
             onPause={e => {
               setIsPlaying(!(e.data === 2))
@@ -70,7 +71,7 @@ class Video extends React.Component {
             onEnd={e => {
               setIsPlaying(!(e.data === 0))
             }}
-            onPlaybackRateChange={e => console.log(e)}
+            onPlaybackRateChange={e => setVideoPlaybackRate(e.data)}
             innerRef={video => (this.video = video)}
           />
         </Styled.EmbedContainer>
@@ -112,6 +113,7 @@ const mapDispatchToProps = dispatch => ({
   setVideoCurTime: time => dispatch(setVideoCurTime(time)),
   setVideoTotalLength: time => dispatch(setVideoTotalLength(time)),
   setVideoID: id => dispatch(setVideoID(id)),
+  setVideoPlaybackRate: num => dispatch(setVideoPlaybackRate(num)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Video)

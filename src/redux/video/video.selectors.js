@@ -26,3 +26,8 @@ export const selectVideoID = createSelector(
   [selectVideoState],
   video => video.videoID
 )
+
+export const selectPlaybackRate = createSelector(
+  [selectVideoState],
+  video => video.playebackRate
+)
