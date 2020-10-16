@@ -37,11 +37,11 @@ const getYoutubeData = async id => {
 
       time = time.join(":")
       description = data.snippet.description
-      date = data.snippet.publishedAt
-        .split("T")[0]
-        .split("-")
-        .reverse()
-        .join("-")
+      date = data.snippet.publishedAt.split("T")[0].split("-").reverse()
+      if (date) {
+        ;[date[0], date[1]] = [date[1], date[0]]
+      }
+      date = date.join("-")
     }
 
     return [time, description, date, videoLengthMS]
