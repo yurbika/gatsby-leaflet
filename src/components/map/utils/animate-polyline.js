@@ -5,8 +5,20 @@ export const deleteAnimatedPolyline = map => {
   d3.select(map.getPanes()["animatedRoute"]).select("svg").remove()
 }
 
-export const animatePolyline = (map, points, curTime, totalLength) => {
-  if (!!!points || (points && points.length === 0)) return
+export const animatePolyline = (
+  map,
+  points,
+  curTime,
+  totalLength,
+  playebackRate
+) => {
+  if (
+    !!!points ||
+    (points && points.length === 0) ||
+    map === undefined ||
+    map === null
+  )
+    return
   d3.select(map.getPanes()["animatedRoute"]).select("svg").remove()
   let svg = d3.select(map.getPanes()["animatedRoute"]).append("svg")
   let progress = curTime / totalLength
@@ -141,12 +153,17 @@ export const animatePolyline = (map, points, curTime, totalLength) => {
 
       // start at specific point
       let interpolate = d3.interpolateString(
-        startPathAt + "," + (l + startPathAt),
-        l + startPathAt + "," + (l + startPathAt)
+        startPathAt + "," + (l * playebackRate + startPathAt),
+        l * playebackRate +
+          startPathAt +
+          "," +
+          (l * playebackRate + startPathAt)
       )
 
       let marker = d3.select("#marker")
-      let p = linePath.node().getPointAtLength((progress + t) * l)
+      let p = linePath
+        .node()
+        .getPointAtLength((progress + t * playebackRate) * l)
 
       //Move the marker to that point
       marker.attr("transform", "translate(" + p.x + "," + p.y + ")") //move marker
