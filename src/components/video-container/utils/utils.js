@@ -1,7 +1,7 @@
 const getYoutubeData = async id => {
   try {
     const res = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=contentDetails&part=snippet&key=AIzaSyBWyJ8_5gt686cUsIlEymxe7ho9M0I56TY`
+      `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=contentDetails&part=snippet&key=${process.env.GATSBY_YOUTUBE_API_KEY}`
     )
     const json = await res.json()
     const data = json.items[0]
@@ -54,7 +54,7 @@ export const getData = async routes => {
   const videos = []
   let j = 0
   for (let i of routes) {
-    if (j === 15) break
+    if (j === 10) break
     if (i["_additionalInformation"]) {
       let h1 = i["_additionalInformation"].match(/(?<=<h2>)(.*)(?=<\/h2>)/gm)[0]
       let id = i["_additionalInformation"].match(/(?<=v=)[-\w]{11}/gm)

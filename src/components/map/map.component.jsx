@@ -37,12 +37,15 @@ import { border } from "./utils/border"
 
 //styles
 import "font-awesome/css/font-awesome.min.css"
-import "./map.styles.scss"
 import * as Styled from "./map.styles"
 
 //params
-const parser = new DOMParser()
-const kml = parser.parseFromString(KML, "text/xml")
+let parser
+let kml
+if (typeof window !== `undefined`) {
+  parser = new DOMParser()
+  kml = parser.parseFromString(KML, "text/xml")
+}
 const chooseColor = d => {
   return d >= 2 && d <= 7
     ? "#0D65D9"

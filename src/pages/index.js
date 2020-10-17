@@ -4,9 +4,7 @@ import Layout from "../components/layout"
 import MapPageContainer from "../components/map-page-container/map-page-container.component"
 
 const IndexPage = () => (
-  <Layout>
-    <MapPageContainer />
-  </Layout>
+  <Layout>{typeof window !== `undefined` && <MapPageContainer />}</Layout>
 )
 
 export default IndexPage
