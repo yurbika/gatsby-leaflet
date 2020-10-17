@@ -367,11 +367,6 @@ L.Util.extend(L.KML, {
     if (name) {
       layer.on("add", function () {
         layer["_additionalInformation"] = "<h2>" + name + "</h2>" + descr
-        if (layer.options.pane !== "markerPane") {
-          layer.on("mouseover", () => this.setStyle({ color: "#BF0436" }))
-          let color = layer["options"]["color"]
-          layer.on("mouseout", () => this.setStyle({ color: color }))
-        }
       })
     }
 
