@@ -2,8 +2,10 @@ import React, { useState } from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import Image from "gatsby-image"
 
+//components
+import Popup from "../popup/popup.component"
+
 //styles
-import "./navigation.styles.scss"
 import * as Styled from "./navigation.styles"
 
 const query = graphql`
@@ -34,6 +36,7 @@ const Navigation = () => {
       </Styled.LogoContainer>
       <Styled.HamburgerMenu onClick={() => setActive(!active)}>
         <Styled.HamburgerMenuItems active={active} />
+        <Popup show={active} />
       </Styled.HamburgerMenu>
     </Styled.Nav>
   )

@@ -12,9 +12,9 @@ export const LogoContainer = styled.div`
 export const HamburgerMenuItems = styled.div`
   position: relative;
   transition: all 0ms 300ms;
-  width: 35px;
-  height: 35px;
-  margin: 0 15px;
+  width: 30px;
+  height: 30px;
+
   &,
   &:after,
   &:before {
