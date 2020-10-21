@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export const Overlay = styled.div`
   position: absolute;
@@ -26,6 +26,15 @@ export const Line = styled.div`
   height: 50px;
   background: white;
   bottom: 0;
+
+  ${props =>
+    props.reverse
+      ? css`
+          background: #bf0436;
+          position: static;
+          bottom: unset;
+        `
+      : ""}
 `
 
 export const HeadingGroup = styled.hgroup`
