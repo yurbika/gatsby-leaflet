@@ -1,24 +1,21 @@
 import React from "react"
-import { Link } from "gatsby"
+
+//components
+import Video from "./video/video.component"
 
 //styles
 import "./landing-page.styles.scss"
 
 const LandingPage = () => {
   return (
-    <article>
-      <div className="overlay"></div>
-      <section className="heading-group">
-        <h1>Japan from a Different Perspective</h1>
-        <span>
-          Let me take you to places in Japan you have never seen before.
-        </span>
-      </section>
-      <Link to="/map">
-        <div className="link-background"></div>EXPLORE JAPAN
-      </Link>
-      <div className="line"></div>
-    </article>
+    <div className="landing-page-container">
+      <Video />
+      <div className="width-container">
+        <article className="reason-section">
+          <h2>Japan is a beautiful country, but ...</h2>
+        </article>
+      </div>
+    </div>
   )
 }
 
