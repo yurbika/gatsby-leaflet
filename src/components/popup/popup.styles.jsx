@@ -6,7 +6,7 @@ export const Container = styled.aside`
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(237, 250, 255, 0.4);
+  background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   -webkit-transition: all 0.3s ease-in;
   -o-transition: all 0.3s ease-in;
@@ -34,7 +34,7 @@ export const MenuName = styled.div`
   z-index: 11;
   color: white;
   display: flex;
-  transition: all 0.15s ease-in;
+  transition: all 0.2s ease-in;
   transform: translate3d(200px, 0, 0);
   visibility: hidden;
 
