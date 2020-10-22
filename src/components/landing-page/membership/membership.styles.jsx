@@ -14,3 +14,12 @@ export const Container = styled.article`
     max-width: 1000px;
   }
 `
+export const Cards = styled.section`
+  display: flex;
+  align-self: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 100px;
+  margin-bottom: 50px;
+`

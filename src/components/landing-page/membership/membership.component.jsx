@@ -18,9 +18,17 @@ const Membership = () => {
           snackwave.
         </p>
       </section>
-      <section className="cards">
+      <Styled.Cards>
         <Card name="COMMUNITY" color="#D3043B" bgColor="#FFEBF0" price="0" />
-      </section>
+        <Card
+          name="SILVER"
+          color="#00B6C8"
+          bgColor="#EDFAFF"
+          price="0"
+          highlight
+        />
+        <Card name="GOLD" color="#F6B73E" bgColor="#FFF9E1" price="0" />
+      </Styled.Cards>
     </Styled.Container>
   )
 }

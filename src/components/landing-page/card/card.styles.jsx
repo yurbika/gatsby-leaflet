@@ -1,10 +1,6 @@
 import styled, { css } from "styled-components"
 import { Link } from "gatsby"
 
-export const Container = styled.div`
-  width: 100%;
-`
-
 export const PriceContainer = styled.div`
   background: ${props => props.color};
   border-radius: 5px;
@@ -18,6 +14,14 @@ export const PriceContainer = styled.div`
   align-items: center;
   font-weight: 600;
   z-index: 3;
+
+  ${props =>
+    props.highlight
+      ? css`
+          width: 275px;
+          margin-top: -40px;
+        `
+      : ""}
 
   & > * {
     margin-top: 25px;
@@ -58,11 +62,17 @@ export const Features = styled.section`
     text-align: center;
   }
 
-  a {
-  }
-
-  a:hover {
-  }
+  ${props =>
+    props.highlight
+      ? css`
+          max-width: 275px;
+          margin-top: -5px;
+          ul > li {
+            margin-bottom: 17.5px;
+            padding-bottom: 17.5px;
+          }
+        `
+      : ""}
 `
 export const Li = styled.li`
   ${props =>
