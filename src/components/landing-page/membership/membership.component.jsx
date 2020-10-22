@@ -3,12 +3,17 @@ import React from "react"
 //components
 import Card from "../card/card.component"
 
+//assets
+import Luck from "../../../assets/omamori.svg"
+
 //styles
 import * as Styled from "./membership.styles"
 
 const Membership = () => {
   return (
     <Styled.Container>
+      <Luck className="omamori omamori__right" />
+      <Luck className="omamori omamori__left" />
       <section>
         <h2>Become a member</h2>
         <p>
