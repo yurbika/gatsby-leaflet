@@ -5,14 +5,14 @@ import Map from "../map/map.component"
 import VideoContainer from "../video-container/video-container.component"
 
 //styles
-import "./map-page-container.styles.scss"
+import { Container } from "./mpc.styles"
 
 const MapPageContainer = () => {
   return (
-    <article>
+    <Container>
       <VideoContainer />
       <Map />
-    </article>
+    </Container>
   )
 }
 

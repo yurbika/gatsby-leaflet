@@ -2,9 +2,10 @@ import styled, { css } from "styled-components"
 import { Map } from "react-leaflet"
 
 export const SCMap = styled(Map)`
-  height: 100vh;
+  height: calc(100vh - 75px);
   width: 100%;
   background: #bbe2f2;
+  z-index: 9;
 
   .kml-polyline:hover {
     stroke-width: 10px;
