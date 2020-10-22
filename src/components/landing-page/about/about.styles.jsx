@@ -8,6 +8,20 @@ export const Container = styled.article`
   margin-top: 100px;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  svg {
+    position: absolute;
+    z-index: 1;
+    opacity: 0.05;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-bottom: 75px;
+    max-height: 675px;
+    pointer-events: none;
+  }
 `
 
 export const Heading = styled.h2`

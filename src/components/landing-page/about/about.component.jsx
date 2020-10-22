@@ -2,6 +2,9 @@ import React from "react"
 import { graphql, useStaticQuery, Link } from "gatsby"
 import Image from "gatsby-image"
 
+//assets
+import Cat from "../../../assets/cat.svg"
+
 //styles
 import * as Styled from "./about.styles"
 
@@ -25,6 +28,7 @@ const About = () => {
   } = useStaticQuery(query)
   return (
     <Styled.Container>
+      <Cat />
       <Styled.Heading>About me</Styled.Heading>
       <Styled.Content>
         <Styled.RowOne>
