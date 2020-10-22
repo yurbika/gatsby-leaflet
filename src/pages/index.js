@@ -1,10 +1,12 @@
 import React from "react"
 
 import Layout from "../components/layout"
-import MapPageContainer from "../components/map-page-container/map-page-container.component"
+import LandingPage from "../components/landing-page/landing-page.component"
 
 const IndexPage = () => (
-  <Layout>{typeof window !== `undefined` && <MapPageContainer />}</Layout>
+  <Layout>
+    <LandingPage />
+  </Layout>
 )
 
 export default IndexPage

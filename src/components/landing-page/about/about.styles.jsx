@@ -71,6 +71,10 @@ export const RowTwo = styled.section`
     margin-bottom: auto;
   }
 
+  & li:nth-child(3) {
+    margin-bottom: 0;
+  }
+
   li {
     a {
       display: inline-block;
