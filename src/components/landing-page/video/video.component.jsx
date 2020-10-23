@@ -6,7 +6,7 @@ import * as Styled from "./video.styles"
 
 const Video = () => {
   return (
-    <Styled.VideoSection className="video-section">
+    <Styled.VideoSection>
       <Styled.Overlay />
       <Styled.HeadingGroup>
         <h1>Japan from a Different Perspective</h1>

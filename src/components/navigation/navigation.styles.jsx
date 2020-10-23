@@ -7,6 +7,11 @@ export const LogoContainer = styled.div`
   img {
     margin: 0;
   }
+
+  @media (max-width: 768px) {
+    width: 35px;
+    height: 35px;
+  }
 `
 
 export const HamburgerMenuItems = styled.div`

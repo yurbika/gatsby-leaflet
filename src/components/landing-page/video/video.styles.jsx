@@ -65,6 +65,7 @@ export const VideoSection = styled.article`
   justify-content: center;
   align-items: center;
   position: relative;
+  padding: 0 30px;
 
   a {
     color: white;
@@ -80,6 +81,59 @@ export const VideoSection = styled.article`
       ${LinkBackground} {
         opacity: 1;
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    ${HeadingGroup} {
+      h1 {
+        font-size: 2rem;
+        line-height: 45px;
+      }
+    }
+  }
+
+  @media (max-width: 568px) {
+    ${HeadingGroup} {
+      padding: 25px 15px;
+      h1 {
+        font-size: 1.75rem;
+        text-decoration: none;
+        line-height: 45px;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        display: none;
+      }
+    }
+
+    a {
+      margin-top: 35px;
+    }
+  }
+
+  @media (max-height: 468px) {
+    ${HeadingGroup} {
+      padding: 15px 25px;
+      h1 {
+        text-decoration: none;
+        font-size: 1.75rem;
+        line-height: 45px;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        display: none;
+      }
+    }
+
+    a {
+      margin-top: 15px;
+    }
+
+    ${Line} {
+      height: 15px;
     }
   }
 `
