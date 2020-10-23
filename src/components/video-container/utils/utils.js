@@ -35,7 +35,13 @@ const getYoutubeData = async id => {
         videoLengthMS = time[0] * 1000
       }
 
+      //if time === min without anything else
+      if (time.length === 2 && time[1] === "") {
+        time[1] = "00"
+      }
+
       time = time.join(":")
+
       description = data.snippet.description
       date = data.snippet.publishedAt.split("T")[0].split("-").reverse()
       if (date) {
