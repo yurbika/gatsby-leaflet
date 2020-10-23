@@ -16,7 +16,7 @@ export const Container = styled.article`
   }
 
   .omamori {
-    opacity: 0.1;
+    opacity: 0.05;
     position: absolute;
     z-index: -1;
     height: 275px;
@@ -33,6 +33,22 @@ export const Container = styled.article`
     left: 22%;
     transform: rotateZ(35deg);
   }
+
+  @media (max-width: 768px) {
+    padding: 0 35px;
+
+    h2 {
+      font-size: 1.65rem;
+    }
+
+    p {
+      line-height: 35px;
+    }
+
+    .omamori {
+      height: 200px;
+    }
+  }
 `
 export const Cards = styled.section`
   display: flex;
@@ -42,4 +58,8 @@ export const Cards = styled.section`
   max-width: 1100px;
   margin-top: 100px;
   margin-bottom: 50px;
+
+  @media (max-width: 968px) {
+    flex-direction: column;
+  }
 `

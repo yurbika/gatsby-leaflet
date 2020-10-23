@@ -40,7 +40,7 @@ export const Container = styled.article`
   }
 
   @media (max-width: 568px) {
-    padding: 0 20px;
+    padding: 0 35px;
 
     .reason-section__background {
       top: 100px;

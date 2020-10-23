@@ -20,6 +20,10 @@ export const PriceContainer = styled.div`
       ? css`
           width: 275px;
           margin-top: -40px;
+
+          @media (max-width: 968px) {
+            margin-top: 0;
+          }
         `
       : ""}
 
@@ -30,6 +34,10 @@ export const PriceContainer = styled.div`
   & span:last-child {
     margin-bottom: 25px;
     font-size: 0.75rem;
+  }
+
+  @media (max-width: 968px) {
+    width: 100%;
   }
 `
 
@@ -73,6 +81,11 @@ export const Features = styled.section`
           }
         `
       : ""}
+
+  @media (max-width: 968px) {
+    max-width: unset;
+    margin-bottom: 100px;
+  }
 `
 export const Li = styled.li`
   ${props =>
