@@ -19,8 +19,16 @@ export const Container = styled.article`
     right: 0;
     margin: 0 auto;
     margin-bottom: 75px;
-    max-height: 675px;
+    max-height: 635px;
     pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 35px;
+    svg {
+      max-height: unset;
+      width: calc(100% - 70px);
+    }
   }
 `
 
@@ -30,32 +38,12 @@ export const Heading = styled.h2`
   font-size: 2rem;
 `
 
-export const Content = styled.section`
-  display: flex;
-  margin-top: 100px;
-
-  ul {
-    list-style: none;
-    margin: 0;
-
-    li {
-      margin-bottom: 75px;
-      h2 {
-        margin-bottom: 25px;
-      }
-      p {
-        line-height: 32px;
-      }
-    }
-  }
-`
-
 export const RowOne = styled.section`
   height: 100%;
   margin-right: 100px;
 
   ul {
-    margin-top: 100px;
+    margin-top: 100px !important;
   }
 `
 
@@ -116,4 +104,40 @@ export const ImageOverlay = styled.div`
   height: 100%;
   border: 1px solid white;
   border-radius: 5px;
+`
+export const Content = styled.section`
+  display: flex;
+  margin-top: 100px;
+
+  ul {
+    list-style: none;
+    margin: 0;
+
+    li {
+      margin-bottom: 75px;
+      h2 {
+        margin-bottom: 25px;
+      }
+      p {
+        line-height: 32px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    margin-top: 50px;
+
+    ${RowOne} {
+      margin: 0;
+    }
+
+    ${RowTwo} {
+      & li:last-child {
+        text-align: center;
+        margin-top: 100px;
+        margin-bottom: 100px;
+      }
+    }
+  }
 `
