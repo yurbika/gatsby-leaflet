@@ -33,8 +33,18 @@ export const Container = styled.article`
     pointer-events: none;
   }
 
+  @media (max-width: 1200px) {
+    .reason-section__background {
+      height: auto;
+    }
+  }
+
   @media (max-width: 568px) {
     padding: 0 20px;
+
+    .reason-section__background {
+      top: 100px;
+    }
 
     h2 {
       font-size: 1.65rem;
