@@ -32,4 +32,16 @@ export const Container = styled.article`
     right: 0;
     pointer-events: none;
   }
+
+  @media (max-width: 568px) {
+    padding: 0 20px;
+
+    h2 {
+      font-size: 1.65rem;
+    }
+
+    p {
+      line-height: 35px;
+    }
+  }
 `

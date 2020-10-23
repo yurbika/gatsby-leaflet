@@ -5,11 +5,14 @@ export const Container = styled.div`
 `
 export const HLine = styled.div`
   height: 3px;
-  width: 100%;
+  width: calc(100vw - 100px);
   max-width: 1600px;
-  margin: 0 50px;
   margin-top: 50px;
   background: #bf0436;
+
+  @media (max-width: 568px) {
+    width: calc(100vw - 60px);
+  }
 `
 export const Content = styled.div`
   display: flex;
