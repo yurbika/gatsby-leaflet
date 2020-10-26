@@ -71,6 +71,7 @@ export const RowTwo = styled.section`
       border: 3px solid #bf0436;
       color: #bf0436;
       transition: all 0.3s ease-in;
+      font-weight: bold;
 
       &:hover {
         background: #bf0436;

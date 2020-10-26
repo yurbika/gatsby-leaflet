@@ -11,6 +11,7 @@ export const Container = styled.article`
   margin-bottom: 35px;
   border: 1px solid #d9d9d9;
   border-radius: 5px;
+  margin-bottom: 100px;
 `
 
 export const EmbedContainer = styled.div`

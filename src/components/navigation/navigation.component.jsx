@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { graphql, useStaticQuery } from "gatsby"
+import { graphql, useStaticQuery, Link } from "gatsby"
 import Image from "gatsby-image"
 
 //components
@@ -32,7 +32,9 @@ const Navigation = () => {
   return (
     <Styled.Nav>
       <Styled.LogoContainer>
-        <Image fluid={fluid} />
+        <Link to="/">
+          <Image fluid={fluid} />
+        </Link>
       </Styled.LogoContainer>
       <Styled.HamburgerMenu onClick={() => setActive(!active)}>
         <Styled.HamburgerMenuItems active={active} />
