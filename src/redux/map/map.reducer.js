@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   videos: [],
   errMsg: "",
   isFetching: false,
-  zoom: 16,
+  zoom: 5,
 }
 
 const mapReducer = (state = INITIAL_STATE, action) => {

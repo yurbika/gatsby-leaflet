@@ -18,6 +18,7 @@ import {
   setRoutes,
   fetchVideosStartAsync,
   setZoom,
+  clearVideos,
 } from "../../redux/map/map.actions"
 import { selectRoutes, selectZoom } from "../../redux/map/map.selectors"
 
@@ -28,6 +29,8 @@ import {
   selectVideoTotalLength,
   selectPlaybackRate,
 } from "../../redux/video/video.selectors"
+
+import { setVideoIsPlaying } from "../../redux/video/video.actions"
 
 //assets
 import KML from "../../assets/routes.js"
@@ -204,6 +207,12 @@ class MyMap extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.setZoom(5)
+    this.props.setVideoIsPlaying(false)
+    this.props.clearVideos()
+  }
+
   //adding routes and async fetch of videos
   handleMapActions = () => {
     if (this.zoomBreak <= this.props.zoom && !this.props.isPlaying) {
@@ -307,9 +316,10 @@ class MyMap extends Component {
           center={position}
           maxBounds={bounds}
           minZoom={5}
-          zoom={16}
+          zoom={5}
           ref={Map => (this.map = Map)}
           isPlaying={this.props.isPlaying}
+          style={{ background: "#bbe2f2" }}
         >
           {this.props.zoom < this.zoomBreak ? (
             <GeoJSON
@@ -357,6 +367,8 @@ const mapDispatchToProps = dispatch => ({
   setRoutes: arr => dispatch(setRoutes(arr)),
   fetchVideosStartAsync: () => dispatch(fetchVideosStartAsync()),
   setZoom: zoom => dispatch(setZoom(zoom)),
+  setVideoIsPlaying: bool => dispatch(setVideoIsPlaying(bool)),
+  clearVideos: () => dispatch(clearVideos()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyMap)
