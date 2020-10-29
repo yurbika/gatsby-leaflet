@@ -2,7 +2,7 @@ import styled, { css } from "styled-components"
 
 export const Overlay = styled.div`
   position: absolute;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   height: 100vh;
   width: 100vw;
   z-index: -1;
@@ -66,6 +66,23 @@ export const VideoSection = styled.article`
   align-items: center;
   position: relative;
   padding: 0 30px;
+  overflow: hidden;
+
+  video {
+    /* Center the video */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: -1;
+    min-width: 100%;
+    min-height: 100%;
+
+    /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+    width: auto;
+    height: auto;
+  }
 
   a {
     color: white;

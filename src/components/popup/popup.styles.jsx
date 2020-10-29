@@ -26,14 +26,14 @@ export const Container = styled.aside`
 `
 
 export const MenuName = styled.div`
-  width: 170px;
-  border-top: 1px solid white;
   position: absolute;
-  right: 12.5px;
-  top: 65px;
+  top: 29px;
+  right: 75px;
+  width: auto;
+  height: auto;
   z-index: 11;
-  color: white;
-  display: flex;
+  color: #bf0436;
+  text-align: center;
   transition: all 0.2s ease-in;
   transform: translate3d(200px, 0, 0);
   visibility: hidden;
@@ -48,8 +48,9 @@ export const MenuName = styled.div`
       : ""}
 
   h2 {
-    font-size: 10px;
-    margin-top: 10px;
+    margin: 0;
+    font-weight: bold;
+    font-size: 1rem;
   }
 `
 
@@ -58,7 +59,7 @@ export const Ul = styled.ul`
   max-width: 200px;
   min-width: 200px;
   height: 100%;
-  background: #00b6c8;
+  background: white;
   float: right;
   display: flex;
   flex-direction: column;
@@ -86,10 +87,6 @@ export const Ul = styled.ul`
 
   &:hover > li:hover {
     opacity: 1;
-  }
-
-  li {
-    color: white;
   }
 
   ${props =>
