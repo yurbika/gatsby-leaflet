@@ -66,7 +66,7 @@ export const animatePolyline = (
     .append("path")
     .attr("class", "lineConnect")
     .style("fill", "none")
-    .style("stroke", "rgba(0,0,0,0.3)")
+    .style("stroke", "rgba(0,0,0,0.7)")
     .style("stroke-width", "5px")
 
   let originANDdestination = [points[0], points[points.length - 1]]

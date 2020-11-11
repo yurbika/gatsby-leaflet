@@ -309,6 +309,8 @@ class MyMap extends Component {
     const northEast = L.latLng(45.7112046, 154.205541),
       southWest = L.latLng(20.2145811, 122.7141754),
       bounds = L.latLngBounds(southWest, northEast)
+    const attribution =
+      '© <a href="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}">google</a> contributors'
 
     if (typeof window !== "undefined") {
       return (
@@ -332,6 +334,7 @@ class MyMap extends Component {
                 })
               }}
               style={feature => this.handleGeoJsonStyles(feature)}
+              attribution={attribution}
             />
           ) : null}
           {this.props.zoom >= this.zoomBreak ? (
@@ -344,6 +347,7 @@ class MyMap extends Component {
                   mouseout: this.handleClearHighlight,
                 })
               }}
+              attribution={attribution}
             />
           ) : null}
         </Styled.SCMap>
