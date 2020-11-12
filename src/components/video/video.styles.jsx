@@ -30,6 +30,7 @@ export const EmbedContainer = styled.div`
     right: 0;
     width: 100%;
     height: 100%;
+    max-height: 675px;
   }
 `
 
@@ -48,6 +49,14 @@ export const InfoBox = styled.section`
     font-size: 12px;
     width: 100%;
     justify-content: space-between;
+
+    li {
+      width: 105px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 25px;
   }
 `
 

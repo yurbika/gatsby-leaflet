@@ -1,4 +1,7 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
+
+import { Container as VideoContainer } from "../video-container/video-container.styles"
+import { SCMap as Map, SCMap } from "../map/map.styles"
 
 export const Container = styled.article`
   position: relative;
@@ -8,6 +11,8 @@ export const Container = styled.article`
   overflow: hidden;
 
   & > button {
+    display: none;
+    visibility: hidden;
     position: absolute;
     bottom: 35px;
     background: none;
@@ -23,12 +28,47 @@ export const Container = styled.article`
     color: #bf0436;
     border: 3px solid #bf0436;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: white;
       background: #bf0436;
     }
   }
 
   @media (max-width: 1025px) {
+    & > button {
+      display: block;
+      visibility: visible;
+    }
+
+    ${VideoContainer} {
+      display: none;
+      visibility: hidden;
+    }
+
+    ${props =>
+      props.show
+        ? css`
+            ${SCMap} {
+              display: none;
+              visibility: hidden;
+            }
+
+            ${VideoContainer} {
+              display: block;
+              visibility: visible;
+            }
+          `
+        : css`
+            ${SCMap} {
+              display: block;
+              visibility: visible;
+            }
+
+            ${VideoContainer} {
+              display: none;
+              visibility: hidden;
+            }
+          `}
   }
 `

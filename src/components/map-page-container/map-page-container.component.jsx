@@ -11,7 +11,7 @@ const MapPageContainer = () => {
   const [show, setShow] = useState(false)
 
   return (
-    <Container>
+    <Container show={show}>
       <VideoContainer />
       <Map />
       <button onClick={() => setShow(!show)}>

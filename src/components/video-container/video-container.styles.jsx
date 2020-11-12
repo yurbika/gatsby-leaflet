@@ -1,16 +1,7 @@
 import styled from "styled-components"
 
-export const Container = styled.article`
-  width: 100vw;
-  max-width: 600px;
-  overflow-y: scroll;
-  margin-top: 75px;
-  padding: 0 15px;
-`
-
 export const Help = styled.section`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,8 +9,8 @@ export const Help = styled.section`
   padding: 15px 0;
   svg {
     height: 100%;
-    max-height: 150px;
-    min-height: 150px;
+    max-height: 120px;
+    min-height: 120px;
   }
 
   ul {
@@ -31,6 +22,7 @@ export const Help = styled.section`
     margin-bottom: 35px;
 
     h2 {
+      font-size: 20px;
       text-align: center;
       margin-bottom: 15px;
       text-decoration: underline;
@@ -41,6 +33,7 @@ export const Help = styled.section`
     }
 
     li {
+      font-size: 16px;
       list-style-type: disc;
       list-style-position: inside;
       text-indent: -25px;
@@ -60,5 +53,21 @@ export const Help = styled.section`
       margin-left: -20px;
       margin-bottom: -20px;
     }
+  }
+`
+
+export const Container = styled.article`
+  width: 100vw;
+  max-width: 600px;
+  overflow-y: scroll;
+  margin-top: 75px;
+  padding: 0 15px;
+
+  @media (max-width: 1025px) {
+    max-width: unset;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 5px;
   }
 `

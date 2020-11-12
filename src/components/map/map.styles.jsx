@@ -63,5 +63,9 @@ export const SCMap = styled(Map)`
       margin-right: 8px;
       opacity: 0.7;
     }
+
+    @media (max-width: 568px) {
+      display: none;
+    }
   }
 `
