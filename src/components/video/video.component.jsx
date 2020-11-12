@@ -20,7 +20,6 @@ import {
 import { selectVideoID } from "../../redux/video/video.selectors"
 
 //styles
-import "./video.styles.scss"
 import * as Styled from "./video.styles"
 
 const YoutubeWithSpinner = WithSpinner(YouTube)

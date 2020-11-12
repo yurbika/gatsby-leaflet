@@ -12,6 +12,7 @@ export const LogoContainer = styled.div`
     height: 100%;
     border-radius: 50%;
     background: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
   }
 
   @media (max-width: 768px) {

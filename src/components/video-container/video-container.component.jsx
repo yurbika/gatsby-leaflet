@@ -17,7 +17,7 @@ import Kitty from "../../assets/kitty.svg"
 import ID_GENERATOR from "../../uniqueKey"
 
 //styles
-import "./video-container.styles.scss"
+import * as Styled from "./video-container.styles"
 
 class VideoContainer extends React.Component {
   state = {
@@ -35,12 +35,12 @@ class VideoContainer extends React.Component {
 
   render() {
     return (
-      <section className="video-container">
+      <Styled.Container>
         {this.state.videos.map(data => (
           <Video {...data} key={ID_GENERATOR("video-")} />
         ))}
         {this.state.videos.length === 0 ? (
-          <div className="placeholder-container">
+          <Styled.Help>
             <ul>
               <li>
                 <h2>Help</h2>
@@ -58,10 +58,10 @@ class VideoContainer extends React.Component {
                 corner
               </li>
             </ul>
-            <Kitty className="placeholder-container__svg" />
-          </div>
+            <Kitty />
+          </Styled.Help>
         ) : null}
-      </section>
+      </Styled.Container>
     )
   }
 }
