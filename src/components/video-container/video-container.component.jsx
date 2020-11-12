@@ -5,6 +5,7 @@ import isEqual from "lodash.isequal"
 
 //component
 import Video from "../video/video.component"
+import PageChanger from "./page-changer/page-changer.component"
 
 //redux
 import { selectVideos, selectZoom } from "../../redux/map/map.selectors"
@@ -60,7 +61,9 @@ class VideoContainer extends React.Component {
             </ul>
             <Kitty />
           </Styled.Help>
-        ) : null}
+        ) : (
+          <PageChanger />
+        )}
       </Styled.Container>
     )
   }

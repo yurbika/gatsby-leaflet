@@ -51,6 +51,7 @@ export const InfoBox = styled.section`
     justify-content: space-between;
 
     li {
+      white-space: nowrap;
       width: 105px;
     }
   }
