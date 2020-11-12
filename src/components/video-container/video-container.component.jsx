@@ -41,6 +41,23 @@ class VideoContainer extends React.Component {
         ))}
         {this.state.videos.length === 0 ? (
           <div className="placeholder-container">
+            <ul>
+              <li>
+                <h2>Help</h2>
+              </li>
+              <li>Zoom in to explorer</li>
+              <li>Click on a region to focus</li>
+              <li>Click on a route to focus</li>
+              <li>Start a video to enable live routing</li>
+              <li>A video must be paused to continue exploring</li>
+              <li>
+                Beware the live routing is not 100% synchronous with the video
+              </li>
+              <li>
+                Hovering a region/route displayes the name at the right top
+                corner
+              </li>
+            </ul>
             <Kitty className="placeholder-container__svg" />
           </div>
         ) : null}

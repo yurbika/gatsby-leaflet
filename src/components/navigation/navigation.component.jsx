@@ -33,7 +33,7 @@ const Navigation = () => {
     <Styled.Nav>
       <Styled.LogoContainer>
         <Link to="/">
-          <Image fluid={fluid} />
+          <div className="img"></div>
         </Link>
       </Styled.LogoContainer>
       <Styled.HamburgerMenu onClick={() => setActive(!active)}>
