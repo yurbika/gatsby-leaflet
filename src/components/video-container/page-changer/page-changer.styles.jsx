@@ -32,5 +32,9 @@ export const Container = styled.div`
         stroke-width: 5;
       }
     }
+
+    span {
+      font-weight: bold;
+    }
   }
 `

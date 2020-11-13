@@ -21,6 +21,7 @@ import {
   clearVideos,
 } from "../../redux/map/map.actions"
 import { selectRoutes, selectZoom } from "../../redux/map/map.selectors"
+import { setPage } from "../../redux/page-changer/page-changer.actions"
 
 import {
   selectIsPlaying,
@@ -222,6 +223,7 @@ class MyMap extends Component {
       )
       this.props.fetchVideosStartAsync()
     }
+    this.props.setPage(0)
   }
 
   handleHighlight = e => {
@@ -373,6 +375,7 @@ const mapDispatchToProps = dispatch => ({
   setZoom: zoom => dispatch(setZoom(zoom)),
   setVideoIsPlaying: bool => dispatch(setVideoIsPlaying(bool)),
   clearVideos: () => dispatch(clearVideos()),
+  setPage: num => dispatch(setPage(num)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyMap)

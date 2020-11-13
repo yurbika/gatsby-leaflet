@@ -56,18 +56,21 @@ const getYoutubeData = async id => {
   }
 }
 
-export const getData = async routes => {
+export const getData = async (routes, curPage) => {
   const videos = []
-  let j = 0
-  for (let i of routes) {
-    if (j === 10) break
-    if (i["_additionalInformation"]) {
-      let h1 = i["_additionalInformation"].match(/(?<=<h2>)(.*)(?=<\/h2>)/gm)[0]
-      let id = i["_additionalInformation"].match(/(?<=v=)[-\w]{11}/gm)
-      let km = i["_additionalInformation"].match(
+  const maxVideos = 10
+  const max = maxVideos * curPage + maxVideos
+
+  for (let i = maxVideos * curPage; i < max; i++) {
+    if (routes[i]) {
+      let h1 = routes[i]["_additionalInformation"].match(
+        /(?<=<h2>)(.*)(?=<\/h2>)/gm
+      )[0]
+      let id = routes[i]["_additionalInformation"].match(/(?<=v=)[-\w]{11}/gm)
+      let km = routes[i]["_additionalInformation"].match(
         /(?<=Distance in km: )([0-9]*[,])?[0-9]+/gm
       )
-      let latlngs = i["_latlngs"]
+      let latlngs = routes[i]["_latlngs"]
       if (km === "") {
         km = "-"
       }
@@ -85,7 +88,7 @@ export const getData = async routes => {
         latlngs: latlngs,
       })
     }
-    j++
   }
+
   return await videos
 }

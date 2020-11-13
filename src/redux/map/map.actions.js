@@ -23,8 +23,10 @@ export const fetchVideosFailure = errMsg => ({
 export const fetchVideosStartAsync = () => {
   return (dispatch, getState) => {
     const { routes } = getState().map
+    const { curPage } = getState().pageChanger
+
     dispatch(fetchVideosStart())
-    getData(routes.cur)
+    getData(routes.cur, curPage)
       .then(arr => dispatch(fetchVideosSuccess(arr)))
       .catch(err => dispatch(fetchVideosFailure(err)))
   }

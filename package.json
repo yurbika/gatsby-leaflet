@@ -24,6 +24,7 @@
     "leaflet": "^1.7.1",
     "leaflet-boundary-canvas": "^1.0.0",
     "leaflet-kml": "^1.0.1",
+    "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
