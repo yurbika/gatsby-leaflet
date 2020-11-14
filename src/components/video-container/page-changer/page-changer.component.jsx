@@ -29,7 +29,6 @@ const PageChanger = ({
   forwardRef,
 }) => {
   const totalPages = Math.ceil(totalRoutes.length / 10)
-  console.log(forwardRef)
   return (
     <Styled.Container hidden={totalPages === 1}>
       <button

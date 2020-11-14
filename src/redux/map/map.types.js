@@ -5,6 +5,7 @@ const MapActionTypes = {
   FETCH_VIDEOS_FAILURE: "FETCH_VIDEOS_FAILURE",
   CLEAR_VIDEOS: "CLEAR_VIDEOS",
   SET_ZOOM: "SET_ZOOM",
+  SET_MAP_REF: "SET_MAP_REF",
 }
 
 export default MapActionTypes

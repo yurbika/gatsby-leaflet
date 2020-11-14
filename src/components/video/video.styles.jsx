@@ -95,4 +95,26 @@ export const Button = styled.button`
     font-weight: bold;
     border-bottom: 2px solid;
   }
+
+  ${props =>
+    props.fullBorder
+      ? css`
+          span {
+            border: 2px solid #bf0436;
+            border-radius: 5px;
+            padding: 5px;
+
+            &:hover {
+              background: #bf0436;
+              color: white;
+            }
+          }
+        `
+      : ""}
+`
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 `

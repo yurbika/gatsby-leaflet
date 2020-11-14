@@ -18,6 +18,7 @@ import {
   setRoutes,
   fetchVideosStartAsync,
   setZoom,
+  setMapRef,
   clearVideos,
 } from "../../redux/map/map.actions"
 import { selectRoutes, selectZoom } from "../../redux/map/map.selectors"
@@ -101,6 +102,8 @@ class MyMap extends Component {
   }
 
   componentDidMount() {
+    //setting ref
+    this.props.setMapRef(this.map.leafletElement)
     //adding map
     this.boundaryMap.addTo(this.map.leafletElement)
     //adding extra pane for routes
@@ -376,6 +379,7 @@ const mapDispatchToProps = dispatch => ({
   setVideoIsPlaying: bool => dispatch(setVideoIsPlaying(bool)),
   clearVideos: () => dispatch(clearVideos()),
   setPage: num => dispatch(setPage(num)),
+  setMapRef: ref => dispatch(setMapRef(ref)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyMap)

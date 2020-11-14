@@ -19,6 +19,8 @@ import {
 } from "../../redux/video/video.actions"
 import { selectVideoID } from "../../redux/video/video.selectors"
 
+import { selectMapRef } from "../../redux/map/map.selectors"
+
 //styles
 import * as Styled from "./video.styles"
 
@@ -49,6 +51,7 @@ class Video extends React.Component {
       setVideoTotalLength,
       setVideoID,
       setVideoPlaybackRate,
+      map,
     } = this.props
     return (
       <Styled.Container>
@@ -90,11 +93,16 @@ class Video extends React.Component {
               <b>Date:</b> {date}
             </li>
           </ul>
-          <Styled.Button
-            onClick={() => this.setState({ expand: !this.state.expand })}
-          >
-            <span>{this.state.expand ? "VIEW LESS" : "VIEW MORE"}</span>
-          </Styled.Button>
+          <Styled.ButtonContainer>
+            <Styled.Button
+              onClick={() => this.setState({ expand: !this.state.expand })}
+            >
+              <span>{this.state.expand ? "VIEW LESS" : "VIEW MORE"}</span>
+            </Styled.Button>
+            <Styled.Button fullBorder onClick={() => map.fitBounds(latlngs)}>
+              <span>VIEW ON MAP</span>
+            </Styled.Button>
+          </Styled.ButtonContainer>
         </Styled.InfoBox>
       </Styled.Container>
     )
@@ -104,6 +112,7 @@ class Video extends React.Component {
 const mapStateToProps = createStructuredSelector({
   isLoading: selectIsFetching,
   curVideoID: selectVideoID,
+  map: selectMapRef,
 })
 
 const mapDispatchToProps = dispatch => ({

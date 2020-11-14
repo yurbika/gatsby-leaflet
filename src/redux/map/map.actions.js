@@ -45,3 +45,8 @@ export const setZoom = zoom => ({
   type: MapActionTypes.SET_ZOOM,
   payload: zoom,
 })
+
+export const setMapRef = ref => ({
+  type: MapActionTypes.SET_MAP_REF,
+  payload: ref,
+})

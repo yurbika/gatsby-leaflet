@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   errMsg: "",
   isFetching: false,
   zoom: 5,
+  mapRef: null,
 }
 
 const mapReducer = (state = INITIAL_STATE, action) => {
@@ -22,6 +23,8 @@ const mapReducer = (state = INITIAL_STATE, action) => {
       return { ...state, videos: [] }
     case MapActionTypes.SET_ZOOM:
       return { ...state, zoom: action.payload }
+    case MapActionTypes.SET_MAP_REF:
+      return { ...state, mapRef: action.payload }
     default:
       return state
   }
