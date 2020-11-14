@@ -34,9 +34,13 @@ class VideoContainer extends React.Component {
     return null
   }
 
+  componentDidUpdate() {
+    this.myRef.scroll(0, 0)
+  }
+
   render() {
     return (
-      <Styled.Container>
+      <Styled.Container ref={ref => (this.myRef = ref)}>
         {this.state.videos.map(data => (
           <Video {...data} key={ID_GENERATOR("video-")} />
         ))}
@@ -62,7 +66,7 @@ class VideoContainer extends React.Component {
             <Kitty />
           </Styled.Help>
         ) : (
-          <PageChanger />
+          <PageChanger forwardRef={this.myRef} />
         )}
       </Styled.Container>
     )

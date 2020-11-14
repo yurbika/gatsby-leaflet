@@ -26,9 +26,10 @@ const PageChanger = ({
   decrementPage,
   setPage,
   fetchVideosStartAsync,
+  forwardRef,
 }) => {
   const totalPages = Math.ceil(totalRoutes.length / 10)
-
+  console.log(forwardRef)
   return (
     <Styled.Container hidden={totalPages === 1}>
       <button
@@ -36,6 +37,7 @@ const PageChanger = ({
           if (curPage - 1 >= 0) decrementPage()
           else setPage(totalPages - 1)
           fetchVideosStartAsync()
+          forwardRef.scroll(0, 0)
         }}
       >
         <Arrow />
@@ -48,6 +50,7 @@ const PageChanger = ({
           if (curPage + 1 < totalPages) incrementPage()
           else setPage(0)
           fetchVideosStartAsync()
+          forwardRef.scroll(0, 0)
         }}
       >
         <Arrow />

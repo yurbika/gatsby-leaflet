@@ -75,18 +75,20 @@ export const getData = async (routes, curPage) => {
         km = "-"
       }
 
-      let arr = await getYoutubeData(id)
-      const [videoLength, description, date, videoLengthMS] = arr
-      videos.push({
-        h1: h1,
-        id: id,
-        km: km,
-        videoLength: videoLength,
-        videoLengthMS: videoLengthMS,
-        description: description,
-        date: date,
-        latlngs: latlngs,
-      })
+      for (let j of id) {
+        let arr = await getYoutubeData(j)
+        const [videoLength, description, date, videoLengthMS] = arr
+        videos.push({
+          h1: h1,
+          id: [j],
+          km: km,
+          videoLength: videoLength,
+          videoLengthMS: videoLengthMS,
+          description: description,
+          date: date,
+          latlngs: latlngs,
+        })
+      }
     }
   }
 
