@@ -1,5 +1,6 @@
 import MapActionTypes from "./map.types"
 import { getData } from "../../components/video-container/utils/utils"
+import debounce from "lodash.debounce"
 
 export const setRoutes = arr => ({
   type: MapActionTypes.SET_CURRENT_ROUTES,
@@ -20,8 +21,8 @@ export const fetchVideosFailure = errMsg => ({
   payload: errMsg,
 })
 
-export const fetchVideosStartAsync = () => {
-  return (dispatch, getState) => {
+const fetchVideosStartAsyncDebounced = debounce(
+  (dispatch, getState) => {
     const { routes } = getState().map
     const { curPage } = getState().pageChanger
 
@@ -29,8 +30,12 @@ export const fetchVideosStartAsync = () => {
     getData(routes.cur, curPage)
       .then(arr => dispatch(fetchVideosSuccess(arr)))
       .catch(err => dispatch(fetchVideosFailure(err)))
-  }
-}
+  },
+  750,
+  { leading: false, trailing: true }
+)
+
+export const fetchVideosStartAsync = () => fetchVideosStartAsyncDebounced
 
 export const clearVideos = () => ({
   type: MapActionTypes.CLEAR_VIDEOS,

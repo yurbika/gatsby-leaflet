@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export const Container = styled.div`
   display: flex;
@@ -37,4 +37,16 @@ export const Container = styled.div`
       font-weight: bold;
     }
   }
+
+  ${props =>
+    props.hidden
+      ? css`
+          button:first-child,
+          button:last-child {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+          }
+        `
+      : ""}
 `

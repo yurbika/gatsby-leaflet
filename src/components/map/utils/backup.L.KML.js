@@ -226,28 +226,30 @@ L.Util.extend(L.KML, {
 
       l = this.parsePlacemark(el[j], xml, style)
       //console.log(l["_bounds"],l,el[j],(el[j].getElementsByTagName("ExtendedData")[0]).getElementsByTagName("Data"))
-      let bound = l["_bounds"]
-        ? L.latLngBounds(l["_bounds"]["_southWest"], l["_bounds"]["_northEast"])
-        : null
-      if (
-        l["_bounds"] &&
-        L.latLngBounds(bounds["_northEast"], bounds["_southWest"]).intersects(
-          bound
-        )
-      ) {
-        if (cur) cur.push(l)
-        if (l) {
-          layers.push(l)
-        }
-      } else if (
-        l["_latlng"] &&
-        L.latLngBounds(bounds["_northEast"], bounds["_southWest"]).contains(
-          l["_latlng"]
-        )
-      ) {
-        if (cur) cur.push(l)
-
-        if (l) {
+      if (l) {
+        let bound = l["_bounds"]
+          ? L.latLngBounds(
+              l["_bounds"]["_southWest"],
+              l["_bounds"]["_northEast"]
+            )
+          : null
+        if (
+          l["_bounds"] &&
+          L.latLngBounds(bounds["_northEast"], bounds["_southWest"]).intersects(
+            bound
+          )
+        ) {
+          if (cur) cur.push(l)
+          if (l) {
+            layers.push(l)
+          }
+        } else if (
+          l["_latlng"] &&
+          L.latLngBounds(bounds["_northEast"], bounds["_southWest"]).contains(
+            l["_latlng"]
+          )
+        ) {
+          if (cur) cur.push(l)
           layers.push(l)
         }
       }
@@ -363,13 +365,12 @@ L.Util.extend(L.KML, {
         descr = descr + el[i].childNodes[j].nodeValue
       }
     }
-
     if (name) {
       layer.on("add", function () {
         layer["_additionalInformation"] = "<h2>" + name + "</h2>" + descr
       })
     }
-
+    if (descr.match(/(?<=v=)[-\w]{11}/gm) === null) return null
     return layer
   },
 

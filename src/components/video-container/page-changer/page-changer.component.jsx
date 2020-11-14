@@ -1,7 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
-import debounce from "lodash.debounce"
 
 //redux
 import { selectCurPage } from "../../../redux/page-changer/page-changer.selectors"
@@ -29,29 +28,26 @@ const PageChanger = ({
   fetchVideosStartAsync,
 }) => {
   const totalPages = Math.ceil(totalRoutes.length / 10)
-  const debounced = debounce(fetchVideosStartAsync, 500, {
-    leading: true,
-    trailing: false,
-  })
+
   return (
-    <Styled.Container>
+    <Styled.Container hidden={totalPages === 1}>
       <button
         onClick={() => {
           if (curPage - 1 >= 0) decrementPage()
           else setPage(totalPages - 1)
-          debounced()
+          fetchVideosStartAsync()
         }}
       >
         <Arrow />
       </button>
       <button>
-        <span>{curPage + 1}</span>
+        <span>{curPage + 1 + " / " + totalPages}</span>
       </button>
       <button
         onClick={() => {
           if (curPage + 1 < totalPages) incrementPage()
           else setPage(0)
-          debounced()
+          fetchVideosStartAsync()
         }}
       >
         <Arrow />
