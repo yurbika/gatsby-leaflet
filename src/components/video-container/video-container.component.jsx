@@ -8,7 +8,11 @@ import Video from "../video/video.component"
 import PageChanger from "./page-changer/page-changer.component"
 
 //redux
-import { selectVideos, selectZoom } from "../../redux/map/map.selectors"
+import {
+  selectVideos,
+  selectZoom,
+  selectCurMapTarget,
+} from "../../redux/map/map.selectors"
 import { clearVideos } from "../../redux/map/map.actions"
 
 //assets
@@ -41,8 +45,19 @@ class VideoContainer extends React.Component {
   render() {
     return (
       <Styled.Container ref={ref => (this.myRef = ref)}>
-        {this.state.videos.map(data => (
-          <Video {...data} key={ID_GENERATOR("video-")} />
+        {this.state.videos.map((data, idx) => (
+          <Video
+            {...data}
+            selected={
+              !!this.props.curMapTarget &&
+              idx === 0 &&
+              data.h1 ===
+                this.props.curMapTarget["_additionalInformation"].match(
+                  /(?<=<h2>)(.*)(?=<\/h2>)/gm
+                )[0]
+            }
+            key={ID_GENERATOR("video-")}
+          />
         ))}
         {this.state.videos.length === 0 ? (
           <Styled.Help>
@@ -76,6 +91,7 @@ class VideoContainer extends React.Component {
 const mapStateToProps = createStructuredSelector({
   videos: selectVideos,
   zoom: selectZoom,
+  curMapTarget: selectCurMapTarget,
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -29,18 +29,12 @@ const fetchVideosStartAsyncDebounced = debounce(
     const { routes, curMapTarget } = getState().map
     const { curPage } = getState().pageChanger
     //if a route gets clicked it will be placed on the first idx
-    if (curMapTarget !== null) {
-      let sortedArr = sortVideos(curMapTarget, routes.cur)
-      if (sortedArr !== null) {
-        routes.cur = sortedArr
-        dispatch(setCurMapTarget(null))
-        dispatch(setRoutes(routes))
-        dispatch(fetchVideosStartAsync())
-      }
-    }
+    let sortedArr = null
+    if (curMapTarget !== null) sortedArr = sortVideos(curMapTarget, routes.cur)
+    if (sortedArr === null) dispatch(setCurMapTarget(null))
     //otherwise just do a fetch videos in random order
     dispatch(fetchVideosStart())
-    getData(routes.cur, curPage)
+    getData(sortedArr || routes.cur, curPage)
       .then(arr => dispatch(fetchVideosSuccess(arr)))
       .catch(err => dispatch(fetchVideosFailure(err)))
   },

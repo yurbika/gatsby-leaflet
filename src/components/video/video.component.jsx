@@ -55,10 +55,11 @@ class Video extends React.Component {
       setVideoID,
       setVideoPlaybackRate,
       map,
+      selected,
     } = this.props
     if (!!map && !!latlngs) createPolyline(latlngs, map)
     return (
-      <Styled.Container>
+      <Styled.Container selected={selected}>
         <Styled.EmbedContainer>
           <YoutubeWithSpinner
             videoId={id[0]}
