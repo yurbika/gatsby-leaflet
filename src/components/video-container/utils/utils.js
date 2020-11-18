@@ -58,10 +58,10 @@ const getYoutubeData = async id => {
 
 export const getData = async (routes, curPage) => {
   const videos = []
-  const maxVideos = 10
-  const max = maxVideos * curPage + maxVideos
+  const fetchMaxVideos = 10
+  const max = fetchMaxVideos * curPage + fetchMaxVideos
 
-  for (let i = maxVideos * curPage; i < max; i++) {
+  for (let i = fetchMaxVideos * curPage; i < max; i++) {
     if (routes[i]) {
       let h1 = routes[i]["_additionalInformation"].match(
         /(?<=<h2>)(.*)(?=<\/h2>)/gm
@@ -74,7 +74,7 @@ export const getData = async (routes, curPage) => {
       if (km === "") {
         km = "-"
       }
-
+      // a video could contain multiple ids
       for (let j of id) {
         let arr = await getYoutubeData(j)
         const [videoLength, description, date, videoLengthMS] = arr
@@ -93,4 +93,24 @@ export const getData = async (routes, curPage) => {
   }
 
   return await videos
+}
+
+//sort depending on map target clicked
+export const sortVideos = (target, arr) => {
+  let idx = null,
+    i = 0
+
+  for (let ele of arr) {
+    if (
+      String(ele["_additionalInformation"]).localeCompare(
+        target["_additionalInformation"]
+      ) === 0
+    )
+      idx = i
+    else i++
+  }
+  if (idx === null) return null
+  arr.unshift(arr[idx])
+  arr.splice(idx + 1, 1)
+  return arr
 }

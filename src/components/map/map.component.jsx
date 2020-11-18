@@ -20,6 +20,7 @@ import {
   setZoom,
   setMapRef,
   clearVideos,
+  setCurMapTarget,
 } from "../../redux/map/map.actions"
 import { selectRoutes, selectZoom } from "../../redux/map/map.selectors"
 import { setPage } from "../../redux/page-changer/page-changer.actions"
@@ -194,6 +195,7 @@ class MyMap extends Component {
       if (e.sourceTarget.options.pane === "markerPane") {
         this.map.leafletElement.setView(e.latlng, 17)
       } else this.map.leafletElement.fitBounds(e.sourceTarget["_bounds"])
+      this.props.setCurMapTarget(e.sourceTarget)
     })
     //updated map depending on view
     if (this.props.zoom >= this.zoomBreak) {
@@ -380,6 +382,7 @@ const mapDispatchToProps = dispatch => ({
   clearVideos: () => dispatch(clearVideos()),
   setPage: num => dispatch(setPage(num)),
   setMapRef: ref => dispatch(setMapRef(ref)),
+  setCurMapTarget: obj => dispatch(setCurMapTarget(obj)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyMap)

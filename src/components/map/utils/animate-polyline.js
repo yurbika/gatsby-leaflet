@@ -38,14 +38,14 @@ export const animatePolyline = (
     .x(d => map.latLngToLayerPoint(d).x)
     .y(d => map.latLngToLayerPoint(d).y)
 
-  let ptFeatures = g
-    .selectAll("circle")
-    .data(points)
-    .enter()
-    .append("circle")
-    .attr("r", 3)
-    .attr("class", "waypoints")
-    .style("visibility", "hidden")
+  // let ptFeatures = g
+  //   .selectAll("circle")
+  //   .data(points)
+  //   .enter()
+  //   .append("circle")
+  //   .attr("r", 3)
+  //   .attr("class", "waypoints")
+  //   .style("visibility", "hidden")
 
   let marker = g
     .append("text")
@@ -69,7 +69,7 @@ export const animatePolyline = (
     .style("stroke", "rgba(0,0,0,0.7)")
     .style("stroke-width", "5px")
 
-  let originANDdestination = [points[0], points[points.length - 1]]
+  let StartEnd = [points[0], points[points.length - 1]]
 
   function applyLatLngToLayer(d) {
     return map.latLngToLayerPoint(d)
@@ -77,11 +77,11 @@ export const animatePolyline = (
 
   let begend = g
     .selectAll(".drinks")
-    .data(originANDdestination)
+    .data(StartEnd)
     .enter()
     .append("circle", ".drinks")
     .attr("r", 5)
-    .style("fill", "#bf0436")
+    .style("fill", "#00B6C8")
 
   map.on("zoom", reset)
 
@@ -105,15 +105,16 @@ export const animatePolyline = (
       )
     })
 
-    ptFeatures.attr("transform", function (d) {
-      return (
-        "translate(" +
-        applyLatLngToLayer(d).x +
-        "," +
-        applyLatLngToLayer(d).y +
-        ")"
-      )
-    })
+    // ptFeatures.attr("transform", function (d) {
+    //   return (
+    //     "translate(" +
+    //     applyLatLngToLayer(d).x +
+    //     "," +
+    //     applyLatLngToLayer(d).y +
+    //     ")"
+    //   )
+    // })
+
     if (ended)
       marker.attr(
         "transform",

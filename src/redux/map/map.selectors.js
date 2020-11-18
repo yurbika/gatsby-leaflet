@@ -14,3 +14,8 @@ export const selectIsFetching = createSelector(
 export const selectZoom = createSelector([selectMap], map => map.zoom)
 
 export const selectMapRef = createSelector([selectMap], map => map.mapRef)
+
+export const selectCurMapTarget = createSelector(
+  [selectMap],
+  map => map.curMapTarget
+)

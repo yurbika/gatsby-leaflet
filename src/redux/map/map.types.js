@@ -6,6 +6,7 @@ const MapActionTypes = {
   CLEAR_VIDEOS: "CLEAR_VIDEOS",
   SET_ZOOM: "SET_ZOOM",
   SET_MAP_REF: "SET_MAP_REF",
+  SET_CUR_MAP_TARGET: "SET_CUR_MAP_TARGET",
 }
 
 export default MapActionTypes

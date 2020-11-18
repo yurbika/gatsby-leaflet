@@ -21,6 +21,9 @@ import { selectVideoID } from "../../redux/video/video.selectors"
 
 import { selectMapRef } from "../../redux/map/map.selectors"
 
+//utils
+import { createPolyline } from "./utils/utils"
+
 //styles
 import * as Styled from "./video.styles"
 
@@ -53,6 +56,7 @@ class Video extends React.Component {
       setVideoPlaybackRate,
       map,
     } = this.props
+    if (!!map && !!latlngs) createPolyline(latlngs, map)
     return (
       <Styled.Container>
         <Styled.EmbedContainer>

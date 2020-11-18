@@ -1,5 +1,8 @@
 import MapActionTypes from "./map.types"
-import { getData } from "../../components/video-container/utils/utils"
+import {
+  getData,
+  sortVideos,
+} from "../../components/video-container/utils/utils"
 import debounce from "lodash.debounce"
 
 export const setRoutes = arr => ({
@@ -23,9 +26,19 @@ export const fetchVideosFailure = errMsg => ({
 
 const fetchVideosStartAsyncDebounced = debounce(
   (dispatch, getState) => {
-    const { routes } = getState().map
+    const { routes, curMapTarget } = getState().map
     const { curPage } = getState().pageChanger
-
+    //if a route gets clicked it will be placed on the first idx
+    if (curMapTarget !== null) {
+      let sortedArr = sortVideos(curMapTarget, routes.cur)
+      if (sortedArr !== null) {
+        routes.cur = sortedArr
+        dispatch(setCurMapTarget(null))
+        dispatch(setRoutes(routes))
+        dispatch(fetchVideosStartAsync())
+      }
+    }
+    //otherwise just do a fetch videos in random order
     dispatch(fetchVideosStart())
     getData(routes.cur, curPage)
       .then(arr => dispatch(fetchVideosSuccess(arr)))
@@ -49,4 +62,9 @@ export const setZoom = zoom => ({
 export const setMapRef = ref => ({
   type: MapActionTypes.SET_MAP_REF,
   payload: ref,
+})
+
+export const setCurMapTarget = obj => ({
+  type: MapActionTypes.SET_CUR_MAP_TARGET,
+  payload: obj,
 })

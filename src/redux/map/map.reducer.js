@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   isFetching: false,
   zoom: 5,
   mapRef: null,
+  curMapTarget: null,
 }
 
 const mapReducer = (state = INITIAL_STATE, action) => {
@@ -25,6 +26,8 @@ const mapReducer = (state = INITIAL_STATE, action) => {
       return { ...state, zoom: action.payload }
     case MapActionTypes.SET_MAP_REF:
       return { ...state, mapRef: action.payload }
+    case MapActionTypes.SET_CUR_MAP_TARGET:
+      return { ...state, curMapTarget: action.payload }
     default:
       return state
   }
