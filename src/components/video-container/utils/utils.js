@@ -94,7 +94,7 @@ export const getData = async (routes, curPage) => {
 
   for (let i = fetchMaxVideos * curPage; i < max; i++) {
     if (routes[i]) {
-      let h1 = routes[i]["_additionalInformation"].match(
+      let title = routes[i]["_additionalInformation"].match(
         /(?<=<h2>)(.*)(?=<\/h2>)/gm
       )[0]
       let id = routes[i]["_additionalInformation"].match(/(?<=v=)[-\w]{11}/gm)
@@ -110,7 +110,7 @@ export const getData = async (routes, curPage) => {
         let arr = await getYoutubeData(j)
         const [videoLength, description, date, videoLengthMS] = arr
         videos.push({
-          h1: h1,
+          title: title,
           id: [j],
           km: km,
           videoLength: videoLength,
@@ -118,6 +118,7 @@ export const getData = async (routes, curPage) => {
           description: description,
           date: date,
           latlngs: latlngs,
+          target: routes[i],
         })
       }
     }
