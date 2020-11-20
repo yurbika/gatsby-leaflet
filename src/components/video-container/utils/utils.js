@@ -5,42 +5,73 @@ const getYoutubeData = async id => {
     )
     const json = await res.json()
     const data = json.items[0]
-    //console.log(data)
+
+    //return values
     let time = ""
     let description = ""
     let date = ""
     let videoLengthMS = ""
+
+    //extract data
     if (data) {
+      let hour = data.contentDetails.duration.includes("H")
+      let minutes = data.contentDetails.duration.includes("M")
+      let seconds = data.contentDetails.duration.includes("S")
+
       time = data.contentDetails.duration
         .replace("PT", "")
         .replace("H", ":")
         .replace("M", ":")
         .replace("S", "")
         .split(":")
+
+      //convert every single digit to a double digit 1 => 01
       for (let i = 0; i < time.length; i++) {
         if (time[i].length === 1) time[i] = "0" + time[i]
       }
-      if (time.length === 3) {
+
+      //calculating time in ms
+      if (hour && minutes && seconds) {
         let temp = 0
         temp += time[0] * 60 * 60 * 1000
         temp += time[1] * 60 * 1000
         temp += time[2] * 1000
         videoLengthMS = temp
-      } else if (time.length === 2) {
+      } else if (hour && minutes) {
+        let temp = 0
+        temp += time[0] * 60 * 60 * 1000
+        temp += time[1] * 60 * 1000
+        videoLengthMS = temp
+      } else if (hour && seconds) {
+        let temp = 0
+        temp += time[0] * 60 * 60 * 1000
+        temp += time[1] * 1000
+        videoLengthMS = temp
+      } else if (minutes && seconds) {
         let temp = 0
         temp += time[0] * 60 * 1000
         temp += time[1] * 1000
         videoLengthMS = temp
-      } else if (time.length === 1) {
+      } else if (hour) {
+        videoLengthMS = time[0] * 60 * 60 * 1000
+      } else if (minutes) {
+        videoLengthMS = time[0] * 60 * 1000
+      } else {
         videoLengthMS = time[0] * 1000
       }
 
-      //if time === min without anything else
-      if (time.length === 2 && time[1] === "") {
-        time[1] = "00"
+      //creating duration stamp
+      if (!hour && !minutes && seconds) {
+        time = "00" + time[0]
+      } else if (hour && !minutes && seconds) {
+        time = time[0] + ":00:" + time[1]
+      } else if (!hour && minutes && !seconds) {
+        time = time[0] + ":00"
+      } else if (hour && minutes && !seconds) {
+        time = time[0] + ":" + time[1] + ":00"
+      } else {
+        time = time.join(":")
       }
-
-      time = time.join(":")
 
       description = data.snippet.description
       date = data.snippet.publishedAt.split("T")[0].split("-").reverse()
@@ -48,7 +79,7 @@ const getYoutubeData = async id => {
         ;[date[0], date[1]] = [date[1], date[0]]
       }
       date = date.join("-")
-    }
+    } // end extract data
 
     return [time, description, date, videoLengthMS]
   } catch (err) {
