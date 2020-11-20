@@ -28,6 +28,7 @@ export const animatePolyline = (
   let startPathAt = 0
   let ended = false
 
+  d3.select(map.getPanes()["focusedRoute"]).select("svg").remove()
   d3.select(map.getPanes()["animatedRoute"]).select("svg").remove()
   let svg = d3.select(map.getPanes()["animatedRoute"]).append("svg")
   let g = svg.append("g").attr("class", "leaflet-zoom-hide")
@@ -68,6 +69,8 @@ export const animatePolyline = (
     .style("fill", "none")
     .style("stroke", "rgba(0,0,0,0.7)")
     .style("stroke-width", "5px")
+    .style("stroke-linecap", "round")
+    .style("stroke-linejoin", "round")
 
   let StartEnd = [points[0], points[points.length - 1]]
 

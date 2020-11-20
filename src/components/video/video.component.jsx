@@ -17,12 +17,16 @@ import {
   setVideoID,
   setVideoPlaybackRate,
 } from "../../redux/video/video.actions"
-import { selectVideoID } from "../../redux/video/video.selectors"
+import {
+  selectVideoID,
+  selectIsPlaying,
+} from "../../redux/video/video.selectors"
 
-import { selectMapRef } from "../../redux/map/map.selectors"
+import { selectMapRef, selectCurMapTarget } from "../../redux/map/map.selectors"
+import { setCurMapTarget } from "../../redux/map/map.actions"
 
 //utils
-import { createPolyline } from "./utils/utils"
+import { createPolyline, deletePolyline } from "./utils/utils"
 
 //styles
 import * as Styled from "./video.styles"
@@ -32,6 +36,7 @@ const YoutubeWithSpinner = WithSpinner(YouTube)
 class Video extends React.Component {
   state = {
     expand: false,
+    ready: false,
   }
   componentDidUpdate() {
     if (this.props.curVideoID !== this.props.id[0] && this.video)
@@ -39,7 +44,10 @@ class Video extends React.Component {
   }
   render() {
     const {
-      h1: title,
+      //styling prop
+      selected,
+      //passed data
+      title,
       id,
       km,
       videoLength,
@@ -47,30 +55,39 @@ class Video extends React.Component {
       description,
       date,
       latlngs,
-      isLoading,
+      target,
+      //needed for polyline animation
       setIsPlaying,
       setVideoLatLngs,
       setVideoCurTime,
       setVideoTotalLength,
       setVideoID,
       setVideoPlaybackRate,
+      //needed for foucs on map
+      setCurMapTarget,
+      curMapTarget,
+      //general redux
       map,
-      selected,
+      isPlaying,
+      isLoading,
     } = this.props
-    if (!!map && !!latlngs) createPolyline(latlngs, map)
+    if (curMapTarget === null) deletePolyline(map)
     return (
       <Styled.Container selected={selected}>
         <Styled.EmbedContainer>
           <YoutubeWithSpinner
+            onReady={() => this.setState({ ready: true })}
             videoId={id[0]}
-            isLoading={isLoading}
+            isLoading={isLoading && !this.state.ready}
             className="embed-container__iframe"
             onPlay={e => {
-              setVideoCurTime(e.target.getCurrentTime() * 1000)
-              setVideoTotalLength(videoLengthMS)
-              setIsPlaying(e.data === 1)
-              setVideoLatLngs(latlngs)
-              setVideoID(id[0])
+              if (this.state.ready) {
+                setVideoCurTime(e.target.getCurrentTime() * 1000)
+                setVideoTotalLength(videoLengthMS)
+                setIsPlaying(e.data === 1)
+                setVideoLatLngs(latlngs)
+                setVideoID(id[0])
+              }
             }}
             onPause={e => {
               setIsPlaying(!(e.data === 2))
@@ -104,7 +121,16 @@ class Video extends React.Component {
             >
               <span>{this.state.expand ? "VIEW LESS" : "VIEW MORE"}</span>
             </Styled.Button>
-            <Styled.Button fullBorder onClick={() => map.fitBounds(latlngs)}>
+            <Styled.Button
+              fullBorder
+              onClick={() => {
+                map.fitBounds(latlngs)
+                if (!isPlaying) {
+                  createPolyline(latlngs, map)
+                  setCurMapTarget(target)
+                }
+              }}
+            >
               <span>VIEW ON MAP</span>
             </Styled.Button>
           </Styled.ButtonContainer>
@@ -118,6 +144,8 @@ const mapStateToProps = createStructuredSelector({
   isLoading: selectIsFetching,
   curVideoID: selectVideoID,
   map: selectMapRef,
+  curMapTarget: selectCurMapTarget,
+  isPlaying: selectIsPlaying,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -127,6 +155,7 @@ const mapDispatchToProps = dispatch => ({
   setVideoTotalLength: time => dispatch(setVideoTotalLength(time)),
   setVideoID: id => dispatch(setVideoID(id)),
   setVideoPlaybackRate: num => dispatch(setVideoPlaybackRate(num)),
+  setCurMapTarget: obj => dispatch(setCurMapTarget(obj)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Video)

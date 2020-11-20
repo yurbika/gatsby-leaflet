@@ -109,6 +109,9 @@ class MyMap extends Component {
     this.boundaryMap.addTo(this.map.leafletElement)
     //adding extra pane for routes
     this.map.leafletElement.createPane("routes")
+    this.map.leafletElement.createPane("animatedRoute")
+    this.map.leafletElement.createPane("focusedRoute")
+
     //setting redux routes depending on boundaries
     this.map.leafletElement.on("moveend", () => this.handleMapActions())
 
@@ -119,8 +122,6 @@ class MyMap extends Component {
     })
 
     this.map.leafletElement.on("update", () => this.handleMapActions())
-    //animate polyline on video play
-    this.map.leafletElement.createPane("animatedRoute")
 
     //initialize routes
     this.props.setRoutes(new L.KML(kml, this.state.bounds, []))
@@ -220,6 +221,59 @@ class MyMap extends Component {
     this.props.clearVideos()
   }
 
+  render() {
+    const position = [34.0752, 134.5544]
+    //[35.652832, 139.839478]
+    const northEast = L.latLng(45.7112046, 154.205541),
+      southWest = L.latLng(20.2145811, 122.7141754),
+      bounds = L.latLngBounds(southWest, northEast)
+    const attribution =
+      '© <a href="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}">google</a> contributors'
+
+    if (typeof window !== "undefined") {
+      return (
+        <Styled.SCMap
+          center={position}
+          maxBounds={bounds}
+          minZoom={5}
+          zoom={5}
+          ref={Map => (this.map = Map)}
+          isPlaying={this.props.isPlaying}
+          style={{ background: "#bbe2f2" }}
+        >
+          {this.props.zoom < this.zoomBreak ? (
+            <GeoJSON
+              data={border}
+              onEachFeature={(f, l) => {
+                l.on({
+                  mouseover: this.handleHighlight,
+                  mouseout: this.handleClearHighlight,
+                  click: this.handleZoomToFeature,
+                })
+              }}
+              style={feature => this.handleGeoJsonStyles(feature)}
+              attribution={attribution}
+            />
+          ) : null}
+          {this.props.zoom >= this.zoomBreak ? (
+            <GeoJSON
+              data={border}
+              style={feature => this.handleGeoJsonStyles(feature)}
+              onEachFeature={(f, l) => {
+                l.on({
+                  mouseover: this.handleHighlight,
+                  mouseout: this.handleClearHighlight,
+                })
+              }}
+              attribution={attribution}
+            />
+          ) : null}
+        </Styled.SCMap>
+      )
+    }
+    return null
+  }
+
   //adding routes and async fetch of videos
   handleMapActions = () => {
     if (this.zoomBreak <= this.props.zoom && !this.props.isPlaying) {
@@ -309,59 +363,6 @@ class MyMap extends Component {
       color: "white",
       fillOpacity: 1,
     }
-  }
-
-  render() {
-    const position = [34.0752, 134.5544]
-    //[35.652832, 139.839478]
-    const northEast = L.latLng(45.7112046, 154.205541),
-      southWest = L.latLng(20.2145811, 122.7141754),
-      bounds = L.latLngBounds(southWest, northEast)
-    const attribution =
-      '© <a href="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}">google</a> contributors'
-
-    if (typeof window !== "undefined") {
-      return (
-        <Styled.SCMap
-          center={position}
-          maxBounds={bounds}
-          minZoom={5}
-          zoom={5}
-          ref={Map => (this.map = Map)}
-          isPlaying={this.props.isPlaying}
-          style={{ background: "#bbe2f2" }}
-        >
-          {this.props.zoom < this.zoomBreak ? (
-            <GeoJSON
-              data={border}
-              onEachFeature={(f, l) => {
-                l.on({
-                  mouseover: this.handleHighlight,
-                  mouseout: this.handleClearHighlight,
-                  click: this.handleZoomToFeature,
-                })
-              }}
-              style={feature => this.handleGeoJsonStyles(feature)}
-              attribution={attribution}
-            />
-          ) : null}
-          {this.props.zoom >= this.zoomBreak ? (
-            <GeoJSON
-              data={border}
-              style={feature => this.handleGeoJsonStyles(feature)}
-              onEachFeature={(f, l) => {
-                l.on({
-                  mouseover: this.handleHighlight,
-                  mouseout: this.handleClearHighlight,
-                })
-              }}
-              attribution={attribution}
-            />
-          ) : null}
-        </Styled.SCMap>
-      )
-    }
-    return null
   }
 }
 

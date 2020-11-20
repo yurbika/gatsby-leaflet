@@ -51,7 +51,7 @@ class VideoContainer extends React.Component {
             selected={
               !!this.props.curMapTarget &&
               idx === 0 &&
-              data.h1 ===
+              data.title ===
                 this.props.curMapTarget["_additionalInformation"].match(
                   /(?<=<h2>)(.*)(?=<\/h2>)/gm
                 )[0]
