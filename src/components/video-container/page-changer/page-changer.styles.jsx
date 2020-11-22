@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 35px;
+  margin-bottom: 75px;
   padding: 0 15px;
 
   button:nth-child(2) {

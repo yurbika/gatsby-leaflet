@@ -8,8 +8,6 @@ export const Help = styled.section`
   justify-content: center;
   align-items: center;
   padding: 15px 0;
-  margin-top: 50px;
-  margin-bottom: 50px;
 
   svg {
     height: 100%;
@@ -62,7 +60,6 @@ export const Help = styled.section`
 `
 
 export const Container = styled.article`
-  margin-top: 75px;
   padding: 0 15px;
 
   @media (max-width: 1025px) {

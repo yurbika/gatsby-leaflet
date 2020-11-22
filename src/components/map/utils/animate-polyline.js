@@ -83,8 +83,8 @@ export const animatePolyline = (
     .data(StartEnd)
     .enter()
     .append("circle", ".drinks")
-    .attr("r", 5)
-    .style("fill", "#00B6C8")
+    .attr("r", 6)
+    .style("fill", "#bf0436")
 
   map.on("zoom", reset)
 

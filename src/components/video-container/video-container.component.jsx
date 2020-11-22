@@ -45,8 +45,8 @@ class VideoContainer extends React.Component {
 
   render() {
     return (
-      <Styled.Wrapper>
-        <Styled.Container ref={ref => (this.myRef = ref)}>
+      <Styled.Wrapper ref={ref => (this.myRef = ref)}>
+        <Styled.Container>
           {this.state.videos.map((data, idx) => (
             <Video
               {...data}
