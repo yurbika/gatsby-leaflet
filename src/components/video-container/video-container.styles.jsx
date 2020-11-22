@@ -2,11 +2,15 @@ import styled from "styled-components"
 
 export const Help = styled.section`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 15px 0;
+  margin-top: 50px;
+  margin-bottom: 50px;
+
   svg {
     height: 100%;
     max-height: 120px;
@@ -15,6 +19,7 @@ export const Help = styled.section`
 
   ul {
     position: relative;
+    height: 100%;
     padding: 15px;
     background: #00b6c8;
     border-radius: 5px;
@@ -57,9 +62,6 @@ export const Help = styled.section`
 `
 
 export const Container = styled.article`
-  width: 100vw;
-  max-width: 600px;
-  overflow-y: scroll;
   margin-top: 75px;
   padding: 0 15px;
 
@@ -70,4 +72,11 @@ export const Container = styled.article`
   @media (max-width: 768px) {
     padding: 0 5px;
   }
+`
+
+export const Wrapper = styled.div`
+  width: 100vw;
+  max-width: 600px;
+  position: relative;
+  overflow-y: scroll;
 `

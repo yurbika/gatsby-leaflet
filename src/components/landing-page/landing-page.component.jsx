@@ -5,6 +5,7 @@ import Video from "./video/video.component"
 import Reasons from "./reasons/reasons.component"
 import Membership from "./membership/membership.component"
 import About from "./about/about.component"
+import Footer from "../footer/footer.component"
 
 //styles
 import * as Styled from "./landing-page.styles"
@@ -22,6 +23,7 @@ const LandingPage = () => {
         <Styled.HLine />
         <About />
       </Styled.Content>
+      <Footer />
     </Styled.Container>
   )
 }

@@ -6,6 +6,7 @@ import isEqual from "lodash.isequal"
 //component
 import Video from "../video/video.component"
 import PageChanger from "./page-changer/page-changer.component"
+import Footer from "../footer/footer.component"
 
 //redux
 import {
@@ -44,46 +45,60 @@ class VideoContainer extends React.Component {
 
   render() {
     return (
-      <Styled.Container ref={ref => (this.myRef = ref)}>
-        {this.state.videos.map((data, idx) => (
-          <Video
-            {...data}
-            selected={
-              !!this.props.curMapTarget &&
-              idx === 0 &&
-              data.title ===
-                this.props.curMapTarget["_additionalInformation"].match(
-                  /(?<=<h2>)(.*)(?=<\/h2>)/gm
-                )[0]
-            }
-            key={ID_GENERATOR("video-")}
-          />
-        ))}
-        {this.state.videos.length === 0 ? (
-          <Styled.Help>
-            <ul>
-              <li>
-                <h2>Help</h2>
-              </li>
-              <li>Zoom in to explorer</li>
-              <li>Click on a region to focus</li>
-              <li>Click on a route to focus</li>
-              <li>Start a video to enable live routing</li>
-              <li>A video must be paused to continue exploring</li>
-              <li>
-                Beware the live routing is not 100% synchronous with the video
-              </li>
-              <li>
-                Hovering a region/route displayes the name at the right top
-                corner
-              </li>
-            </ul>
-            <Kitty />
-          </Styled.Help>
-        ) : (
-          <PageChanger forwardRef={this.myRef} />
-        )}
-      </Styled.Container>
+      <Styled.Wrapper>
+        <Styled.Container ref={ref => (this.myRef = ref)}>
+          {this.state.videos.map((data, idx) => (
+            <Video
+              {...data}
+              selected={
+                !!this.props.curMapTarget &&
+                idx === 0 &&
+                data.title ===
+                  this.props.curMapTarget["_additionalInformation"].match(
+                    /(?<=<h2>)(.*)(?=<\/h2>)/gm
+                  )[0]
+              }
+              key={ID_GENERATOR("video-")}
+            />
+          ))}
+          {this.state.videos.length === 0 ? (
+            <Styled.Help>
+              <ul>
+                <li>
+                  <h2>Help</h2>
+                </li>
+                <li>Zoom in to explorer</li>
+                <li>Click on a region to focus</li>
+                <li>Click on a route to focus</li>
+                <li>
+                  Hovering a region/route displayes the name at the right top
+                  corner
+                </li>
+                <li>
+                  A selected route will position the video first in the list
+                </li>
+                <li>
+                  The VIEW ON MAP button will mark the route on the map and will
+                  fit the route in map bounds
+                </li>
+                <li>Start a video to enable live routing</li>
+                <li>A video must be paused to continue exploring</li>
+                <li>
+                  Beware the live routing is not 100% synchronous with the video
+                </li>
+                <li>Beware markers have not any animation</li>
+                <li>
+                  <b>HAVE FUN!</b>
+                </li>
+              </ul>
+              <Kitty />
+            </Styled.Help>
+          ) : (
+            <PageChanger forwardRef={this.myRef} />
+          )}
+        </Styled.Container>
+        <Footer />
+      </Styled.Wrapper>
     )
   }
 }

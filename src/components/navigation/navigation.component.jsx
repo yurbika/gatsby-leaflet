@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { graphql, useStaticQuery, Link } from "gatsby"
-import Image from "gatsby-image"
+import { Link } from "gatsby"
 
 //components
 import Popup from "../popup/popup.component"
@@ -8,25 +7,7 @@ import Popup from "../popup/popup.component"
 //styles
 import * as Styled from "./navigation.styles"
 
-const query = graphql`
-  {
-    file(relativePath: { eq: "logo.png" }) {
-      childImageSharp {
-        fluid {
-          ...GatsbyImageSharpFluid
-        }
-      }
-    }
-  }
-`
-
 const Navigation = () => {
-  const {
-    file: {
-      childImageSharp: { fluid },
-    },
-  } = useStaticQuery(query)
-
   const [active, setActive] = useState(false)
 
   return (
