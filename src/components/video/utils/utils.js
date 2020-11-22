@@ -11,7 +11,6 @@ export const createPolyline = (points, map) => {
   d3.select(map.getPanes()["focusedRoute"]).select("svg").remove()
   let svg = d3.select(map.getPanes()["focusedRoute"]).append("svg")
   let g = svg.append("g").attr("class", "leaflet-zoom-hide")
-  console.log(points)
 
   //functions for creation
   let toLine = d3
@@ -26,26 +25,31 @@ export const createPolyline = (points, map) => {
     .append("path")
     .attr("class", "lineConnect")
     .style("fill", "none")
-    .style("stroke", "#bf0436")
+    .style("stroke", "rgba(191, 4, 54, 0.65)")
     .style("stroke-width", "10px")
     .style("stroke-linecap", "round")
     .style("stroke-linejoin", "round")
 
-  let sw = L.polyline(points).getBounds()["_southWest"]
-  let ne = L.polyline(points).getBounds()["_northEast"]
-  let bottomRight = map.latLngToLayerPoint(sw)
-  let topLeft = map.latLngToLayerPoint(ne)
+  map.on("zoom", reset)
+  reset()
 
-  svg
-    .attr("width", Math.abs(bottomRight.x - topLeft.x) + 20)
-    .attr("height", Math.abs(bottomRight.y - topLeft.y) + 20)
-    .style("left", bottomRight.x - 10 + "px")
-    .style("top", topLeft.y - 10 + "px")
-    .style("pointer-events", "none")
+  function reset() {
+    let sw = L.polyline(points).getBounds()["_southWest"]
+    let ne = L.polyline(points).getBounds()["_northEast"]
+    let bottomRight = map.latLngToLayerPoint(sw)
+    let topLeft = map.latLngToLayerPoint(ne)
 
-  linePath.attr("d", toLine)
-  g.attr(
-    "transform",
-    "translate(" + (-bottomRight.x + 10) + "," + (-topLeft.y + 10) + ")"
-  )
+    svg
+      .attr("width", Math.abs(bottomRight.x - topLeft.x) + 20)
+      .attr("height", Math.abs(bottomRight.y - topLeft.y) + 20)
+      .style("left", bottomRight.x - 10 + "px")
+      .style("top", topLeft.y - 10 + "px")
+      .style("pointer-events", "none")
+
+    linePath.attr("d", toLine)
+    g.attr(
+      "transform",
+      "translate(" + (-bottomRight.x + 10) + "," + (-topLeft.y + 10) + ")"
+    )
+  }
 }

@@ -39,9 +39,15 @@ class Video extends React.Component {
     ready: false,
   }
   componentDidUpdate() {
-    if (this.props.curVideoID !== this.props.id[0] && this.video)
+    //preventing simultaneously playing of videos
+    if (
+      this.props.curVideoID !== "" &&
+      this.props.curVideoID !== this.props.id[0] &&
+      this.video
+    )
       this.video.internalPlayer.stopVideo()
   }
+
   render() {
     const {
       //styling prop
