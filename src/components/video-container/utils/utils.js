@@ -104,7 +104,10 @@ export const getData = async (routes, curPage) => {
       let latlngs = routes[i]["_latlngs"]
 
       //calculate distance if km is missing
-      if (km === "" || km === null) {
+      if (
+        (km === "" || km === null) &&
+        (latlngs !== undefined || latlngs !== null)
+      ) {
         for (let i = 0; i < latlngs.length - 1; i++) {
           let lat1 = latlngs[i]["lat"]
           let lng1 = latlngs[i]["lng"]
