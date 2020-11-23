@@ -23,6 +23,16 @@ const videoReducer = (state = INTIAL_STATE, action) => {
       return { ...state, videoID: action.payload }
     case VideoActionTypes.SET_VIDEO_PLAYBACKRATE:
       return { ...state, playebackRate: action.payload }
+    case VideoActionTypes.RESET_VIDEO_STATE:
+      return {
+        ...state,
+        isPlaying: false,
+        latLngsArray: [],
+        curTime: 0,
+        totalLength: 0,
+        videoID: "",
+        playebackRate: 1,
+      }
     default:
       return state
   }

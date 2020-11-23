@@ -29,3 +29,7 @@ export const setVideoPlaybackRate = num => ({
   type: VideoActionTypes.SET_VIDEO_PLAYBACKRATE,
   payload: num,
 })
+
+export const resetVideoState = () => ({
+  type: VideoActionTypes.RESET_VIDEO_STATE,
+})

@@ -10,6 +10,8 @@ import {
   setPage,
 } from "../../../redux/page-changer/page-changer.actions"
 
+import { resetVideoState } from "../../../redux/video/video.actions"
+
 import { selectRoutes } from "../../../redux/map/map.selectors"
 import { fetchVideosStartAsync } from "../../../redux/map/map.actions"
 
@@ -27,16 +29,21 @@ const PageChanger = ({
   setPage,
   fetchVideosStartAsync,
   forwardRef,
+  resetVideoState,
 }) => {
   const totalPages = Math.ceil(totalRoutes.length / 10)
+  const handleClick = () => {
+    fetchVideosStartAsync()
+    forwardRef.scroll(0, 0)
+    resetVideoState()
+  }
   return (
     <Styled.Container hidden={totalPages === 1}>
       <button
         onClick={() => {
           if (curPage - 1 >= 0) decrementPage()
           else setPage(totalPages - 1)
-          fetchVideosStartAsync()
-          forwardRef.scroll(0, 0)
+          handleClick()
         }}
       >
         <Arrow />
@@ -48,8 +55,7 @@ const PageChanger = ({
         onClick={() => {
           if (curPage + 1 < totalPages) incrementPage()
           else setPage(0)
-          fetchVideosStartAsync()
-          forwardRef.scroll(0, 0)
+          handleClick()
         }}
       >
         <Arrow />
@@ -68,6 +74,7 @@ const mapDispatchToProps = dispatch => ({
   decrementPage: () => dispatch(decrementPage()),
   setPage: num => dispatch(setPage(num)),
   fetchVideosStartAsync: () => dispatch(fetchVideosStartAsync()),
+  resetVideoState: () => dispatch(resetVideoState()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageChanger)
