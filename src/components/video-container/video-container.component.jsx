@@ -7,6 +7,7 @@ import isEqual from "lodash.isequal"
 import Video from "../video/video.component"
 import PageChanger from "./page-changer/page-changer.component"
 import Footer from "../footer/footer.component"
+import Search from "../search/search.component"
 
 //redux
 import {
@@ -46,6 +47,7 @@ class VideoContainer extends React.Component {
   render() {
     return (
       <Styled.Wrapper ref={ref => (this.myRef = ref)}>
+        <Search />
         <Styled.Container>
           {this.state.videos.map((data, idx) => (
             <Video

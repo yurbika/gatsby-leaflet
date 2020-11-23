@@ -11,7 +11,7 @@ const Search = () => {
     <Styled.Container>
       <Styled.InputWrapper>
         <input type="text" id="searchText" placeholder="Search" />
-        <label for="searchText">Search</label>
+        <label htmlFor="searchText">Search</label>
       </Styled.InputWrapper>
       <Styled.ButtonWrapper>
         <button>

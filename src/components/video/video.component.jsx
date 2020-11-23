@@ -27,6 +27,7 @@ import { setCurMapTarget } from "../../redux/map/map.actions"
 
 //utils
 import { createPolyline, deletePolyline } from "./utils/utils"
+import { checkStrings } from "../video-container/utils/utils"
 
 //styles
 import * as Styled from "./video.styles"
@@ -34,15 +35,19 @@ import * as Styled from "./video.styles"
 const YoutubeWithSpinner = WithSpinner(YouTube)
 
 class Video extends React.Component {
-  state = {
-    expand: false,
-    ready: false,
+  constructor() {
+    super()
+
+    this.state = {
+      expand: false,
+      ready: false,
+    }
   }
   componentDidUpdate() {
     //preventing simultaneously playing of videos
     if (
       this.props.curVideoID !== "" &&
-      this.props.curVideoID !== this.props.id[0] &&
+      !checkStrings(this.props.curVideoID, this.props.id[0]) &&
       this.video
     )
       this.video.internalPlayer.stopVideo()

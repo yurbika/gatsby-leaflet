@@ -105,8 +105,9 @@ export const getData = async (routes, curPage) => {
 
       //calculate distance if km is missing
       if (
-        (km === "" || km === null) &&
-        (latlngs !== undefined || latlngs !== null)
+        latlngs !== undefined &&
+        latlngs !== null &&
+        (km === "" || km === null)
       ) {
         for (let i = 0; i < latlngs.length - 1; i++) {
           let lat1 = latlngs[i]["lat"]
@@ -147,9 +148,10 @@ export const sortVideos = (target, arr) => {
 
   for (let ele of arr) {
     if (
-      String(ele["_additionalInformation"]).localeCompare(
+      checkStrings(
+        ele["_additionalInformation"],
         target["_additionalInformation"]
-      ) === 0
+      )
     )
       idx = i
     else i++
@@ -158,6 +160,29 @@ export const sortVideos = (target, arr) => {
   arr.unshift(arr[idx])
   arr.splice(idx + 1, 1)
   return arr
+}
+
+export const checkStrings = (s1, s2) => {
+  if (
+    s1 === "" ||
+    s2 === "" ||
+    s1.length !== s2.length ||
+    s1 === null ||
+    s2 === null ||
+    s1 === undefined ||
+    s2 === undefined
+  )
+    return false
+
+  let p1 = 0
+  let p2 = 0
+
+  while (p1 < s1.length) {
+    if (s1[p1] !== s2[p2]) return false
+    p1++
+    p2++
+  }
+  return true
 }
 
 //haversine
