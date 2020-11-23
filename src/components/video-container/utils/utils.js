@@ -102,8 +102,18 @@ export const getData = async (routes, curPage) => {
         /(?<=Distance in km: )([0-9]*[,])?[0-9]+/gm
       )
       let latlngs = routes[i]["_latlngs"]
-      if (km === "") {
-        km = "-"
+
+      //calculate distance if km is missing
+      if (km === "" || km === null) {
+        for (let i = 0; i < latlngs.length - 1; i++) {
+          let lat1 = latlngs[i]["lat"]
+          let lng1 = latlngs[i]["lng"]
+          let lat2 = latlngs[i + 1]["lat"]
+          let lng2 = latlngs[i + 1]["lng"]
+
+          km += calcDistance(lat1, lng1, lat2, lng2)
+        }
+        km = Math.round((km + Number.EPSILON) * 100) / 100
       }
       // a video could contain multiple ids
       for (let j of id) {
@@ -145,4 +155,25 @@ export const sortVideos = (target, arr) => {
   arr.unshift(arr[idx])
   arr.splice(idx + 1, 1)
   return arr
+}
+
+//haversine
+const calcDistance = (lat1, lng1, lat2, lng2) => {
+  const R = 6371 // metres
+  lat1 = (lat1 * Math.PI) / 180
+  lat2 = (lat2 * Math.PI) / 180
+  lng1 = (lng1 * Math.PI) / 180
+  lng2 = (lng2 * Math.PI) / 180
+
+  let dlng = lng2 - lng1
+  let dlat = lat2 - lat1
+
+  const a =
+    Math.pow(Math.sin(dlat / 2), 2) +
+    Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlng / 2), 2)
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+  let d = R * c
+  return d
 }
