@@ -118,7 +118,13 @@ export const getData = async (routes, curPage) => {
           km += calcDistance(lat1, lng1, lat2, lng2)
         }
         km = Math.round((km + Number.EPSILON) * 100) / 100
+
+        //to be presisten with punctuation
+        km = String(km).replace(",", ".")
+      } else {
+        km = "-"
       }
+
       // a video could contain multiple ids
       for (let j of id) {
         let arr = await getYoutubeData(j)

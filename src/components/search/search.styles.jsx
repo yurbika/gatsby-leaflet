@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export const Container = styled.article`
   display: flex;
@@ -58,6 +58,7 @@ export const ButtonWrapper = styled.div`
   margin-left: 35px;
   width: 100%;
   max-width: 135px;
+  position: relative;
 
   button {
     display: inline-flex;
@@ -82,4 +83,42 @@ export const ButtonWrapper = styled.div`
       }
     }
   }
+
+  ul {
+    display: none;
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    background: white;
+    padding: 15px;
+    z-index: 1;
+    list-style: none;
+    font-size: 14px;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    text-align: center;
+
+    li {
+      border: 1px solid transparent;
+      border-radius: 5px;
+      padding: 5px;
+      cursor: pointer;
+
+      &:hover,
+      &:focus {
+        border-color: #bf0436;
+        color: #bf0436;
+      }
+    }
+  }
+  ${props =>
+    props.expand
+      ? css`
+          ul {
+            display: block;
+            visibility: visible;
+          }
+        `
+      : ""}
 `
