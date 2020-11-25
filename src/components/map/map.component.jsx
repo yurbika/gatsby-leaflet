@@ -197,7 +197,7 @@ class MyMap extends Component {
         this.map.leafletElement.setView(e.latlng, 17)
       } else this.map.leafletElement.fitBounds(e.sourceTarget["_bounds"])
       //setting current route click
-      this.props.setCurMapTarget(e.sourceTarget)
+      if (!this.props.isPlaying) this.props.setCurMapTarget(e.sourceTarget)
     })
     //updated map depending on view
     if (this.props.zoom >= this.zoomBreak) {

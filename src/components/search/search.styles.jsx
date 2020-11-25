@@ -60,7 +60,7 @@ export const ButtonWrapper = styled.div`
   max-width: 135px;
   position: relative;
 
-  button {
+  & > button {
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
@@ -100,15 +100,18 @@ export const ButtonWrapper = styled.div`
     text-align: center;
 
     li {
-      border: 1px solid transparent;
-      border-radius: 5px;
-      padding: 5px;
-      cursor: pointer;
+      button {
+        cursor: pointer;
+        background: none;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        padding: 5px;
 
-      &:hover,
-      &:focus {
-        border-color: #bf0436;
-        color: #bf0436;
+        &:hover,
+        &:focus {
+          border-color: #bf0436;
+          color: #bf0436;
+        }
       }
     }
   }

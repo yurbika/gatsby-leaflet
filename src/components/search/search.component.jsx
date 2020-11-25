@@ -1,4 +1,8 @@
 import React, { useState } from "react"
+import { connect } from "react-redux"
+
+//redux
+import { setSortByAndOrder } from "../../redux/search/search.actions"
 
 //assets
 import Arrow from "../../assets/arrow.svg"
@@ -6,7 +10,7 @@ import Arrow from "../../assets/arrow.svg"
 //styles
 import * as Styled from "./search.styles"
 
-const Search = () => {
+const Search = ({ setSortByAndOrder }) => {
   const [expand, setExpand] = useState(false)
   return (
     <Styled.Container>
@@ -19,17 +23,63 @@ const Search = () => {
           <span>Sort by</span>
           <Arrow />
         </button>
-        <ul>
-          <li>Kilometers (Ascending)</li>
-          <li>Kilometers (Decending)</li>
-          <li>Duration (Ascending)</li>
-          <li>Duration (Decending)</li>
-          <li>Date (Latest)</li>
-          <li>Date (Oldest)</li>
+        <ul onClick={() => setExpand(false)}>
+          <li>
+            <button
+              onClick={() => setSortByAndOrder({ sortBy: "km", order: true })}
+            >
+              Kilometers (Ascending)
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => setSortByAndOrder({ sortBy: "km", order: false })}
+            >
+              Kilometers (Decending)
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() =>
+                setSortByAndOrder({ sortBy: "videoLengthMS", order: true })
+              }
+            >
+              Duration (Ascending)
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() =>
+                setSortByAndOrder({ sortBy: "videoLengthMS", order: false })
+              }
+            >
+              Duration (Decending)
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() =>
+                setSortByAndOrder({ sortBy: "date", order: false })
+              }
+            >
+              Date (Latest)
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => setSortByAndOrder({ sortBy: "date", order: true })}
+            >
+              Date (Oldest)
+            </button>
+          </li>
         </ul>
       </Styled.ButtonWrapper>
     </Styled.Container>
   )
 }
 
-export default Search
+const mapDispatchToProps = dispatch => ({
+  setSortByAndOrder: obj => dispatch(setSortByAndOrder(obj)),
+})
+
+export default connect(null, mapDispatchToProps)(Search)
