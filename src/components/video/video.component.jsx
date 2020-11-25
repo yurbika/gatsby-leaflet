@@ -48,7 +48,8 @@ class Video extends React.Component {
     if (
       this.props.curVideoID !== "" &&
       !checkStrings(this.props.curVideoID, this.props.id[0]) &&
-      this.video
+      this.video &&
+      this.props.isPlaying
     )
       this.video.internalPlayer.stopVideo()
   }
@@ -102,9 +103,11 @@ class Video extends React.Component {
             }}
             onPause={e => {
               setIsPlaying(!(e.data === 2))
+              setVideoID("")
             }}
             onEnd={e => {
               setIsPlaying(!(e.data === 0))
+              setVideoID("")
             }}
             onPlaybackRateChange={e => setVideoPlaybackRate(e.data)}
             innerRef={video => (this.video = video)}

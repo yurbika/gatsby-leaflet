@@ -17,11 +17,14 @@ import {
 } from "../../redux/map/map.selectors"
 import { clearVideos } from "../../redux/map/map.actions"
 
+import { selectOrder, selectSortBy } from "../../redux/search/search.selectors"
+
 //assets
 import Kitty from "../../assets/kitty.svg"
 
 //utils
 import ID_GENERATOR from "../../uniqueKey"
+import { sortVideosByValue } from "./utils/utils"
 
 //styles
 import * as Styled from "./video-container.styles"
@@ -29,12 +32,32 @@ import * as Styled from "./video-container.styles"
 class VideoContainer extends React.Component {
   state = {
     videos: this.props.videos,
+    sortBy: "",
+    order: true,
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (!isEqual(props.videos, state.videos) && props.zoom >= 8) {
-      return {
-        videos: props.videos,
+    if (
+      (!isEqual(props.videos, state.videos) && props.zoom >= 8) ||
+      (state.videos &&
+        (!isEqual(state.sortBy, props.sortBy) ||
+          !isEqual(state.order || props.order)))
+    ) {
+      let arr = sortVideosByValue(
+        props.videos,
+        props.sortBy,
+        props.order,
+        props.curMapTarget
+      )
+
+      if (arr.length > 0)
+        return {
+          videos: arr,
+        }
+      else {
+        return {
+          videos: props.videos,
+        }
       }
     } else if (props.zoom < 8) return { videos: [] }
     return null
@@ -49,20 +72,21 @@ class VideoContainer extends React.Component {
       <Styled.Wrapper ref={ref => (this.myRef = ref)}>
         <Search />
         <Styled.Container>
-          {this.state.videos.map((data, idx) => (
-            <Video
-              {...data}
-              selected={
-                !!this.props.curMapTarget &&
-                idx === 0 &&
-                data.title ===
-                  this.props.curMapTarget["_additionalInformation"].match(
-                    /(?<=<h2>)(.*)(?=<\/h2>)/gm
-                  )[0]
-              }
-              key={ID_GENERATOR("video-")}
-            />
-          ))}
+          {this.state.videos &&
+            this.state.videos.map((data, idx) => (
+              <Video
+                {...data}
+                selected={
+                  !!this.props.curMapTarget &&
+                  idx === 0 &&
+                  data.title ===
+                    this.props.curMapTarget["_additionalInformation"].match(
+                      /(?<=<h2>)(.*)(?=<\/h2>)/gm
+                    )[0]
+                }
+                key={ID_GENERATOR("video-")}
+              />
+            ))}
           {this.state.videos.length === 0 ? (
             <Styled.Help>
               <ul>
@@ -109,6 +133,8 @@ const mapStateToProps = createStructuredSelector({
   videos: selectVideos,
   zoom: selectZoom,
   curMapTarget: selectCurMapTarget,
+  order: selectOrder,
+  sortBy: selectSortBy,
 })
 
 const mapDispatchToProps = dispatch => ({
