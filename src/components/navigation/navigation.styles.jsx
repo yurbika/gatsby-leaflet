@@ -97,4 +97,11 @@ export const Nav = styled.nav`
   top: 0;
   left: 0;
   z-index: 10;
+
+  ${props =>
+    props.showShadow
+      ? css`
+          box-shadow: 0 1px 3px rgba(51, 23, 23, 0.15);
+        `
+      : ""}
 `

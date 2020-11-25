@@ -8,6 +8,7 @@ export const Help = styled.section`
   justify-content: center;
   align-items: center;
   padding: 15px 0;
+  margin-top: 15px;
 
   svg {
     height: 100%;

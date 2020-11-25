@@ -7,11 +7,11 @@ import Popup from "../popup/popup.component"
 //styles
 import * as Styled from "./navigation.styles"
 
-const Navigation = () => {
+const Navigation = ({ location }) => {
   const [active, setActive] = useState(false)
 
   return (
-    <Styled.Nav>
+    <Styled.Nav showShadow={location === "map"}>
       <Styled.LogoContainer>
         <Link to="/">
           <div className="img"></div>

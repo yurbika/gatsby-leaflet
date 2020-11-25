@@ -70,7 +70,7 @@ class VideoContainer extends React.Component {
   render() {
     return (
       <Styled.Wrapper ref={ref => (this.myRef = ref)}>
-        <Search />
+        {this.state.videos.length !== 0 ? <Search /> : null}
         <Styled.Container>
           {this.state.videos &&
             this.state.videos.map((data, idx) => (

@@ -8,7 +8,7 @@ import Navigation from "./navigation/navigation.component"
 //styles
 import "./layout.css"
 
-const Layout = ({ children }) => {
+const Layout = ({ location, children }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -21,7 +21,9 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Navigation />
+      <Navigation
+        location={location ? location.pathname.replaceAll("/", "") : ""}
+      />
       <main>{children}</main>
     </>
   )
