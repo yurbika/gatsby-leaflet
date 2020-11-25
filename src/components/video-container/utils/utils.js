@@ -168,6 +168,50 @@ export const sortVideos = (target, arr) => {
   return arr
 }
 
+//sort depending on value
+export const sortVideosByValue = (
+  videos,
+  valueName,
+  //order = true => ascending
+  order = true,
+  curTarget = false
+) => {
+  if (
+    videos === null ||
+    videos === undefined ||
+    videos.length === 0 ||
+    valueName === ""
+  )
+    return []
+
+  const sort = () => {
+    if (valueName === "date" && order) {
+      videos.sort((a, b) => new Date(a.date) - new Date(b.date))
+    } else if (valueName === "date" && !order) {
+      videos.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1))
+    } else if (order) {
+      videos.sort((a, b) => Number(a[valueName]) - Number(b[valueName]))
+    } else {
+      videos.sort((a, b) =>
+        Number(a[valueName]) > Number(b[valueName]) ? -1 : 1
+      )
+    }
+  }
+
+  if (curTarget && videos.length > 1) {
+    let firstElement
+    firstElement = videos.shift()
+    sort()
+    videos.unshift(firstElement)
+    return videos
+  } else if (!curTarget && videos.length > 1) {
+    sort()
+    return videos
+  } else {
+    return videos
+  }
+}
+
 export const checkStrings = (s1, s2) => {
   if (
     s1 === "" ||
