@@ -23,7 +23,7 @@ import {
 } from "../../redux/video/video.selectors"
 
 import { selectMapRef, selectCurMapTarget } from "../../redux/map/map.selectors"
-import { setCurMapTarget } from "../../redux/map/map.actions"
+import { setCurMapTarget, setZoom } from "../../redux/map/map.actions"
 
 //utils
 import { createPolyline, deletePolyline } from "./utils/utils"
@@ -67,6 +67,7 @@ class Video extends React.Component {
       description,
       date,
       latlngs,
+      markerlatlng,
       target,
       //needed for polyline animation
       setIsPlaying,
@@ -78,12 +79,14 @@ class Video extends React.Component {
       //needed for foucs on map
       setCurMapTarget,
       curMapTarget,
+      setZoom,
       //general redux
       map,
       isPlaying,
       isLoading,
     } = this.props
     if (curMapTarget === null) deletePolyline(map)
+
     return (
       <Styled.Container selected={selected}>
         <Styled.EmbedContainer>
@@ -104,10 +107,12 @@ class Video extends React.Component {
             onPause={e => {
               setIsPlaying(!(e.data === 2))
               setVideoID("")
+              setZoom(map.getZoom())
             }}
             onEnd={e => {
               setIsPlaying(!(e.data === 0))
               setVideoID("")
+              setZoom(map.getZoom())
             }}
             onPlaybackRateChange={e => setVideoPlaybackRate(e.data)}
             innerRef={video => (this.video = video)}
@@ -138,10 +143,14 @@ class Video extends React.Component {
             <Styled.Button
               fullBorder
               onClick={() => {
-                map.fitBounds(latlngs)
-                if (!isPlaying) {
-                  createPolyline(latlngs, map)
-                  setCurMapTarget(target)
+                if (latlngs !== null || latlngs !== undefined) {
+                  map.fitBounds(latlngs)
+                  if (!isPlaying) {
+                    createPolyline(latlngs, map)
+                    setCurMapTarget(target)
+                  }
+                } else {
+                  map.fitBounds(markerlatlng)
                 }
               }}
             >
@@ -170,6 +179,7 @@ const mapDispatchToProps = dispatch => ({
   setVideoID: id => dispatch(setVideoID(id)),
   setVideoPlaybackRate: num => dispatch(setVideoPlaybackRate(num)),
   setCurMapTarget: obj => dispatch(setCurMapTarget(obj)),
+  setZoom: num => dispatch(setZoom(num)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Video)

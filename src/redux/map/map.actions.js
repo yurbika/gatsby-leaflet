@@ -26,17 +26,20 @@ export const fetchVideosFailure = errMsg => ({
 
 const fetchVideosStartAsyncDebounced = debounce(
   (dispatch, getState) => {
-    const { routes, curMapTarget } = getState().map
+    const { routes, curMapTarget, zoom } = getState().map
     const { curPage } = getState().pageChanger
-    //if a route gets clicked it will be placed on the first idx
-    let sortedArr = null
-    if (curMapTarget !== null) sortedArr = sortVideos(curMapTarget, routes.cur)
-    if (sortedArr === null) dispatch(setCurMapTarget(null))
-    //otherwise just do a fetch videos in random order
-    dispatch(fetchVideosStart())
-    getData(sortedArr || routes.cur, curPage)
-      .then(arr => dispatch(fetchVideosSuccess(arr)))
-      .catch(err => dispatch(fetchVideosFailure(err)))
+    if (zoom >= 8) {
+      //if a route gets clicked it will be placed on the first idx
+      let sortedArr = null
+      if (curMapTarget !== null)
+        sortedArr = sortVideos(curMapTarget, routes.cur)
+      if (sortedArr === null) dispatch(setCurMapTarget(null))
+      //otherwise just do a fetch videos in random order
+      dispatch(fetchVideosStart())
+      getData(sortedArr || routes.cur, curPage)
+        .then(arr => dispatch(fetchVideosSuccess(arr)))
+        .catch(err => dispatch(fetchVideosFailure(err)))
+    }
   },
   750,
   { leading: false, trailing: true }

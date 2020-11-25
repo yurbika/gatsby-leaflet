@@ -83,7 +83,7 @@ const getYoutubeData = async id => {
 
     return [time, description, date, videoLengthMS]
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -102,6 +102,7 @@ export const getData = async (routes, curPage) => {
         /(?<=Distance in km: )([0-9]*[,])?[0-9]+/gm
       )
       let latlngs = routes[i]["_latlngs"]
+      let markerlatlng = routes[i]["_latlng"]
 
       //calculate distance if km is missing
       if (
@@ -138,6 +139,7 @@ export const getData = async (routes, curPage) => {
           description: description,
           date: date,
           latlngs: latlngs,
+          markerlatlng: markerlatlng,
           target: routes[i],
         })
       }
