@@ -121,7 +121,7 @@ export const getData = async (routes, curPage) => {
         km = Math.round((km + Number.EPSILON) * 100) / 100
 
         //to be presisten with punctuation
-        km = String(km).replace(",", ".")
+        km = String(Number(km).toFixed(2)).replace(",", ".")
       } else {
         km = "-"
       }
@@ -185,18 +185,23 @@ export const sortVideosByValue = (
     valueName === ""
   )
     return []
-
   const sort = () => {
     if (valueName === "date" && order) {
       videos.sort((a, b) => new Date(a.date) - new Date(b.date))
     } else if (valueName === "date" && !order) {
       videos.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1))
     } else if (order) {
-      videos.sort((a, b) => Number(a[valueName]) - Number(b[valueName]))
+      videos.sort((a, b) => {
+        if (isNaN(Number(a[valueName]))) return -1
+        else if (isNaN(Number(b[valueName]))) return 1
+        else return Number(a[valueName]) < Number(b[valueName]) ? -1 : 1
+      })
     } else {
-      videos.sort((a, b) =>
-        Number(a[valueName]) > Number(b[valueName]) ? -1 : 1
-      )
+      videos.sort((a, b) => {
+        if (isNaN(Number(a[valueName]))) return 1
+        else if (isNaN(Number(b[valueName]))) return -1
+        else return Number(a[valueName]) > Number(b[valueName]) ? -1 : 1
+      })
     }
   }
 

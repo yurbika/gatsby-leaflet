@@ -7,8 +7,8 @@ export const Container = styled.article`
   width: 100%;
   max-height: 100px;
   padding: 0 15px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 35px;
+  margin-bottom: 35px;
 
   & > * {
     height: 50px;
@@ -124,4 +124,35 @@ export const ButtonWrapper = styled.div`
           }
         `
       : ""}
+`
+
+export const InfoContainer = styled.div`
+  width: 35px;
+  height: 35px;
+  margin-left: 15px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: 2px solid #00b6c8;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-weight: bold;
+    color: #00b6c8;
+    cursor: pointer;
+
+    span {
+      display: inline-block;
+      margin-top: 2.75px;
+    }
+  }
+
+  ul {
+  }
 `

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components"
 
-import { Container as VideoContainer } from "../video-container/video-container.styles"
+import { Wrapper as VideoContainer } from "../video-container/video-container.styles"
 import { SCMap as Map, SCMap } from "../map/map.styles"
 
 export const Container = styled.article`

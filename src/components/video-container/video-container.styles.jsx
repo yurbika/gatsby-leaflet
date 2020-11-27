@@ -63,10 +63,6 @@ export const Help = styled.section`
 export const Container = styled.article`
   padding: 0 15px;
 
-  @media (max-width: 1025px) {
-    max-width: unset;
-  }
-
   @media (max-width: 768px) {
     padding: 0 5px;
   }
@@ -77,4 +73,7 @@ export const Wrapper = styled.div`
   max-width: 600px;
   position: relative;
   overflow-y: scroll;
+  @media (max-width: 1025px) {
+    max-width: unset;
+  }
 `

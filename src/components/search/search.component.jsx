@@ -1,6 +1,9 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
 
+//components
+import Info from "./info/info.component"
+
 //redux
 import { setSortByAndOrder } from "../../redux/search/search.actions"
 
@@ -12,6 +15,8 @@ import * as Styled from "./search.styles"
 
 const Search = ({ setSortByAndOrder }) => {
   const [expand, setExpand] = useState(false)
+  const [expandInfo, setExpandInfo] = useState(false)
+
   return (
     <Styled.Container>
       <Styled.InputWrapper>
@@ -74,6 +79,12 @@ const Search = ({ setSortByAndOrder }) => {
           </li>
         </ul>
       </Styled.ButtonWrapper>
+      <Styled.InfoContainer>
+        <button onClick={() => setExpandInfo(!expandInfo)}>
+          <span>i</span>
+        </button>
+        <Info expand={expandInfo} />
+      </Styled.InfoContainer>
     </Styled.Container>
   )
 }

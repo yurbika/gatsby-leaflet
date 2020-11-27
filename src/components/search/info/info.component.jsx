@@ -12,8 +12,9 @@ import * as Styled from "./info.styles"
 
 const Info = ({ expand }) => {
   const [page, setPage] = useState(0)
-  const totalPages = Math.ceil(Information.length / 4)
-  let arr = Information.slice(page * 4, 4 * page + 4)
+  const maxInfos = 4
+  const totalPages = Math.ceil(Information.length / maxInfos)
+  let arr = Information.slice(page * maxInfos, maxInfos * page + maxInfos)
 
   return (
     <Styled.Container expand={expand}>
@@ -29,7 +30,7 @@ const Info = ({ expand }) => {
         <button
           onClick={() => {
             if (page - 1 >= 0) setPage(page - 1)
-            else setPage(totalPages - 1)
+            else setPage(totalPages)
           }}
         >
           <Arrow />
@@ -38,7 +39,7 @@ const Info = ({ expand }) => {
         <button
           onClick={() => {
             if (page + 1 < totalPages) setPage(page + 1)
-            else setPage(1)
+            else setPage(0)
           }}
         >
           <Arrow />
