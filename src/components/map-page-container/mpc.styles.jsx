@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components"
 
 import { Wrapper as VideoContainer } from "../video-container/video-container.styles"
-import { SCMap as Map, SCMap } from "../map/map.styles"
+import { SCMap } from "../map/map.styles"
 
 export const Container = styled.article`
   position: relative;
@@ -70,5 +70,9 @@ export const Container = styled.article`
               visibility: hidden;
             }
           `}
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 50px;
   }
 `

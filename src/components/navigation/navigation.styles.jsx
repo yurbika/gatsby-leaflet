@@ -16,8 +16,8 @@ export const LogoContainer = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
 `
 
@@ -96,7 +96,7 @@ export const Nav = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 11;
 
   ${props =>
     props.showShadow
@@ -104,4 +104,8 @@ export const Nav = styled.nav`
           box-shadow: 0 1px 3px rgba(51, 23, 23, 0.15);
         `
       : ""}
+
+  @media(max-width: 768px) {
+    height: 50px;
+  }
 `

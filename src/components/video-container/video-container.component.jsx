@@ -21,6 +21,7 @@ import { selectOrder, selectSortBy } from "../../redux/search/search.selectors"
 
 //assets
 import Kitty from "../../assets/kitty.svg"
+import help from "../search/info/help"
 
 //utils
 import ID_GENERATOR from "../../uniqueKey"
@@ -93,26 +94,9 @@ class VideoContainer extends React.Component {
                 <li>
                   <h2>Help</h2>
                 </li>
-                <li>Zoom in to explorer</li>
-                <li>Click on a region to focus</li>
-                <li>Click on a route to focus</li>
-                <li>
-                  Hovering a region/route displayes the name at the right top
-                  corner
-                </li>
-                <li>
-                  A selected route will position the video first in the list
-                </li>
-                <li>
-                  The VIEW ON MAP button will mark the route on the map and will
-                  fit the route in map bounds
-                </li>
-                <li>Start a video to enable live routing</li>
-                <li>A video must be paused to continue exploring</li>
-                <li>
-                  Beware the live routing is not 100% synchronous with the video
-                </li>
-                <li>Beware markers have not any animation</li>
+                {help.map(ele => (
+                  <li key={ID_GENERATOR("cat-help")}>{ele}</li>
+                ))}
                 <li>
                   <b>HAVE FUN!</b>
                 </li>

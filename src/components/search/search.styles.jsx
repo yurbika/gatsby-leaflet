@@ -13,6 +13,13 @@ export const Container = styled.article`
   & > * {
     height: 50px;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: unset;
+    justify-content: unset;
+    max-height: unset;
+  }
 `
 
 export const InputWrapper = styled.div`
@@ -55,7 +62,6 @@ export const InputWrapper = styled.div`
 `
 
 export const ButtonWrapper = styled.div`
-  margin-left: 35px;
   width: 100%;
   max-width: 135px;
   position: relative;
@@ -152,7 +158,21 @@ export const InfoContainer = styled.div`
       margin-top: 2.75px;
     }
   }
+`
 
-  ul {
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 15px;
+  min-width: 200px;
+  & > * {
+    height: 50px;
+  }
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 15px;
   }
 `

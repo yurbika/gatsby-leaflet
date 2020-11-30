@@ -24,6 +24,7 @@ export const Help = styled.section`
     border-radius: 5px;
     max-width: 350px;
     margin-bottom: 35px;
+    margin-left: 0;
 
     h2 {
       font-size: 20px;

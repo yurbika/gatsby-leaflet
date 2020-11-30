@@ -25,7 +25,7 @@ export const Ul = styled.ul`
 
 export const Container = styled.article`
   position: absolute;
-  top: 35px;
+  top: 45px;
   right: 0;
   padding: 15px;
   background: #00b6c8;
@@ -43,6 +43,10 @@ export const Container = styled.article`
           visibility: visible;
         `
       : ""}
+
+  @media (max-width: 568px) {
+    max-width: 270px;
+  }
 `
 
 export const PageChanger = styled.div`
