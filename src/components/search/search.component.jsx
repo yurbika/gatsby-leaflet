@@ -10,6 +10,7 @@ import {
   setSortByAndOrder,
   setTextAsync,
   setText,
+  resetDebouncedText,
 } from "../../redux/search/search.actions"
 import { selectText } from "../../redux/search/search.selectors"
 
@@ -20,7 +21,13 @@ import Cancel from "../../assets/cancel.svg"
 //styles
 import * as Styled from "./search.styles"
 
-const Search = ({ text, setText, setTextAsync, setSortByAndOrder }) => {
+const Search = ({
+  text,
+  setText,
+  setTextAsync,
+  setSortByAndOrder,
+  resetDebouncedText,
+}) => {
   const [expand, setExpand] = useState(false)
   const [expandInfo, setExpandInfo] = useState(false)
 
@@ -34,11 +41,16 @@ const Search = ({ text, setText, setTextAsync, setSortByAndOrder }) => {
           value={text}
           onChange={e => {
             setText(e.target.value)
-            setTextAsync(text)
+            setTextAsync(e.target.value)
           }}
         />
         <label htmlFor="searchText">Search</label>
-        <button onClick={() => setText("")}>
+        <button
+          onClick={() => {
+            setText("")
+            resetDebouncedText()
+          }}
+        >
           <Cancel />
         </button>
       </Styled.InputWrapper>
@@ -122,6 +134,7 @@ const mapDispatchToProps = dispatch => ({
   setSortByAndOrder: obj => dispatch(setSortByAndOrder(obj)),
   setTextAsync: txt => dispatch(setTextAsync(txt)),
   setText: txt => dispatch(setText(txt)),
+  resetDebouncedText: () => dispatch(resetDebouncedText()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search)

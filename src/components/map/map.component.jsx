@@ -35,6 +35,8 @@ import {
 
 import { setVideoIsPlaying } from "../../redux/video/video.actions"
 
+import { setText, resetDebouncedText } from "../../redux/search/search.actions"
+
 //assets
 import KML from "../../assets/routes.js"
 
@@ -285,6 +287,8 @@ class MyMap extends Component {
       this.props.fetchVideosStartAsync()
     }
     this.props.setPage(0)
+    this.props.setText("")
+    this.props.resetDebouncedText()
   }
 
   handleHighlight = e => {
@@ -386,6 +390,8 @@ const mapDispatchToProps = dispatch => ({
   setPage: num => dispatch(setPage(num)),
   setMapRef: ref => dispatch(setMapRef(ref)),
   setCurMapTarget: obj => dispatch(setCurMapTarget(obj)),
+  setText: txt => dispatch(setText(txt)),
+  resetDebouncedText: () => dispatch(resetDebouncedText()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyMap)

@@ -17,7 +17,11 @@ import {
 } from "../../redux/map/map.selectors"
 import { clearVideos } from "../../redux/map/map.actions"
 
-import { selectOrder, selectSortBy } from "../../redux/search/search.selectors"
+import {
+  selectOrder,
+  selectSortBy,
+  selectDebouncedText,
+} from "../../redux/search/search.selectors"
 
 //assets
 import Kitty from "../../assets/kitty.svg"
@@ -35,6 +39,7 @@ class VideoContainer extends React.Component {
     videos: this.props.videos,
     sortBy: "",
     order: true,
+    text: "",
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -42,7 +47,8 @@ class VideoContainer extends React.Component {
       (!isEqual(props.videos, state.videos) && props.zoom >= 8) ||
       (state.videos &&
         (!isEqual(state.sortBy, props.sortBy) ||
-          !isEqual(state.order || props.order)))
+          !isEqual(state.order, props.order))) ||
+      !isEqual(state.text, props.text)
     ) {
       let arr = sortVideosByValue(
         props.videos,
@@ -70,7 +76,15 @@ class VideoContainer extends React.Component {
 
   render() {
     return (
-      <Styled.Wrapper ref={ref => (this.myRef = ref)}>
+      <Styled.Wrapper
+        ref={ref => (this.myRef = ref)}
+        onScroll={() => {
+          //fixing styling bug with autocomplete
+          let a = document.activeElement
+          a.focus()
+          a.blur()
+        }}
+      >
         {this.state.videos.length !== 0 ? <Search /> : null}
         <Styled.Container>
           {this.state.videos &&
@@ -119,6 +133,7 @@ const mapStateToProps = createStructuredSelector({
   curMapTarget: selectCurMapTarget,
   order: selectOrder,
   sortBy: selectSortBy,
+  text: selectDebouncedText,
 })
 
 const mapDispatchToProps = dispatch => ({

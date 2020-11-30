@@ -24,3 +24,7 @@ const innerFunction = debounce((dispatch, ...args) => {
 //this action is for the sorting algorithm
 export const setTextAsync = (...args) => dispatch =>
   innerFunction(dispatch, ...args)
+
+export const resetDebouncedText = () => ({
+  type: SearchActionTypes.RESET_DEBOUNCED_SEARCHTEXT,
+})

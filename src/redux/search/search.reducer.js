@@ -25,6 +25,11 @@ const searchReducer = (state = INTIAL_STATE, action) => {
         ...state,
         debouncedText: action.payload,
       }
+    case SearchActionTypes.RESET_DEBOUNCED_SEARCHTEXT:
+      return {
+        ...state,
+        debouncedText: "",
+      }
     default:
       return state
   }
