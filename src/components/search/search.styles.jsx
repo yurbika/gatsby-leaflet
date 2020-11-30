@@ -30,6 +30,7 @@ export const InputWrapper = styled.div`
     color: #333;
     font-size: 18px;
     padding: 15px;
+    padding-right: 45px;
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
     border: 1px solid black;
@@ -37,6 +38,13 @@ export const InputWrapper = styled.div`
     display: block;
     height: 100%;
     transition: all 0.3s;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
   }
 
   label {
@@ -47,7 +55,6 @@ export const InputWrapper = styled.div`
     display: block;
     transition: all 0.3s;
     transform: translateY(0rem);
-    border-radius: 50%;
     font-weight: bold;
     background: white;
     padding: 0 5px;
@@ -59,6 +66,38 @@ export const InputWrapper = styled.div`
     -webkit-transform: translateY(1rem);
     transform: translateY(1rem);
   }
+
+  button {
+    position: absolute;
+    display: none;
+    visibility: hidden;
+    right: 10px;
+    top: -2px;
+    bottom: 0;
+    margin: auto 0;
+    max-height: 30px;
+    max-width: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      fill: #bf0436;
+    }
+  }
+
+  ${props =>
+    props.show
+      ? css`
+          button {
+            display: inline-block;
+            visibility: visible;
+          }
+        `
+      : ""}
 `
 
 export const ButtonWrapper = styled.div`

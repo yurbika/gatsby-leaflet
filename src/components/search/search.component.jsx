@@ -1,27 +1,46 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
+import { createStructuredSelector } from "reselect"
 
 //components
 import Info from "./info/info.component"
 
 //redux
-import { setSortByAndOrder } from "../../redux/search/search.actions"
+import {
+  setSortByAndOrder,
+  setTextAsync,
+  setText,
+} from "../../redux/search/search.actions"
+import { selectText } from "../../redux/search/search.selectors"
 
 //assets
 import Arrow from "../../assets/arrow.svg"
+import Cancel from "../../assets/cancel.svg"
 
 //styles
 import * as Styled from "./search.styles"
 
-const Search = ({ setSortByAndOrder }) => {
+const Search = ({ text, setText, setTextAsync, setSortByAndOrder }) => {
   const [expand, setExpand] = useState(false)
   const [expandInfo, setExpandInfo] = useState(false)
 
   return (
     <Styled.Container>
-      <Styled.InputWrapper>
-        <input type="text" id="searchText" placeholder="Search" />
+      <Styled.InputWrapper show={text.length > 0}>
+        <input
+          type="text"
+          id="searchText"
+          placeholder="Search"
+          value={text}
+          onChange={e => {
+            setText(e.target.value)
+            setTextAsync(text)
+          }}
+        />
         <label htmlFor="searchText">Search</label>
+        <button onClick={() => setText("")}>
+          <Cancel />
+        </button>
       </Styled.InputWrapper>
       <Styled.Wrapper>
         <Styled.ButtonWrapper expand={expand}>
@@ -95,8 +114,14 @@ const Search = ({ setSortByAndOrder }) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  setSortByAndOrder: obj => dispatch(setSortByAndOrder(obj)),
+const mapStateToProps = createStructuredSelector({
+  text: selectText,
 })
 
-export default connect(null, mapDispatchToProps)(Search)
+const mapDispatchToProps = dispatch => ({
+  setSortByAndOrder: obj => dispatch(setSortByAndOrder(obj)),
+  setTextAsync: txt => dispatch(setTextAsync(txt)),
+  setText: txt => dispatch(setText(txt)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search)
