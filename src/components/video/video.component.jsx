@@ -100,7 +100,8 @@ class Video extends React.Component {
                 setVideoCurTime(e.target.getCurrentTime() * 1000)
                 setVideoTotalLength(videoLengthMS)
                 setIsPlaying(e.data === 1)
-                setVideoLatLngs(latlngs)
+                if (!!latlngs) setVideoLatLngs(latlngs)
+                else setVideoLatLngs([])
                 setVideoID(id[0])
               }
             }}

@@ -143,22 +143,6 @@ export const ButtonWrapper = styled.div`
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
     margin: 0;
     text-align: center;
-
-    li {
-      button {
-        cursor: pointer;
-        background: none;
-        border: 1px solid transparent;
-        border-radius: 5px;
-        padding: 5px;
-
-        &:hover,
-        &:focus {
-          border-color: var(--clr-red);
-          color: var(--clr-red);
-        }
-      }
-    }
   }
   ${props =>
     props.expand
@@ -166,6 +150,34 @@ export const ButtonWrapper = styled.div`
           ul {
             display: block;
             visibility: visible;
+          }
+        `
+      : ""}
+`
+
+export const Li = styled.li`
+  button {
+    cursor: pointer;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 5px;
+
+    &:hover,
+    &:focus {
+      border-color: var(--clr-red);
+      color: var(--clr-red);
+    }
+  }
+  ${props =>
+    props.active
+      ? css`
+          & {
+            button {
+              border: 2px solid var(--clr-red);
+              color: var(--clr-red);
+              font-weight: bold;
+            }
           }
         `
       : ""}

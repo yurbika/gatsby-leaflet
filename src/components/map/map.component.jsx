@@ -168,7 +168,8 @@ class MyMap extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.isPlaying)
+    if (this.props.isPlaying) {
+      deleteAnimatedPolyline(this.map.leafletElement)
       animatePolyline(
         this.map.leafletElement,
         this.props.videoLatLngs,
@@ -176,7 +177,7 @@ class MyMap extends Component {
         this.props.videoTotalLength,
         this.props.videoPlaybackRate
       )
-    else deleteAnimatedPolyline(this.map.leafletElement)
+    } else deleteAnimatedPolyline(this.map.leafletElement)
     //add or remove elements from map
     this.props.routes.on("mouseover", e => {
       this.handleInfoUpdate(

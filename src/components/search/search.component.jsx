@@ -12,7 +12,11 @@ import {
   setText,
   resetDebouncedText,
 } from "../../redux/search/search.actions"
-import { selectText } from "../../redux/search/search.selectors"
+import {
+  selectText,
+  selectSortBy,
+  selectOrder,
+} from "../../redux/search/search.selectors"
 
 //assets
 import Arrow from "../../assets/arrow.svg"
@@ -27,6 +31,8 @@ const Search = ({
   setTextAsync,
   setSortByAndOrder,
   resetDebouncedText,
+  sortBy,
+  order,
 }) => {
   const [expand, setExpand] = useState(false)
   const [expandInfo, setExpandInfo] = useState(false)
@@ -61,14 +67,14 @@ const Search = ({
             <Arrow />
           </button>
           <ul onClick={() => setExpand(false)}>
-            <li>
+            <Styled.Li active={sortBy === "km" && order === true}>
               <button
                 onClick={() => setSortByAndOrder({ sortBy: "km", order: true })}
               >
                 Kilometers (Ascending)
               </button>
-            </li>
-            <li>
+            </Styled.Li>
+            <Styled.Li active={sortBy === "km" && order === false}>
               <button
                 onClick={() =>
                   setSortByAndOrder({ sortBy: "km", order: false })
@@ -76,8 +82,8 @@ const Search = ({
               >
                 Kilometers (Decending)
               </button>
-            </li>
-            <li>
+            </Styled.Li>
+            <Styled.Li active={sortBy === "videoLengthMS" && order === true}>
               <button
                 onClick={() =>
                   setSortByAndOrder({ sortBy: "videoLengthMS", order: true })
@@ -85,8 +91,8 @@ const Search = ({
               >
                 Duration (Ascending)
               </button>
-            </li>
-            <li>
+            </Styled.Li>
+            <Styled.Li active={sortBy === "videoLengthMS" && order === false}>
               <button
                 onClick={() =>
                   setSortByAndOrder({ sortBy: "videoLengthMS", order: false })
@@ -94,8 +100,8 @@ const Search = ({
               >
                 Duration (Decending)
               </button>
-            </li>
-            <li>
+            </Styled.Li>
+            <Styled.Li active={sortBy === "date" && order === false}>
               <button
                 onClick={() =>
                   setSortByAndOrder({ sortBy: "date", order: false })
@@ -103,8 +109,8 @@ const Search = ({
               >
                 Date (Latest)
               </button>
-            </li>
-            <li>
+            </Styled.Li>
+            <Styled.Li active={sortBy === "date" && order === true}>
               <button
                 onClick={() =>
                   setSortByAndOrder({ sortBy: "date", order: true })
@@ -112,7 +118,7 @@ const Search = ({
               >
                 Date (Oldest)
               </button>
-            </li>
+            </Styled.Li>
           </ul>
         </Styled.ButtonWrapper>
         <Styled.InfoContainer>
@@ -128,6 +134,8 @@ const Search = ({
 
 const mapStateToProps = createStructuredSelector({
   text: selectText,
+  sortBy: selectSortBy,
+  order: selectOrder,
 })
 
 const mapDispatchToProps = dispatch => ({
