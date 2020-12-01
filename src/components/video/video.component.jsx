@@ -2,6 +2,7 @@ import React from "react"
 import YouTube from "react-youtube"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
+import { latLngBounds } from "leaflet"
 
 //components
 import WithSpinner from "../../components/with-spinner/with-spinner.component"
@@ -40,7 +41,7 @@ class Video extends React.Component {
 
     this.state = {
       expand: false,
-      ready: false,
+      playing: false,
     }
   }
   componentDidUpdate() {
@@ -49,7 +50,7 @@ class Video extends React.Component {
       this.props.curVideoID !== "" &&
       !checkStrings(this.props.curVideoID, this.props.id[0]) &&
       this.video &&
-      this.props.isPlaying
+      this.state.playing
     )
       this.video.internalPlayer.stopVideo()
   }
@@ -79,7 +80,6 @@ class Video extends React.Component {
       //needed for foucs on map
       setCurMapTarget,
       curMapTarget,
-      setZoom,
       //general redux
       map,
       isPlaying,
@@ -91,29 +91,27 @@ class Video extends React.Component {
       <Styled.Container selected={selected}>
         <Styled.EmbedContainer>
           <YoutubeWithSpinner
-            onReady={() => this.setState({ ready: true })}
             videoId={id[0]}
-            isLoading={isLoading && !this.state.ready}
+            isLoading={isLoading}
             className="embed-container__iframe"
             onPlay={e => {
-              if (this.state.ready) {
-                setVideoCurTime(e.target.getCurrentTime() * 1000)
-                setVideoTotalLength(videoLengthMS)
-                setIsPlaying(e.data === 1)
-                if (!!latlngs) setVideoLatLngs(latlngs)
-                else setVideoLatLngs([])
-                setVideoID(id[0])
-              }
+              setVideoCurTime(e.target.getCurrentTime() * 1000)
+              setVideoTotalLength(videoLengthMS)
+              setIsPlaying(e.data === 1)
+              if (!!latlngs) setVideoLatLngs(latlngs)
+              else setVideoLatLngs([])
+              setVideoID(id[0])
+              this.setState({ playing: true })
             }}
             onPause={e => {
               setIsPlaying(!(e.data === 2))
               setVideoID("")
-              setZoom(map.getZoom())
+              this.setState({ playing: false })
             }}
             onEnd={e => {
               setIsPlaying(!(e.data === 0))
               setVideoID("")
-              setZoom(map.getZoom())
+              this.setState({ playing: false })
             }}
             onPlaybackRateChange={e => setVideoPlaybackRate(e.data)}
             innerRef={video => (this.video = video)}
@@ -144,14 +142,15 @@ class Video extends React.Component {
             <Styled.Button
               fullBorder
               onClick={() => {
-                if (latlngs !== null || latlngs !== undefined) {
+                if (!!latlngs && latlngs.length > 0) {
                   map.fitBounds(latlngs)
                   if (!isPlaying) {
                     createPolyline(latlngs, map)
                     setCurMapTarget(target)
                   }
                 } else {
-                  map.fitBounds(markerlatlng)
+                  deletePolyline(map)
+                  map.fitBounds(latLngBounds([markerlatlng]), { maxZoom: 15 })
                 }
               }}
             >

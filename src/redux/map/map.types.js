@@ -7,6 +7,7 @@ const MapActionTypes = {
   SET_ZOOM: "SET_ZOOM",
   SET_MAP_REF: "SET_MAP_REF",
   SET_CUR_MAP_TARGET: "SET_CUR_MAP_TARGET",
+  CLEAR_MAP_REDUCER: "CLEAR_MAP_REDUCER",
 }
 
 export default MapActionTypes

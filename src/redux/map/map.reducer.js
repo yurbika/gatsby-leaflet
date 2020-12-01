@@ -28,6 +28,17 @@ const mapReducer = (state = INITIAL_STATE, action) => {
       return { ...state, mapRef: action.payload }
     case MapActionTypes.SET_CUR_MAP_TARGET:
       return { ...state, curMapTarget: action.payload }
+    case MapActionTypes.CLEAR_MAP_REDUCER:
+      return {
+        ...state,
+        routes: null,
+        videos: [],
+        errMsg: "",
+        isFetching: false,
+        zoom: 5,
+        mapRef: null,
+        curMapTarget: null,
+      }
     default:
       return state
   }

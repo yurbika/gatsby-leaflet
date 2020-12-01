@@ -20,6 +20,7 @@ import {
   setZoom,
   setMapRef,
   clearVideos,
+  clearMapReducer,
   setCurMapTarget,
 } from "../../redux/map/map.actions"
 import { selectRoutes, selectZoom } from "../../redux/map/map.selectors"
@@ -117,11 +118,7 @@ class MyMap extends Component {
     //setting redux routes depending on boundaries
     this.map.leafletElement.on("moveend", () => this.handleMapActions())
 
-    this.map.leafletElement.on("zoomend", () => {
-      this.handleMapActions()
-      if (!this.props.isPlaying)
-        this.props.setZoom(this.map.leafletElement.getZoom())
-    })
+    this.map.leafletElement.on("zoomend", () => this.handleMapActions())
 
     this.map.leafletElement.on("update", () => this.handleMapActions())
 
@@ -220,9 +217,7 @@ class MyMap extends Component {
   }
 
   componentWillUnmount() {
-    this.props.setZoom(5)
-    this.props.setVideoIsPlaying(false)
-    this.props.clearVideos()
+    this.props.clearMapReducer()
   }
 
   render() {
@@ -280,6 +275,7 @@ class MyMap extends Component {
 
   //adding routes and async fetch of videos
   handleMapActions = () => {
+    //fetch only videos when video is not playing and zoom level is correct
     if (this.zoomBreak <= this.props.zoom && !this.props.isPlaying) {
       this.map.leafletElement.removeLayer(this.props.routes)
       this.props.setRoutes(
@@ -287,9 +283,22 @@ class MyMap extends Component {
       )
       this.props.fetchVideosStartAsync()
     }
-    this.props.setPage(0)
-    this.props.setText("")
-    this.props.resetDebouncedText()
+
+    //prevents from zooming out too much when video is playing
+    if (
+      this.props.isPlaying &&
+      this.zoomBreak > this.map.leafletElement.getZoom()
+    ) {
+      this.props.setZoom(this.map.leafletElement.getZoom())
+      this.props.setVideoIsPlaying(false)
+    }
+
+    if (!this.props.isPlaying) {
+      this.props.setZoom(this.map.leafletElement.getZoom())
+      this.props.setPage(0)
+      this.props.setText("")
+      this.props.resetDebouncedText()
+    }
   }
 
   handleHighlight = e => {
@@ -393,6 +402,7 @@ const mapDispatchToProps = dispatch => ({
   setCurMapTarget: obj => dispatch(setCurMapTarget(obj)),
   setText: txt => dispatch(setText(txt)),
   resetDebouncedText: () => dispatch(resetDebouncedText()),
+  clearMapReducer: () => dispatch(clearMapReducer()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyMap)

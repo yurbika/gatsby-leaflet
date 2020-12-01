@@ -65,3 +65,7 @@ export const setCurMapTarget = obj => ({
   type: MapActionTypes.SET_CUR_MAP_TARGET,
   payload: obj,
 })
+
+export const clearMapReducer = () => ({
+  type: MapActionTypes.CLEAR_MAP_REDUCER,
+})
