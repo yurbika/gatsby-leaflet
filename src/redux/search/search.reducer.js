@@ -30,6 +30,14 @@ const searchReducer = (state = INTIAL_STATE, action) => {
         ...state,
         debouncedText: "",
       }
+    case SearchActionTypes.CLEAR_SEARCH_REDUCER:
+      return {
+        ...state,
+        order: true,
+        sortBy: "",
+        text: "",
+        debouncedText: "",
+      }
     default:
       return state
   }

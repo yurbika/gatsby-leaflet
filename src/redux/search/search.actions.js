@@ -28,3 +28,7 @@ export const setTextAsync = (...args) => dispatch =>
 export const resetDebouncedText = () => ({
   type: SearchActionTypes.RESET_DEBOUNCED_SEARCHTEXT,
 })
+
+export const clearSearchReducer = () => ({
+  type: SearchActionTypes.CLEAR_SEARCH_REDUCER,
+})

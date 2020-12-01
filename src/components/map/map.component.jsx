@@ -34,9 +34,16 @@ import {
   selectPlaybackRate,
 } from "../../redux/video/video.selectors"
 
-import { setVideoIsPlaying } from "../../redux/video/video.actions"
+import {
+  setVideoIsPlaying,
+  resetVideoState,
+} from "../../redux/video/video.actions"
 
-import { setText, resetDebouncedText } from "../../redux/search/search.actions"
+import {
+  setText,
+  resetDebouncedText,
+  clearSearchReducer,
+} from "../../redux/search/search.actions"
 
 //assets
 import KML from "../../assets/routes.js"
@@ -218,6 +225,9 @@ class MyMap extends Component {
 
   componentWillUnmount() {
     this.props.clearMapReducer()
+    this.props.setPage(0)
+    this.props.clearSearchReducer()
+    this.props.resetVideoState()
   }
 
   render() {
@@ -403,6 +413,8 @@ const mapDispatchToProps = dispatch => ({
   setText: txt => dispatch(setText(txt)),
   resetDebouncedText: () => dispatch(resetDebouncedText()),
   clearMapReducer: () => dispatch(clearMapReducer()),
+  clearSearchReducer: () => dispatch(clearSearchReducer()),
+  resetVideoState: () => dispatch(resetVideoState()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyMap)
