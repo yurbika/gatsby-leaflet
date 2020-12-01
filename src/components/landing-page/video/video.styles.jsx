@@ -9,7 +9,7 @@ export const Overlay = styled.div`
 `
 
 export const LinkBackground = styled.div`
-  background: #bf0436;
+  background: var(--clr-red);
   width: 100%;
   height: 100%;
   position: absolute;
@@ -30,7 +30,7 @@ export const Line = styled.div`
   ${props =>
     props.reverse
       ? css`
-          background: #bf0436;
+          background: var(--clr-red);
           position: static;
           bottom: unset;
         `

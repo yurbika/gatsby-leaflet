@@ -85,7 +85,7 @@ export const InputWrapper = styled.div`
       display: block;
       width: 100%;
       height: 100%;
-      fill: #bf0436;
+      fill: var(--clr-red);
     }
   }
 
@@ -154,8 +154,8 @@ export const ButtonWrapper = styled.div`
 
         &:hover,
         &:focus {
-          border-color: #bf0436;
-          color: #bf0436;
+          border-color: var(--clr-red);
+          color: var(--clr-red);
         }
       }
     }
@@ -184,12 +184,12 @@ export const InfoContainer = styled.div`
     justify-content: center;
     align-items: center;
     background: none;
-    border: 2px solid #00b6c8;
+    border: 2px solid var(--clr-blue);
     border-radius: 50%;
     width: 25px;
     height: 25px;
     font-weight: bold;
-    color: #00b6c8;
+    color: var(--clr-blue);
     cursor: pointer;
 
     span {

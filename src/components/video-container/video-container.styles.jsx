@@ -20,7 +20,7 @@ export const Help = styled.section`
     position: relative;
     height: 100%;
     padding: 15px;
-    background: #00b6c8;
+    background: var(--clr-blue);
     border-radius: 5px;
     max-width: 350px;
     margin-bottom: 35px;
@@ -53,7 +53,7 @@ export const Help = styled.section`
       width: 0;
       height: 0;
       border: 20px solid transparent;
-      border-top-color: #00b6c8;
+      border-top-color: var(--clr-blue);
       border-bottom: 0;
       margin-left: -20px;
       margin-bottom: -20px;

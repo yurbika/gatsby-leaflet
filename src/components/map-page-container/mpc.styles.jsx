@@ -25,13 +25,13 @@ export const Container = styled.article`
     margin: 0 auto;
     z-index: 10;
     font-weight: bold;
-    color: #bf0436;
-    border: 3px solid #bf0436;
+    color: var(--clr-red);
+    border: 3px solid var(--clr-red);
 
     &:hover,
     &:focus {
       color: white;
-      background: #bf0436;
+      background: var(--clr-red);
     }
   }
 

@@ -59,7 +59,7 @@ export const Features = styled.section`
   flex-direction: column;
 
   ul > li {
-    border-bottom: 1px solid #d9d9d9;
+    border-bottom: 1px solid var(--clr-grey-2);
     list-style: none;
     margin-bottom: 15px;
     padding-bottom: 15px;
@@ -91,7 +91,7 @@ export const Li = styled.li`
   ${props =>
     !props.visible
       ? css`
-          color: #d9d9d9;
+          color: var(--clr-grey-2);
         `
       : ""}
 `
@@ -105,7 +105,7 @@ export const A = styled(Link)`
   margin-top: 15px;
 
   &:hover {
-    background: #bf0436;
+    background: var(--clr-red);
     font-size: 1.1rem;
   }
 `

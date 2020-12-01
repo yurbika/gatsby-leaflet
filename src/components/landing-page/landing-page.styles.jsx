@@ -8,7 +8,7 @@ export const HLine = styled.div`
   width: calc(100vw - 100px);
   max-width: 1600px;
   margin-top: 50px;
-  background: #bf0436;
+  background: var(--clr-red);
 
   @media (max-width: 568px) {
     width: calc(100vw - 60px);

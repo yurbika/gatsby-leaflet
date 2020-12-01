@@ -9,14 +9,14 @@ export const Container = styled.article`
   max-width: 1150px;
   margin: auto;
   margin-bottom: 35px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid var(--clr-grey-2);
   border-radius: 5px;
   margin-bottom: 100px;
 
   ${props =>
     props.selected
       ? css`
-          border: 3px solid #bf0436;
+          border: 3px solid var(--clr-red);
           border-radius: 7px;
         `
       : ""}
@@ -99,7 +99,7 @@ export const Button = styled.button`
   margin-bottom: 15px;
   span {
     display: inline-block;
-    color: #bf0436;
+    color: var(--clr-red);
     font-weight: bold;
     border-bottom: 2px solid;
   }
@@ -108,12 +108,12 @@ export const Button = styled.button`
     props.fullBorder
       ? css`
           span {
-            border: 2px solid #bf0436;
+            border: 2px solid var(--clr-red);
             border-radius: 5px;
             padding: 5px;
 
             &:hover {
-              background: #bf0436;
+              background: var(--clr-red);
               color: white;
             }
           }

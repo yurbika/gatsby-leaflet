@@ -39,7 +39,7 @@ export const HamburgerMenuItems = styled.div`
     position: absolute;
     left: 0;
     bottom: 5px;
-    background: #bf0436;
+    background: var(--clr-red);
     transition: bottom 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1),
       transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
   }
@@ -49,7 +49,7 @@ export const HamburgerMenuItems = styled.div`
     position: absolute;
     left: 0;
     top: 5px;
-    background: #bf0436;
+    background: var(--clr-red);
     transition: top 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1),
       transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
   }

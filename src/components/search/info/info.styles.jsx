@@ -28,7 +28,7 @@ export const Container = styled.article`
   top: 45px;
   right: 0;
   padding: 15px;
-  background: #00b6c8;
+  background: var(--clr-blue);
   border-radius: 5px;
   width: 100vw;
   z-index: 2;

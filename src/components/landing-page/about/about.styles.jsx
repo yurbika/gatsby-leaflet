@@ -68,13 +68,13 @@ export const RowTwo = styled.section`
       display: inline-block;
       padding: 10px 15px;
       border-radius: 5px;
-      border: 3px solid #bf0436;
-      color: #bf0436;
+      border: 3px solid var(--clr-red);
+      color: var(--clr-red);
       transition: all 0.3s ease-in;
       font-weight: bold;
 
       &:hover {
-        background: #bf0436;
+        background: var(--clr-red);
         color: white;
       }
     }

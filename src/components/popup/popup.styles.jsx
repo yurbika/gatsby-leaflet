@@ -32,7 +32,7 @@ export const MenuName = styled.div`
   width: auto;
   height: auto;
   z-index: 11;
-  color: #bf0436;
+  color: var(--clr-red);
   text-align: center;
   transition: all 0.2s ease-in;
   transform: translate3d(200px, 0, 0);
