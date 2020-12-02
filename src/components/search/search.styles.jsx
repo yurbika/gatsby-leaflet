@@ -8,7 +8,7 @@ export const Container = styled.article`
   max-height: 100px;
   padding: 0 15px;
   margin-top: 35px;
-  margin-bottom: 35px;
+  margin-bottom: 15px;
 
   & > * {
     height: 50px;

@@ -14,6 +14,7 @@ import {
   selectVideos,
   selectZoom,
   selectCurMapTarget,
+  selectRoutes,
 } from "../../redux/map/map.selectors"
 import { clearVideos } from "../../redux/map/map.actions"
 
@@ -113,6 +114,14 @@ class VideoContainer extends React.Component {
         }}
       >
         {this.state.videos.length !== 0 ? <Search /> : null}
+        {this.state.videos.length !== 0 ? (
+          <Styled.ResultsInfo>
+            <div>
+              Showing {this.props.videos.length} of{" "}
+              {this.props.routes.cur.length} results in this area
+            </div>
+          </Styled.ResultsInfo>
+        ) : null}
         <Styled.Container>
           {this.state.videos &&
             this.state.videos.map((data, idx) => (
@@ -162,6 +171,7 @@ const mapStateToProps = createStructuredSelector({
   sortBy: selectSortBy,
   text: selectDebouncedText,
   curPage: selectCurPage,
+  routes: selectRoutes,
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -90,7 +90,7 @@ const getYoutubeData = async id => {
 export const getData = async routes => {
   const videos = []
 
-  for (let i = 0; i < routes.length; i++) {
+  for (let i = 0; i < routes.length && i < 20; i++) {
     if (routes[i]) {
       let title = routes[i]["_additionalInformation"].match(
         /(?<=<h2>)(.*)(?=<\/h2>)/gm

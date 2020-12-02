@@ -220,7 +220,8 @@ class MyMap extends Component {
       this.legend.addTo(this.map.leafletElement)
       //remove routes
       this.map.leafletElement.removeLayer(this.props.routes)
-      this.props.clearVideos()
+      if (this.props.videos && this.props.videos.length > 0)
+        this.props.clearVideos()
     }
   }
 
