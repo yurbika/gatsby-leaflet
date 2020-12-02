@@ -50,6 +50,7 @@ import KML from "../../assets/routes.js"
 
 //utils
 import { border } from "./utils/border"
+import CONSTANTS from "../../constants/constants"
 
 //styles
 import "font-awesome/css/font-awesome.min.css"
@@ -109,7 +110,7 @@ class MyMap extends Component {
     //map elements
     this.info = L.control()
     this.legend = L.control({ position: "bottomright" })
-    this.zoomBreak = 8
+    this.zoomBreak = CONSTANTS.zoomBreak
   }
 
   componentDidMount() {

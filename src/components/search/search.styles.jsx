@@ -75,8 +75,8 @@ export const InputWrapper = styled.div`
     top: -2px;
     bottom: 0;
     margin: auto 0;
-    max-height: 30px;
-    max-width: 30px;
+    max-height: 20px;
+    max-width: 20px;
     background: none;
     border: none;
     cursor: pointer;

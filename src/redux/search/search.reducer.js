@@ -2,7 +2,7 @@ import SearchActionTypes from "./search.types"
 
 const INTIAL_STATE = {
   order: true,
-  sortBy: "",
+  sortBy: "km",
   text: "",
   debouncedText: "",
 }

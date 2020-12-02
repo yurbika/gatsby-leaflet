@@ -12,11 +12,14 @@ import {
   setText,
   resetDebouncedText,
 } from "../../redux/search/search.actions"
+
 import {
   selectText,
   selectSortBy,
   selectOrder,
 } from "../../redux/search/search.selectors"
+
+import { setPage } from "../../redux/page-changer/page-changer.actions"
 
 //assets
 import Arrow from "../../assets/arrow.svg"
@@ -33,6 +36,7 @@ const Search = ({
   resetDebouncedText,
   sortBy,
   order,
+  setPage,
 }) => {
   const [expand, setExpand] = useState(false)
   const [expandInfo, setExpandInfo] = useState(false)
@@ -66,7 +70,12 @@ const Search = ({
             <span>Sort by</span>
             <Arrow />
           </button>
-          <ul onClick={() => setExpand(false)}>
+          <ul
+            onClick={() => {
+              setExpand(false)
+              setPage(0)
+            }}
+          >
             <Styled.Li active={sortBy === "km" && order === true}>
               <button
                 onClick={() => setSortByAndOrder({ sortBy: "km", order: true })}
@@ -143,6 +152,7 @@ const mapDispatchToProps = dispatch => ({
   setTextAsync: txt => dispatch(setTextAsync(txt)),
   setText: txt => dispatch(setText(txt)),
   resetDebouncedText: () => dispatch(resetDebouncedText()),
+  setPage: num => dispatch(setPage(num)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search)
