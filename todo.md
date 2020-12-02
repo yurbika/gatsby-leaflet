@@ -7,4 +7,5 @@
    c. [x] reset if it is marker
    d. [x] remove marked polyline on marker click
 4. [x] implement global styled component styles
-5. [ ] reducing d3 library
+5. [x] reducing d3 library
+6. [ ] rework the sorting function

@@ -1,7 +1,7 @@
 const getYoutubeData = async id => {
   try {
     const res = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=contentDetails&part=snippet&key=${process.env.GATSBY_YOUTUBE_API_KEY}`
+      `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=contentDetails,snippet&key=${process.env.GATSBY_YOUTUBE_API_KEY}`
     )
     const json = await res.json()
     const data = json.items[0]
@@ -87,12 +87,10 @@ const getYoutubeData = async id => {
   }
 }
 
-export const getData = async (routes, curPage) => {
+export const getData = async routes => {
   const videos = []
-  const fetchMaxVideos = 10
-  const max = fetchMaxVideos * curPage + fetchMaxVideos
 
-  for (let i = fetchMaxVideos * curPage; i < max; i++) {
+  for (let i = 0; i < routes.length; i++) {
     if (routes[i]) {
       let title = routes[i]["_additionalInformation"].match(
         /(?<=<h2>)(.*)(?=<\/h2>)/gm
@@ -146,7 +144,7 @@ export const getData = async (routes, curPage) => {
     }
   }
 
-  return await videos
+  return videos
 }
 
 //sort depending on map target clicked
@@ -206,17 +204,59 @@ export const sortVideosByValue = (
   }
 
   if (curTarget && videos.length > 1) {
-    let firstElement
-    firstElement = videos.shift()
+    let firstElement = videos.shift()
     sort()
     videos.unshift(firstElement)
-    return videos
   } else if (!curTarget && videos.length > 1) {
     sort()
-    return videos
-  } else {
-    return videos
   }
+  return videos
+}
+
+export const sortByText = (videos, text, curTarget = false) => {
+  if (
+    videos === null ||
+    videos === undefined ||
+    videos.length === 0 ||
+    text === "" ||
+    text.length < 3
+  )
+    return []
+
+  const createRegex = splitedStr => {
+    let str = ""
+    for (let i = 0; i < splitedStr.length; i++) {
+      if (i === 0) str += "^(?=.*" + splitedStr[i] + ")"
+      else if (i === splitedStr.length) str += "^(?=.*" + splitedStr[i] + ").*$"
+      else str += "(?=.*" + splitedStr[i] + ")"
+    }
+    let regex = new RegExp(`${str}`, "gi")
+    return regex
+  }
+
+  text = text.split(/[ ,-]+/).filter(i => i)
+
+  if (text.length > 0) text = createRegex(text)
+  else return []
+
+  if (!curTarget)
+    videos = videos.filter(ele => {
+      let searchText = ele["description"] + ele["title"]
+      let results = searchText.match(text)
+      console.log(results)
+      if (results && results.length > 0) return true
+    })
+  else {
+    let firstElement = videos.shift()
+    videos = videos.filter(ele => {
+      let searchText = ele["description"] + ele["title"]
+      let results = searchText.match(text)
+      console.log(results)
+      if (results && results.length > 0) return true
+    })
+    videos.unshift(firstElement)
+  }
+  return videos
 }
 
 export const checkStrings = (s1, s2) => {

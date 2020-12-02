@@ -12,8 +12,7 @@ import {
 
 import { resetVideoState } from "../../../redux/video/video.actions"
 
-import { selectRoutes, selectVideos } from "../../../redux/map/map.selectors"
-import { fetchVideosStartAsync } from "../../../redux/map/map.actions"
+import { selectVideos } from "../../../redux/map/map.selectors"
 
 //assets
 import Arrow from "../../../assets/arrow.svg"
@@ -67,7 +66,6 @@ const PageChanger = ({
 
 const mapStateToProps = createStructuredSelector({
   curPage: selectCurPage,
-  routes: selectRoutes,
   videos: selectVideos,
 })
 
@@ -75,7 +73,6 @@ const mapDispatchToProps = dispatch => ({
   incrementPage: () => dispatch(incrementPage()),
   decrementPage: () => dispatch(decrementPage()),
   setPage: num => dispatch(setPage(num)),
-  fetchVideosStartAsync: () => dispatch(fetchVideosStartAsync()),
   resetVideoState: () => dispatch(resetVideoState()),
 })
 

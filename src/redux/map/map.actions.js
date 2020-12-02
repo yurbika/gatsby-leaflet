@@ -4,6 +4,7 @@ import {
   sortVideos,
 } from "../../components/video-container/utils/utils"
 import debounce from "lodash.debounce"
+import CONSTANTS from "../../constants/constants"
 
 export const setRoutes = arr => ({
   type: MapActionTypes.SET_CURRENT_ROUTES,
@@ -27,8 +28,8 @@ export const fetchVideosFailure = errMsg => ({
 const fetchVideosStartAsyncDebounced = debounce(
   (dispatch, getState) => {
     const { routes, curMapTarget, zoom } = getState().map
-    const { curPage } = getState().pageChanger
-    if (zoom >= 8) {
+
+    if (zoom >= CONSTANTS.zoomBreak) {
       //if a route gets clicked it will be placed on the first idx
       let sortedArr = null
       if (curMapTarget !== null)
@@ -36,12 +37,12 @@ const fetchVideosStartAsyncDebounced = debounce(
       if (sortedArr === null) dispatch(setCurMapTarget(null))
       //otherwise just do a fetch videos in random order
       dispatch(fetchVideosStart())
-      getData(sortedArr || routes.cur, curPage)
+      getData(sortedArr || routes.cur)
         .then(arr => dispatch(fetchVideosSuccess(arr)))
         .catch(err => dispatch(fetchVideosFailure(err)))
     }
   },
-  750,
+  CONSTANTS.debounceMapValue,
   { leading: false, trailing: true }
 )
 

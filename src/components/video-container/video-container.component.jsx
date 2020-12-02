@@ -23,6 +23,8 @@ import {
   selectDebouncedText,
 } from "../../redux/search/search.selectors"
 
+import { selectCurPage } from "../../redux/page-changer/page-changer.selectors"
+
 //assets
 import Kitty from "../../assets/kitty.svg"
 import help from "../search/info/help"
@@ -30,6 +32,7 @@ import help from "../search/info/help"
 //utils
 import ID_GENERATOR from "../../uniqueKey"
 import { sortVideosByValue } from "./utils/utils"
+import CONSTANTS from "../../constants/constants"
 
 //styles
 import * as Styled from "./video-container.styles"
@@ -40,34 +43,58 @@ class VideoContainer extends React.Component {
     sortBy: "",
     order: true,
     text: "",
+    curPage: 0,
   }
 
   static getDerivedStateFromProps(props, state) {
+    if (props.zoom < CONSTANTS.zoomBreak) return { videos: [] }
+
+    let arr = []
+    let changes = {}
+
+    //sort incoming videos
     if (
-      (!isEqual(props.videos, state.videos) && props.zoom >= 8) ||
-      (state.videos &&
+      (props.videos &&
         (!isEqual(state.sortBy, props.sortBy) ||
           !isEqual(state.order, props.order))) ||
-      !isEqual(state.text, props.text)
+      !isEqual(props.videos, state.videos)
     ) {
-      let arr = sortVideosByValue(
+      arr = sortVideosByValue(
         props.videos,
         props.sortBy,
         props.order,
         props.curMapTarget
       )
 
+      changes.sortBy = props.sortBy
+      changes.order = props.order
+    }
+
+    //show max videos of 10 depending on curPage
+    if (
+      (!isEqual(props.videos, state.videos) &&
+        props.zoom >= CONSTANTS.zoomBreak) ||
+      !isEqual(state.text, props.text) ||
+      state.curPage !== props.curPage
+    ) {
+      const maxVideos = CONSTANTS.maxVideos
+
       if (arr.length > 0)
-        return {
-          videos: arr,
-        }
-      else {
-        return {
-          videos: props.videos,
-        }
-      }
-    } else if (props.zoom < 8) return { videos: [] }
-    return null
+        arr = arr.slice(
+          props.curPage * maxVideos,
+          maxVideos * props.curPage + maxVideos
+        )
+      else
+        arr = props.videos.slice(
+          props.curPage * maxVideos,
+          maxVideos * props.curPage + maxVideos
+        )
+
+      changes.videos = arr
+      changes.curPage = props.curPage
+    }
+
+    return changes || null
   }
 
   componentDidUpdate() {
@@ -134,6 +161,7 @@ const mapStateToProps = createStructuredSelector({
   order: selectOrder,
   sortBy: selectSortBy,
   text: selectDebouncedText,
+  curPage: selectCurPage,
 })
 
 const mapDispatchToProps = dispatch => ({
