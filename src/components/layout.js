@@ -19,7 +19,11 @@ const Layout = ({ location, children }) => {
   return (
     <>
       <Navigation
-        location={location ? location.pathname.replaceAll("/", "") : ""}
+        location={
+          location && typeof window !== `undefined`
+            ? location.pathname.replaceAll("/", "")
+            : ""
+        }
       />
       <main>{children}</main>
     </>
