@@ -5,11 +5,6 @@ import "leaflet-boundary-canvas"
 import "leaflet-kml"
 import L from "leaflet"
 
-import {
-  animatePolyline,
-  deleteAnimatedPolyline,
-} from "./utils/animate-polyline"
-
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 
@@ -51,6 +46,11 @@ import KML from "../../assets/routes.js"
 //utils
 import { border } from "./utils/border"
 import CONSTANTS from "../../constants/constants"
+import {
+  animatePolyline,
+  deleteAnimatedPolyline,
+} from "./utils/animate-polyline"
+import { createPolyline, deletePolyline } from "../video/utils/utils"
 
 //styles
 import "font-awesome/css/font-awesome.min.css"
@@ -205,7 +205,11 @@ class MyMap extends Component {
         this.map.leafletElement.setView(e.latlng, 17)
       } else this.map.leafletElement.fitBounds(e.sourceTarget["_bounds"])
       //setting current route click
-      if (!this.props.isPlaying) this.props.setCurMapTarget(e.sourceTarget)
+      if (!this.props.isPlaying) {
+        this.props.setCurMapTarget(e.sourceTarget)
+        deletePolyline(this.map.leafletElement)
+        createPolyline(e.sourceTarget["_latlngs"], this.map.leafletElement)
+      }
     })
     //updated map depending on view
     if (this.props.zoom >= this.zoomBreak) {

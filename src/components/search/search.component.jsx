@@ -78,6 +78,9 @@ class Search extends React.Component {
               setText(e.target.value)
               setTextAsync(e.target.value)
             }}
+            onKeyPress={e =>
+              e.key === "Enter" ? setTextAsync(e.target.value) : null
+            }
           />
           <label htmlFor="searchText">Search</label>
           <button
@@ -171,7 +174,11 @@ class Search extends React.Component {
             >
               <span>i</span>
             </button>
-            <Info expand={this.state.expandInfo} />
+            <Info
+              expand={this.state.expandInfo}
+              onFocus={this.onFocusHandler}
+              onBlur={() => this.onBlurHandler("expandInfo")}
+            />
           </Styled.InfoContainer>
         </Styled.Wrapper>
       </Styled.Container>

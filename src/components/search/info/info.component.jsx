@@ -10,12 +10,11 @@ import ID_GENERATOR from "../../../uniqueKey"
 //styles
 import * as Styled from "./info.styles"
 
-const Info = ({ expand }) => {
+const Info = ({ expand, onFocus, onBlur }) => {
   const [page, setPage] = useState(0)
   const maxInfos = 4
   const totalPages = Math.ceil(Information.length / maxInfos)
   let arr = Information.slice(page * maxInfos, maxInfos * page + maxInfos)
-
   return (
     <Styled.Container expand={expand}>
       <Styled.Ul>
@@ -32,6 +31,8 @@ const Info = ({ expand }) => {
             if (page - 1 >= 0) setPage(page - 1)
             else setPage(totalPages)
           }}
+          onFocus={onFocus}
+          onBlur={onBlur}
         >
           <Arrow />
         </button>
@@ -41,6 +42,8 @@ const Info = ({ expand }) => {
             if (page + 1 < totalPages) setPage(page + 1)
             else setPage(0)
           }}
+          onFocus={onFocus}
+          onBlur={onBlur}
         >
           <Arrow />
         </button>
