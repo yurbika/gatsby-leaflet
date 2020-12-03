@@ -63,9 +63,36 @@ export const Help = styled.section`
 
 export const Container = styled.article`
   padding: 0 15px;
+`
 
-  @media (max-width: 768px) {
-    padding: 0 5px;
+export const ResultsInfo = styled.div`
+  width: 100%;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  padding: 0 15px;
+
+  p {
+    background: var(--clr-red);
+    color: white;
+    border-radius: 5px;
+    padding: 5px 15px;
+  }
+`
+
+export const SearchResultsInfo = styled.div`
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  margin: 50px 0;
+  padding: 0 15px;
+
+  p {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 30px 15px;
+    border-radius: 5px;
+    color: white;
   }
 `
 
@@ -77,24 +104,11 @@ export const Wrapper = styled.div`
   @media (max-width: 1025px) {
     max-width: unset;
   }
-`
-
-export const ResultsInfo = styled.div`
-  width: 100%;
-  font-weight: bold;
-  text-align: center;
-  margin: 0 auto;
-  margin-bottom: 50px;
-  padding: 0 15px;
-
-  div {
-    background: var(--clr-red);
-    color: white;
-    border-radius: 5px;
-    padding: 5px 15px;
-  }
-
   @media (max-width: 768px) {
-    padding: 0 5px;
+    ${SearchResultsInfo},
+    ${ResultsInfo},
+    ${Container} {
+      padding: 0 5px;
+    }
   }
 `

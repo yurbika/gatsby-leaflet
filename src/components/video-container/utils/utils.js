@@ -1,3 +1,5 @@
+import isEqual from "lodash.isequal"
+
 const getYoutubeData = async id => {
   try {
     const res = await fetch(
@@ -151,18 +153,23 @@ export const getData = async routes => {
 export const sortVideos = (target, arr) => {
   let idx = null,
     i = 0
-
   for (let ele of arr) {
     if (
-      checkStrings(
+      isEqual(
         ele["_additionalInformation"],
         target["_additionalInformation"]
-      )
+      ) &&
+      i === 0
+    )
+      break
+    else if (
+      isEqual(ele["_additionalInformation"], target["_additionalInformation"])
     )
       idx = i
     else i++
   }
-  if (idx === null) return null
+  if (i === 0) return arr
+  if (idx === null && i !== 0) return null
   arr.unshift(arr[idx])
   arr.splice(idx + 1, 1)
   return arr
@@ -213,7 +220,7 @@ export const sortVideosByValue = (
   return videos
 }
 
-export const sortByText = (videos, text, curTarget = false) => {
+export const sortByText = (videos, text) => {
   if (
     videos === null ||
     videos === undefined ||
@@ -230,7 +237,7 @@ export const sortByText = (videos, text, curTarget = false) => {
       else if (i === splitedStr.length) str += "^(?=.*" + splitedStr[i] + ").*$"
       else str += "(?=.*" + splitedStr[i] + ")"
     }
-    let regex = new RegExp(`${str}`, "gi")
+    let regex = new RegExp(`${str}`, "gim")
     return regex
   }
 
@@ -239,47 +246,12 @@ export const sortByText = (videos, text, curTarget = false) => {
   if (text.length > 0) text = createRegex(text)
   else return []
 
-  if (!curTarget)
-    videos = videos.filter(ele => {
-      let searchText = ele["description"] + ele["title"]
-      let results = searchText.match(text)
-      console.log(results)
-      if (results && results.length > 0) return true
-    })
-  else {
-    let firstElement = videos.shift()
-    videos = videos.filter(ele => {
-      let searchText = ele["description"] + ele["title"]
-      let results = searchText.match(text)
-      console.log(results)
-      if (results && results.length > 0) return true
-    })
-    videos.unshift(firstElement)
-  }
+  videos = videos.filter(ele => {
+    let searchText = ele["description"] + ele["title"]
+    return text.test(searchText)
+  })
+
   return videos
-}
-
-export const checkStrings = (s1, s2) => {
-  if (
-    s1 === "" ||
-    s2 === "" ||
-    s1.length !== s2.length ||
-    s1 === null ||
-    s2 === null ||
-    s1 === undefined ||
-    s2 === undefined
-  )
-    return false
-
-  let p1 = 0
-  let p2 = 0
-
-  while (p1 < s1.length) {
-    if (s1[p1] !== s2[p2]) return false
-    p1++
-    p2++
-  }
-  return true
 }
 
 //haversine

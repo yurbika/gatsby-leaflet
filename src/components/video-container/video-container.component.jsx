@@ -32,7 +32,7 @@ import help from "../search/info/help"
 
 //utils
 import ID_GENERATOR from "../../uniqueKey"
-import { sortVideosByValue } from "./utils/utils"
+import { sortVideosByValue, sortByText } from "./utils/utils"
 import CONSTANTS from "../../constants/constants"
 
 //styles
@@ -45,6 +45,7 @@ class VideoContainer extends React.Component {
     order: true,
     text: "",
     curPage: 0,
+    searchResults: [],
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -52,30 +53,50 @@ class VideoContainer extends React.Component {
 
     let arr = []
     let changes = {}
+    let searchResults = []
+
+    //search based on text
+    if (props.videos && props.text.length > 2) {
+      searchResults = sortByText(props.videos, props.text)
+      changes.searchResults = searchResults
+      changes.text = props.text
+    } else {
+      changes.searchResults = []
+    }
 
     //sort incoming videos
     if (
       (props.videos &&
         (!isEqual(state.sortBy, props.sortBy) ||
           !isEqual(state.order, props.order))) ||
-      !isEqual(props.videos, state.videos)
+      !isEqual(props.videos, state.videos) ||
+      props.text.length > 2
     ) {
-      arr = sortVideosByValue(
-        props.videos,
-        props.sortBy,
-        props.order,
-        props.curMapTarget
-      )
+      if (searchResults.length === 0)
+        arr = sortVideosByValue(
+          props.videos,
+          props.sortBy,
+          props.order,
+          props.curMapTarget
+        )
+      else
+        arr = sortVideosByValue(
+          searchResults,
+          props.sortBy,
+          props.order,
+          props.curMapTarget
+        )
 
       changes.sortBy = props.sortBy
       changes.order = props.order
+      changes.videos = arr
     }
 
     //show max videos of 10 depending on curPage
     if (
       (!isEqual(props.videos, state.videos) &&
         props.zoom >= CONSTANTS.zoomBreak) ||
-      !isEqual(state.text, props.text) ||
+      props.text.length > 2 ||
       state.curPage !== props.curPage
     ) {
       const maxVideos = CONSTANTS.maxVideos
@@ -94,7 +115,6 @@ class VideoContainer extends React.Component {
       changes.videos = arr
       changes.curPage = props.curPage
     }
-
     return changes || null
   }
 
@@ -116,11 +136,29 @@ class VideoContainer extends React.Component {
         {this.state.videos.length !== 0 ? <Search /> : null}
         {this.state.videos.length !== 0 ? (
           <Styled.ResultsInfo>
-            <div>
-              Showing {this.props.videos.length} of{" "}
-              {this.props.routes.cur.length} results in this area
-            </div>
+            <p>
+              Showing{" "}
+              {this.state.searchResults.length > 0
+                ? Math.min(
+                    this.props.videos.length,
+                    this.state.searchResults.length
+                  )
+                : this.props.videos.length}{" "}
+              of{" "}
+              {/*a route can have multiple ids so to ensure max i use math.max*/}
+              {Math.max(this.props.routes.cur.length, this.props.videos.length)}{" "}
+              results in this area
+            </p>
           </Styled.ResultsInfo>
+        ) : null}
+        {this.state.searchResults &&
+        this.state.searchResults.length === 0 &&
+        this.props.text.length > 0 ? (
+          <Styled.SearchResultsInfo>
+            <p>
+              No results found for <b>"{this.props.text}"</b>
+            </p>
+          </Styled.SearchResultsInfo>
         ) : null}
         <Styled.Container>
           {this.state.videos &&
@@ -154,7 +192,12 @@ class VideoContainer extends React.Component {
               <Kitty />
             </Styled.Help>
           ) : (
-            <PageChanger forwardRef={this.myRef} />
+            <PageChanger
+              forwardRef={this.myRef}
+              videoLength={
+                this.state.searchResults.length || this.props.videos.length || 1
+              }
+            />
           )}
         </Styled.Container>
         <Footer />

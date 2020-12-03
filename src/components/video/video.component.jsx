@@ -3,6 +3,7 @@ import YouTube from "react-youtube"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 import { latLngBounds } from "leaflet"
+import isEqual from "lodash.isequal"
 
 //components
 import WithSpinner from "../../components/with-spinner/with-spinner.component"
@@ -28,7 +29,6 @@ import { setCurMapTarget, setZoom } from "../../redux/map/map.actions"
 
 //utils
 import { createPolyline, deletePolyline } from "./utils/utils"
-import { checkStrings } from "../video-container/utils/utils"
 
 //styles
 import * as Styled from "./video.styles"
@@ -48,7 +48,7 @@ class Video extends React.Component {
     //preventing simultaneously playing of videos
     if (
       this.props.curVideoID !== "" &&
-      !checkStrings(this.props.curVideoID, this.props.id[0]) &&
+      !isEqual(this.props.curVideoID, this.props.id[0]) &&
       this.video &&
       this.state.playing
     )

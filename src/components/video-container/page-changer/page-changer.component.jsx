@@ -31,8 +31,12 @@ const PageChanger = ({
   setPage,
   forwardRef,
   resetVideoState,
+  videoLength,
 }) => {
-  const totalPages = Math.ceil(videos.length / CONSTANTS.maxVideos)
+  const totalPages = Math.min(
+    Math.ceil(videoLength / CONSTANTS.maxVideos),
+    Math.ceil(videos.length / CONSTANTS.maxVideos)
+  )
   const handleClick = () => {
     forwardRef.scroll(0, 0)
     resetVideoState()
