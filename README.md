@@ -1,99 +1,92 @@
-<!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
-<p align="center">
-  <a href="https://www.gatsbyjs.com">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
+# 📄 Table of Contents
+
+- [Introduction](#introduction)
+- [Set up](#setup)
+- [Ambition](#ambition)
+- [Design](#design)
+- [License](#license)
+
+</br>
+</br>
+</br>
+
+<div align="center" name="introduction">
+  <img alt="Logo" src="./readme/logo.png" width="250"/>
+</div>
 <h1 align="center">
-  Gatsby's default starter
+  <a href="https://gatsby-leaflet.netlify.app/">Yplore</a>
 </h1>
+<p align="center">
+An interactive Leaflet-Map with visualized KML-Data built with Gatsby - Redux - Styled Components - GraphQl - D3 and hosted with <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer">Netlify</a>
+</p>
+<div align="center">
+  <img alt="Logo" src="./readme/yplore.png" />
+</div>
 
-Kick off your project with this default boilerplate. This starter ships with the main Gatsby configuration files you might need to get up and running blazing fast with the blazing fast app generator for React.
+</br>
 
-_Have another more specific idea? You may want to check out our vibrant collection of [official and community-created starters](https://www.gatsbyjs.com/docs/gatsby-starters/)._
+## <div name="setup"> 🛠 Set Up </div>
 
-## 🚀 Quick start
+1. Install Gatsby ^2.24.54
+2. Install Leaflet ^1.7.1
+3. Install React-Redux ^7.2.1
+4. Install Redux ^4.0.5
+5. Install Redux-Logger ^3.0.6
+6. Install Redux-Thunk ^2.3.0
+7. Install React-ID-Generator ^3.0.1
+8. Install React-Leaflet ^2.7.0
+9. Install Styled-Components ^5.2.0
+10. Install D3 ^6.2.0
+11. Install Leaflet-kml ^1.0.1
 
-1.  **Create a Gatsby site.**
+</br>
 
-    Use the Gatsby CLI to create a new site, specifying the default starter.
+## <div name="ambition"> 🔥 Ambition </div>
 
-    ```shell
-    # create a new Gatsby site using the default starter
-    gatsby new my-default-starter https://github.com/gatsbyjs/gatsby-starter-default
-    ```
+<p align="center">
+"Practice makes perfect. After a long time of practicing, our work will become natrual, skillfull, swift, and steady. - Bruce Lee"
+</p>
 
-1.  **Start developing.**
+</br>
 
-    Navigate into your new site’s directory and start it up.
+<p></p>
 
-    ```shell
-    cd my-default-starter/
-    gatsby develop
-    ```
+<p>
+This Project was about learning some new libraries to expand my knowledge in the Front-End world. So I started to learn gatsby and d3. To make things interesting I did visualize KML-Data of a <a href="https://www.youtube.com/user/Rambalac" target="_blank" rel="noopener noreferrer">youtuber(Rambalac)</a>. The idea came to me while I was watching his videos. I kinda missed the live tracking of his walking route, after a little research I didn't find a website, so created this projects for myself.</p>
 
-1.  **Open the source code and start editing!**
+</br>
+  
+ 
+## <div name="design"> 🔱 Design </div>
 
-    Your site is now running at `http://localhost:8000`!
+<p> The Design is about understanding the fundamentals and appling them. In the process of creating the project, i created a japanese themed website. The colours are picked in awareness of the culture and regions to build a warm and asian like reputation of Yplore. A fluid UI rounds everything up.</p>
 
-    _Note: You'll also see a second link: _`http://localhost:8000/___graphql`_. This is a tool you can use to experiment with querying your data. Learn more about using this tool in the [Gatsby tutorial](https://www.gatsbyjs.com/tutorial/part-five/#introducing-graphiql)._
+| Color  | Hex                                                                |
+| ------ | ------------------------------------------------------------------ |
+| Blue   | ![#bbe2f2](https://via.placeholder.com/10/bbe2f2?text=+) `#bbe2f2` |
+| Red    | ![#bf0436](https://via.placeholder.com/10/bf0436?text=+) `#bf0436` |
+| Yellow | ![#F6B73E](https://via.placeholder.com/10/F6B73E?text=+) `#F6B73E` |
+| Grey   | ![#555555](https://via.placeholder.com/10/555555?text=+) `#555555` |
+| Grey-2 | ![#d9d9d9](https://via.placeholder.com/10/d9d9d9?text=+) `#d9d9d9` |
+| Grey-3 | ![#777777](https://via.placeholder.com/10/777777?text=+) `#777777` |
 
-    Open the `my-default-starter` directory in your code editor of choice and edit `src/pages/index.js`. Save your changes and the browser will update in real time!
+| Prefecture Color   | Hex                                                                |
+| ------------------ | ------------------------------------------------------------------ |
+| Hokkaido           | ![#1E0091](https://via.placeholder.com/10/1E0091?text=+) `#1E0091` |
+| Tohoku             | ![#0D65D9](https://via.placeholder.com/10/0D65D9?text=+) `#0D65D9` |
+| Kanto              | ![#97DAE8](https://via.placeholder.com/10/97DAE8?text=+) `#97DAE8` |
+| Chubu              | ![#259E63](https://via.placeholder.com/10/259E63?text=+) `#259E63` |
+| Kansai             | ![#7AC200](https://via.placeholder.com/10/7AC200?text=+) `#7AC200` |
+| Chugoku            | ![#FAE200](https://via.placeholder.com/10/FAE200?text=+) `#FAE200` |
+| Shikoku            | ![#F2B407](https://via.placeholder.com/10/F2B407?text=+) `#F2B407` |
+| Kyushu and Okinawa | ![#FF8000](https://via.placeholder.com/10/FF8000?text=+) `#FF8000` |
 
-## 🧐 What's inside?
+## <div name="license"> ⚖️ License </div>
 
-A quick look at the top-level files and directories you'll see in a Gatsby project.
+Copyright (c) [2020] [Berkay Yurdagül]
 
-    .
-    ├── node_modules
-    ├── src
-    ├── .gitignore
-    ├── .prettierrc
-    ├── gatsby-browser.js
-    ├── gatsby-config.js
-    ├── gatsby-node.js
-    ├── gatsby-ssr.js
-    ├── LICENSE
-    ├── package-lock.json
-    ├── package.json
-    └── README.md
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-1.  **`/node_modules`**: This directory contains all of the modules of code that your project depends on (npm packages) are automatically installed.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-2.  **`/src`**: This directory will contain all of the code related to what you will see on the front-end of your site (what you see in the browser) such as your site header or a page template. `src` is a convention for “source code”.
-
-3.  **`.gitignore`**: This file tells git which files it should not track / not maintain a version history for.
-
-4.  **`.prettierrc`**: This is a configuration file for [Prettier](https://prettier.io/). Prettier is a tool to help keep the formatting of your code consistent.
-
-5.  **`gatsby-browser.js`**: This file is where Gatsby expects to find any usage of the [Gatsby browser APIs](https://www.gatsbyjs.com/docs/browser-apis/) (if any). These allow customization/extension of default Gatsby settings affecting the browser.
-
-6.  **`gatsby-config.js`**: This is the main configuration file for a Gatsby site. This is where you can specify information about your site (metadata) like the site title and description, which Gatsby plugins you’d like to include, etc. (Check out the [config docs](https://www.gatsbyjs.com/docs/gatsby-config/) for more detail).
-
-7.  **`gatsby-node.js`**: This file is where Gatsby expects to find any usage of the [Gatsby Node APIs](https://www.gatsbyjs.com/docs/node-apis/) (if any). These allow customization/extension of default Gatsby settings affecting pieces of the site build process.
-
-8.  **`gatsby-ssr.js`**: This file is where Gatsby expects to find any usage of the [Gatsby server-side rendering APIs](https://www.gatsbyjs.com/docs/ssr-apis/) (if any). These allow customization of default Gatsby settings affecting server-side rendering.
-
-9.  **`LICENSE`**: This Gatsby starter is licensed under the 0BSD license. This means that you can see this file as a placeholder and replace it with your own license.
-
-10. **`package-lock.json`** (See `package.json` below, first). This is an automatically generated file based on the exact versions of your npm dependencies that were installed for your project. **(You won’t change this file directly).**
-
-11. **`package.json`**: A manifest file for Node.js projects, which includes things like metadata (the project’s name, author, etc). This manifest is how npm knows which packages to install for your project.
-
-12. **`README.md`**: A text file containing useful reference information about your project.
-
-## 🎓 Learning Gatsby
-
-Looking for more guidance? Full documentation for Gatsby lives [on the website](https://www.gatsbyjs.com/). Here are some places to start:
-
-- **For most developers, we recommend starting with our [in-depth tutorial for creating a site with Gatsby](https://www.gatsbyjs.com/tutorial/).** It starts with zero assumptions about your level of ability and walks through every step of the process.
-
-- **To dive straight into code samples, head [to our documentation](https://www.gatsbyjs.com/docs/).** In particular, check out the _Guides_, _API Reference_, and _Advanced Tutorials_ sections in the sidebar.
-
-## 💫 Deploy
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-default)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/gatsbyjs/gatsby-starter-default)
-
-<!-- AUTO-GENERATED-CONTENT:END -->
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
