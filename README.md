@@ -14,7 +14,7 @@
   <img alt="Logo" src="./readme/logo.png" width="250"/>
 </div>
 <h1 align="center">
-  <a href="https://gatsby-leaflet.netlify.app/">Yplore</a>
+  <a href="https://gatsby-leaflet.netlify.app/">gatsby-leaflet.netlify.app - v1</a>
 </h1>
 <p align="center">
 An interactive Leaflet-Map with visualized KML-Data built with Gatsby - Redux - Styled Components - GraphQl - D3 and hosted with <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer">Netlify</a>
@@ -49,10 +49,8 @@ An interactive Leaflet-Map with visualized KML-Data built with Gatsby - Redux - 
 
 </br>
 
-<p></p>
-
 <p>
-This Project was about learning some new libraries to expand my knowledge in the Front-End world. So I started to learn gatsby and d3. To make things interesting I did visualize KML-Data of a <a href="https://www.youtube.com/user/Rambalac" target="_blank" rel="noopener noreferrer">youtuber(Rambalac)</a>. The idea came to me while I was watching his videos. I kinda missed the live tracking of his walking route, after a little research I didn't find a website, so created this projects for myself.</p>
+This Project was about learning some new libraries to expand my knowledge in the Front-End world. So I started to learn gatsby and d3. To make things interesting I did visualize KML-Data of a <a href="https://www.youtube.com/user/Rambalac" target="_blank" rel="noopener noreferrer">youtuber(Rambalac)</a>. The idea came to me while I was watching his videos. I kinda missed the live tracking of his walking route and after a little research I didn't find a website, so created this projects for myself.</p>
 
 </br>
   
@@ -70,6 +68,8 @@ This Project was about learning some new libraries to expand my knowledge in the
 | Grey-2 | ![#d9d9d9](https://via.placeholder.com/10/d9d9d9?text=+) `#d9d9d9` |
 | Grey-3 | ![#777777](https://via.placeholder.com/10/777777?text=+) `#777777` |
 
+</br>
+
 | Prefecture Color   | Hex                                                                |
 | ------------------ | ------------------------------------------------------------------ |
 | Hokkaido           | ![#1E0091](https://via.placeholder.com/10/1E0091?text=+) `#1E0091` |
@@ -80,6 +80,8 @@ This Project was about learning some new libraries to expand my knowledge in the
 | Chugoku            | ![#FAE200](https://via.placeholder.com/10/FAE200?text=+) `#FAE200` |
 | Shikoku            | ![#F2B407](https://via.placeholder.com/10/F2B407?text=+) `#F2B407` |
 | Kyushu and Okinawa | ![#FF8000](https://via.placeholder.com/10/FF8000?text=+) `#FF8000` |
+
+</br>
 
 ## <div name="license"> ⚖️ License </div>
 
