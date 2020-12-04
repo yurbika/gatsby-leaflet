@@ -15,7 +15,7 @@ const MapPageContainer = () => {
       <VideoContainer />
       <Map />
       <button onClick={() => setShow(!show)}>
-        {show ? <span>Show Map</span> : <span>Show Videos</span>}
+        {show ? <span>Map</span> : <span>Videos</span>}
       </button>
     </Container>
   )

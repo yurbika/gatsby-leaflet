@@ -15,6 +15,7 @@ import {
   selectZoom,
   selectCurMapTarget,
   selectRoutes,
+  selectIsFetching,
 } from "../../redux/map/map.selectors"
 import { clearVideos } from "../../redux/map/map.actions"
 
@@ -37,6 +38,7 @@ import CONSTANTS from "../../constants/constants"
 
 //styles
 import * as Styled from "./video-container.styles"
+import * as Spinner from "../with-spinner/with-spinner.styles"
 
 class VideoContainer extends React.Component {
   state = {
@@ -177,20 +179,30 @@ class VideoContainer extends React.Component {
               />
             ))}
           {this.state.videos.length === 0 ? (
-            <Styled.Help>
-              <ul>
-                <li>
-                  <h2>Help</h2>
-                </li>
-                {help.map(ele => (
-                  <li key={ID_GENERATOR("cat-help")}>{ele}</li>
-                ))}
-                <li>
-                  <b>HAVE FUN!</b>
-                </li>
-              </ul>
-              <Kitty />
-            </Styled.Help>
+            this.props.isFetching ? (
+              <Styled.SpinnerWrapper>
+                <Spinner.Container>
+                  <Spinner.SpinnerContainer>
+                    <Spinner.SpinnerOverlay />
+                  </Spinner.SpinnerContainer>
+                </Spinner.Container>
+              </Styled.SpinnerWrapper>
+            ) : (
+              <Styled.Help>
+                <ul>
+                  <li>
+                    <h2>Help</h2>
+                  </li>
+                  {help.map(ele => (
+                    <li key={ID_GENERATOR("cat-help")}>{ele}</li>
+                  ))}
+                  <li>
+                    <b>HAVE FUN!</b>
+                  </li>
+                </ul>
+                <Kitty />
+              </Styled.Help>
+            )
           ) : (
             <PageChanger
               forwardRef={this.myRef}
@@ -215,6 +227,7 @@ const mapStateToProps = createStructuredSelector({
   text: selectDebouncedText,
   curPage: selectCurPage,
   routes: selectRoutes,
+  isFetching: selectIsFetching,
 })
 
 const mapDispatchToProps = dispatch => ({

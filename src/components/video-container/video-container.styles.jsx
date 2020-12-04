@@ -112,3 +112,16 @@ export const Wrapper = styled.div`
     }
   }
 `
+
+export const SpinnerWrapper = styled.div`
+  height: calc(100vh - 140px);
+  position: relative;
+
+  & > div {
+    box-shadow: none;
+  }
+
+  @media (max-width: 768px) {
+    height: calc(100vh - 115px);
+  }
+`
